@@ -1,0 +1,79 @@
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+        google()
+    }
+    dependencies {
+        classpath(
+                [group: 'com.android.tools.build', name: 'gradle', version: '3.0.0-beta6'],
+        )
+    }
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+    google()
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+apply plugin: 'com.android.application'
+
+dependencies {
+
+    compile name: 'libGoogleAnalyticsV2'
+    compile name: 'commons-io-2.4'
+    compile name: 'android-support-v4'
+
+    //compile(
+            //[group: 'com.google.android.gms', name: 'play-services-maps', version: '10.0.1'],
+            //[group: 'com.google.android.gms', name: 'play-services-analytics', version: '10.0.1'],
+    //)
+}
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion '26.0.1'
+
+    defaultConfig {
+        applicationId 'fr.cph.stock.android'
+        versionCode 1
+        versionName '1.0'
+
+        minSdkVersion 14
+        targetSdkVersion 17
+    }
+
+    compileOptions {
+        def javaVersion = JavaVersion.VERSION_1_8
+        sourceCompatibility = javaVersion
+        targetCompatibility = javaVersion
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+        }
+    }
+
+    useLibrary 'org.apache.http.legacy'
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
+    }
+}
