@@ -44,7 +44,7 @@ public class Connect {
 
 	private static final String TAG = "Connect";
 
-//	public static String URL_BASE = "http://192.168.2.24:8080/StockTracker/";
+	//public static String URL_BASE = "http://192.168.1.145:8080/";
 	public static String URL_BASE = "https://www.stocktracker.fr/";
 	public static String URL_LOGIN = "?login=";
 	public static String URL_PASSWORD ="&password=";
