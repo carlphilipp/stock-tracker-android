@@ -78,10 +78,10 @@ public class LoginActivity extends Activity {
 		setContentView(R.layout.login_activity);
 
 		// Set up the login form.
-		mLoginView = (EditText) findViewById(R.id.email);
-		errorView = (TextView) findViewById(R.id.login_error);
+		mLoginView = findViewById(R.id.email);
+		errorView = findViewById(R.id.login_error);
 
-		mPasswordView = (EditText) findViewById(R.id.password);
+		mPasswordView = findViewById(R.id.password);
 		mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 			@Override
 			public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -93,10 +93,10 @@ public class LoginActivity extends Activity {
 			}
 		});
 
-		checkBox = (CheckBox) findViewById(R.id.checkbox);
+		checkBox = findViewById(R.id.checkbox);
 		mLoginFormView = findViewById(R.id.login_form);
 		mLoginStatusView = findViewById(R.id.login_status);
-		mLoginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
+		mLoginStatusMessageView = findViewById(R.id.login_status_message);
 
 		findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
 			@Override

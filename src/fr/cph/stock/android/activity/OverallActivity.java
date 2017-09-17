@@ -68,7 +68,7 @@ public class OverallActivity extends ListActivity implements IStockTrackerActivi
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.overall_activity);
-		errorView = (TextView) findViewById(R.id.errorMessage);
+		errorView = findViewById(R.id.errorMessage);
 		Bundle b = getIntent().getExtras();
 		portfolio = b.getParcelable("portfolio");
 		shareValues = portfolio.getShareValues();
@@ -132,7 +132,7 @@ public class OverallActivity extends ListActivity implements IStockTrackerActivi
 		alert.setTitle("Update history");
 		alert.setContentView(R.layout.history_dialog);
 
-		final Spinner checked = (Spinner) alert.findViewById(R.id.accountList);
+		final Spinner checked = alert.findViewById(R.id.accountList);
 		List<String> list = new ArrayList<String>();
 		for (Account acc : portfolio.getAccounts()) {
 			list.add(acc.getName());
@@ -141,19 +141,19 @@ public class OverallActivity extends ListActivity implements IStockTrackerActivi
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		checked.setAdapter(dataAdapter);
 
-		Button dialogButton = (Button) alert.findViewById(R.id.dialogButtonOK);
+		Button dialogButton = alert.findViewById(R.id.dialogButtonOK);
 		dialogButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				refreshItem.setActionView(R.layout.progressbar);
 				refreshItem.expandActionView();
 				Account account = portfolio.getAccounts().get(checked.getSelectedItemPosition());
-				EditText liquidityView = (EditText) alert.findViewById(R.id.liquidityMov);
-				EditText yieldView = (EditText) alert.findViewById(R.id.yield);
-				EditText buyView = (EditText) alert.findViewById(R.id.buy);
-				EditText sellView = (EditText) alert.findViewById(R.id.sell);
-				EditText taxeView = (EditText) alert.findViewById(R.id.taxe);
-				EditText commentaryView = (EditText) alert.findViewById(R.id.commentaryEditText);
+				EditText liquidityView = alert.findViewById(R.id.liquidityMov);
+				EditText yieldView = alert.findViewById(R.id.yield);
+				EditText buyView = alert.findViewById(R.id.buy);
+				EditText sellView = alert.findViewById(R.id.sell);
+				EditText taxeView = alert.findViewById(R.id.taxe);
+				EditText commentaryView = alert.findViewById(R.id.commentaryEditText);
 
 				String params = null;
 				params = "?accountId=" + account.getId() + "&liquidity=" + liquidityView.getText() + "&yield="
@@ -164,7 +164,7 @@ public class OverallActivity extends ListActivity implements IStockTrackerActivi
 				alert.dismiss();
 			}
 		});
-		dialogButton = (Button) alert.findViewById(R.id.dialogButtonCancel);
+		dialogButton = alert.findViewById(R.id.dialogButtonCancel);
 		dialogButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -196,10 +196,10 @@ public class OverallActivity extends ListActivity implements IStockTrackerActivi
 			((StockTrackerApp) getApplication()).loadErrorActivity(this, json);
 		} else {
 			errorView.setText(json.optString("error"));
-			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams((int) LayoutParams.MATCH_PARENT,
-					(int) LayoutParams.MATCH_PARENT);
+			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,
+                    LayoutParams.MATCH_PARENT);
 			params.addRule(RelativeLayout.BELOW, errorView.getId());
-			ListView listView = (ListView) findViewById(android.R.id.list);
+			ListView listView = findViewById(android.R.id.list);
 			listView.setLayoutParams(params);
 			refreshItem.collapseActionView();
 			refreshItem.setActionView(null);

@@ -36,7 +36,7 @@ public class TrustAllSSLSocketFactory extends SSLSocketFactory {
 	private javax.net.ssl.SSLSocketFactory factory;
 
 	public TrustAllSSLSocketFactory() throws KeyManagementException, NoSuchAlgorithmException, KeyStoreException, UnrecoverableKeyException {
-		super((KeyStore) null);
+		super(null);
 		try {
 			SSLContext sslcontext = SSLContext.getInstance("TLS");
 			sslcontext.init(null, new TrustManager[] { new TrustAllManager() }, null);

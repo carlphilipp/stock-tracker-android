@@ -121,7 +121,7 @@ public class EntityBuilder {
         portfolio.setTotalPlusMinusValue(totalPlusMinusValue > 0 ? "+" + formatLocaleOne.format(totalPlusMinusValue) + "%" : formatLocaleOne
                 .format(totalPlusMinusValue) + "%");
 
-        portfolio.setUp(totalGain > 0 ? true : false);
+        portfolio.setUp(totalGain > 0);
 
         double liquidity = jsonPortfolio.getDouble("liquidity");
         portfolio.setLiquidity(formatCurrencyZero.format(liquidity));
@@ -256,7 +256,7 @@ public class EntityBuilder {
                 } else {
                     e.setPlusMinusValue(plusMinusValueStr);
                 }
-                e.setUp(plusMinusValue > 0 ? true : false);
+                e.setUp(plusMinusValue > 0);
 
                 double quantity = temp.getDouble("quantity");
                 e.setQuantity(formatLocaleOne.format(quantity));

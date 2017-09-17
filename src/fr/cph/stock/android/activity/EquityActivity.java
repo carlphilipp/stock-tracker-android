@@ -59,7 +59,7 @@ public class EquityActivity extends ListActivity implements IStockTrackerActivit
 		Log.v(TAG, "EquityActivity onCreate");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.equity_list_activity);
-		errorView = (TextView) findViewById(R.id.errorMessage);
+		errorView = findViewById(R.id.errorMessage);
 
 		Bundle b = getIntent().getExtras();
 		Portfolio portfolio = b.getParcelable("portfolio");
@@ -68,7 +68,7 @@ public class EquityActivity extends ListActivity implements IStockTrackerActivit
 		mAdapter = new EquityAdapter(equities, getApplicationContext());
 		setListAdapter(mAdapter);
 
-		lastUpdatedView = (TextView) findViewById(R.id.lastUpdated);
+		lastUpdatedView = findViewById(R.id.lastUpdated);
 		lastUpdatedView.setText(portfolio.getLastUpdate());
 		// Set context
 		EasyTracker.getInstance().setContext(getApplicationContext());
@@ -143,10 +143,10 @@ public class EquityActivity extends ListActivity implements IStockTrackerActivit
 			((StockTrackerApp) getApplication()).loadErrorActivity(this, json);
 		} else {
 			errorView.setText(json.optString("error"));
-			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams((int) LayoutParams.MATCH_PARENT,
-					(int) LayoutParams.MATCH_PARENT);
+			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,
+                    LayoutParams.MATCH_PARENT);
 			params.addRule(RelativeLayout.BELOW, errorView.getId());
-			ListView listView = (ListView) findViewById(android.R.id.list);
+			ListView listView = findViewById(android.R.id.list);
 			listView.setLayoutParams(params);
 			menuItem.collapseActionView();
 			menuItem.setActionView(null);

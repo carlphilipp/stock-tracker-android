@@ -60,15 +60,15 @@ public class EquityAdapter extends BaseAdapter {
 			LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			v = vi.inflate(R.layout.list_item_equity, null);
 		}
-		TextView nameView = (TextView) v.findViewById(R.id.name);
-		TextView unitCostPriceView = (TextView) v.findViewById(R.id.unitCostPriceValue);
-		TextView valueView = (TextView) v.findViewById(R.id.value);
-		TextView plusMinusValueView = (TextView) v.findViewById(R.id.plusMinusValue);
-		TextView quantityView = (TextView) v.findViewById(R.id.quantityValue);
-		TextView yieldYearView = (TextView) v.findViewById(R.id.yieldYear);
-		TextView quoteView = (TextView) v.findViewById(R.id.quoteValue);
-		TextView gainView = (TextView) v.findViewById(R.id.gain);
-		TextView todayView = (TextView) v.findViewById(R.id.today);
+		TextView nameView = v.findViewById(R.id.name);
+		TextView unitCostPriceView = v.findViewById(R.id.unitCostPriceValue);
+		TextView valueView = v.findViewById(R.id.value);
+		TextView plusMinusValueView = v.findViewById(R.id.plusMinusValue);
+		TextView quantityView = v.findViewById(R.id.quantityValue);
+		TextView yieldYearView = v.findViewById(R.id.yieldYear);
+		TextView quoteView = v.findViewById(R.id.quoteValue);
+		TextView gainView = v.findViewById(R.id.gain);
+		TextView todayView = v.findViewById(R.id.today);
 
 		final Equity equity = data.get(position);
 		nameView.setText(equity.getName());

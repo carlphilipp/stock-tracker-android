@@ -34,8 +34,8 @@ public class ErrorMainOnClickListener implements View.OnClickListener{
 
 	@Override
 	public void onClick(View v) {
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams((int) LayoutParams.MATCH_PARENT,
-				(int) LayoutParams.MATCH_PARENT);
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,
+                LayoutParams.MATCH_PARENT);
 		listView.setLayoutParams(params);
 		errorView.setText("");
 	}

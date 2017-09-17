@@ -19,7 +19,7 @@ package fr.cph.stock.android.enumtype;
 public enum ChartType {
 	SHARE_VALUE("SHARE_VALUE"), SECTOR("SECTOR"), CAPITALIZATION("CAPITALIZATION");
 
-	private ChartType(String value) {
+	ChartType(String value) {
 		this.value = value;
 	}
 

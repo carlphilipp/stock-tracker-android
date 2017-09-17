@@ -61,14 +61,14 @@ public class ShareValueAdapter extends BaseAdapter{
 			v = vi.inflate(R.layout.list_item_share_value, null);
 		}
 		
-		TextView dateView = (TextView) v.findViewById(R.id.date);
-		TextView shareValueView = (TextView) v.findViewById(R.id.shareValue);
+		TextView dateView = v.findViewById(R.id.date);
+		TextView shareValueView = v.findViewById(R.id.shareValue);
 		shareValueView.setTextColor(Color.rgb(0, 160, 0));
-		TextView commentaryView = (TextView) v.findViewById(R.id.commentary);
-		TextView accountView = (TextView) v.findViewById(R.id.account);
-		TextView portfolioValueView = (TextView) v.findViewById(R.id.portfolioValue);
-		TextView shareQuantityView = (TextView) v.findViewById(R.id.shareQuantity);
-		TextView monthlyYieldView = (TextView) v.findViewById(R.id.monthlyYield2);
+		TextView commentaryView = v.findViewById(R.id.commentary);
+		TextView accountView = v.findViewById(R.id.account);
+		TextView portfolioValueView = v.findViewById(R.id.portfolioValue);
+		TextView shareQuantityView = v.findViewById(R.id.shareQuantity);
+		TextView monthlyYieldView = v.findViewById(R.id.monthlyYield2);
 		
 
 		ShareValue shareValue = sharesValues.get(position);

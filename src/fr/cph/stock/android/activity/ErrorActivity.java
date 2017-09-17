@@ -47,12 +47,12 @@ public class ErrorActivity extends Activity {
 		password = getIntent().getExtras().getString("password");
 		try {
 			JSONObject json = new JSONObject(msg);
-			error = (TextView) findViewById(R.id.error_message);
+			error = findViewById(R.id.error_message);
 			error.setText(json.optString("error"));
 		} catch (JSONException e) {
 			Log.e(TAG, e.getMessage(), e);
 		}
-		Button button = (Button) findViewById(R.id.retry_button);
+		Button button = findViewById(R.id.retry_button);
 		button.setOnClickListener(new ErrorButtonOnClickListener(this, login, password));
 		EasyTracker.getInstance().setContext(this);
 	}
