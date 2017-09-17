@@ -15,16 +15,11 @@ repositories {
     mavenCentral()
     jcenter()
     google()
-    flatDir {
-        dirs 'libs'
-    }
 }
 
 apply plugin: 'com.android.application'
 
 dependencies {
-
-    compile name: 'libGoogleAnalyticsV2'
 
     compile(
             [group: 'commons-io', name: 'commons-io', version: '2.5'],

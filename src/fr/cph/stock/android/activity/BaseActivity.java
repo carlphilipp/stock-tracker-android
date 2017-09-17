@@ -27,8 +27,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.google.analytics.tracking.android.EasyTracker;
-
 import org.json.JSONObject;
 
 import fr.cph.stock.android.R;
@@ -40,7 +38,6 @@ import fr.cph.stock.android.task.MainTask;
  * This class represents the base activity of the app
  *
  * @author Carl-Philipp Harmant
- *
  */
 public class BaseActivity extends Activity {
 
@@ -72,28 +69,13 @@ public class BaseActivity extends Activity {
             startActivity(intent);
             finish();
         }
-        EasyTracker.getInstance().setContext(this);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        EasyTracker.getInstance().activityStart(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        EasyTracker.getInstance().activityStop(this);
     }
 
     /**
      * Show progress bar
      *
-     * @param show
-     *            show the bar or not
-     * @param errorMessage
-     *            the error message
+     * @param show         show the bar or not
+     * @param errorMessage the error message
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show, String errorMessage) {
@@ -119,8 +101,7 @@ public class BaseActivity extends Activity {
     /**
      * Load home
      *
-     * @param portfolio
-     *            the portfolio
+     * @param portfolio the portfolio
      */
     public void loadHome(Portfolio portfolio) {
         Intent intent = new Intent(this, MainActivity.class);
@@ -134,8 +115,7 @@ public class BaseActivity extends Activity {
     /**
      * Display error
      *
-     * @param jsonObject
-     *            the json object
+     * @param jsonObject the json object
      */
     public void displayError(JSONObject jsonObject) {
         Intent intent = new Intent(this, ErrorActivity.class);

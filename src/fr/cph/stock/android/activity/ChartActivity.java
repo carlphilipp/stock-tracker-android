@@ -32,9 +32,6 @@ import android.webkit.WebView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.Tracker;
-
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 
@@ -58,8 +55,6 @@ import fr.cph.stock.android.web.DebugWebChromeClient;
 public class ChartActivity extends Activity implements IStockTrackerActivity {
 
     private static final String TAG = "ChartActivity";
-
-    private Tracker tracker;
 
     /**
      * Graphics components
@@ -92,23 +87,6 @@ public class ChartActivity extends Activity implements IStockTrackerActivity {
         // myWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         webView.loadDataWithBaseURL("file:///android_asset/www/", data, "text/html", "UTF-8", null);
         webView.reload();
-
-        // Set context
-        EasyTracker.getInstance().setContext(getApplicationContext());
-        // Instantiate the Tracker
-        tracker = EasyTracker.getTracker();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        EasyTracker.getInstance().activityStart(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        EasyTracker.getInstance().activityStop(this);
     }
 
     private String getData() {
@@ -186,7 +164,6 @@ public class ChartActivity extends Activity implements IStockTrackerActivity {
                 menuItem = item;
                 menuItem.setActionView(R.layout.progressbar);
                 menuItem.expandActionView();
-                tracker.sendEvent("Buttons Category", "Reload", "", 0L);
                 mainTask = new MainTask(this, UrlType.RELOAD, null);
                 mainTask.execute((Void) null);
                 return true;

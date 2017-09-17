@@ -27,9 +27,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.Tracker;
-
 import org.json.JSONObject;
 
 import fr.cph.stock.android.R;
@@ -43,8 +40,6 @@ import fr.cph.stock.android.task.MainTask;
 public class MainActivity extends Activity implements IStockTrackerActivity {
 
     private static final String TAG = "MainActivity";
-
-    private Tracker tracker;
 
     private MenuItem menuItem;
 
@@ -100,24 +95,6 @@ public class MainActivity extends Activity implements IStockTrackerActivity {
 
         errorView = findViewById(R.id.errorMessage);
         errorView.setOnClickListener(new ErrorMainOnClickListener(listView, errorView));
-        EasyTracker.getInstance().setContext(this);
-
-        // Set context
-        EasyTracker.getInstance().setContext(getApplicationContext());
-        // Instantiate the Tracker
-        tracker = EasyTracker.getTracker();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        EasyTracker.getInstance().activityStart(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        EasyTracker.getInstance().activityStop(this);
     }
 
     @Override
@@ -168,7 +145,6 @@ public class MainActivity extends Activity implements IStockTrackerActivity {
                 menuItem = item;
                 menuItem.setActionView(R.layout.progressbar);
                 menuItem.expandActionView();
-                tracker.sendEvent("Buttons Category", "Reload", "", 0L);
                 mainTask = new MainTask(this, UrlType.RELOAD, null);
                 mainTask.execute((Void) null);
                 return true;
