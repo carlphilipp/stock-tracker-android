@@ -133,7 +133,7 @@ public class OverallActivity extends ListActivity implements IStockTrackerActivi
 		alert.setContentView(R.layout.history_dialog);
 
 		final Spinner checked = alert.findViewById(R.id.accountList);
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		for (Account acc : portfolio.getAccounts()) {
 			list.add(acc.getName());
 		}
@@ -142,35 +142,27 @@ public class OverallActivity extends ListActivity implements IStockTrackerActivi
 		checked.setAdapter(dataAdapter);
 
 		Button dialogButton = alert.findViewById(R.id.dialogButtonOK);
-		dialogButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				refreshItem.setActionView(R.layout.progressbar);
-				refreshItem.expandActionView();
-				Account account = portfolio.getAccounts().get(checked.getSelectedItemPosition());
-				EditText liquidityView = alert.findViewById(R.id.liquidityMov);
-				EditText yieldView = alert.findViewById(R.id.yield);
-				EditText buyView = alert.findViewById(R.id.buy);
-				EditText sellView = alert.findViewById(R.id.sell);
-				EditText taxeView = alert.findViewById(R.id.taxe);
-				EditText commentaryView = alert.findViewById(R.id.commentaryEditText);
+		dialogButton.setOnClickListener(v -> {
+            refreshItem.setActionView(R.layout.progressbar);
+            refreshItem.expandActionView();
+            Account account = portfolio.getAccounts().get(checked.getSelectedItemPosition());
+            EditText liquidityView = alert.findViewById(R.id.liquidityMov);
+            EditText yieldView = alert.findViewById(R.id.yield);
+            EditText buyView = alert.findViewById(R.id.buy);
+            EditText sellView = alert.findViewById(R.id.sell);
+            EditText taxeView = alert.findViewById(R.id.taxe);
+            EditText commentaryView = alert.findViewById(R.id.commentaryEditText);
 
-				String params = null;
-				params = "?accountId=" + account.getId() + "&liquidity=" + liquidityView.getText() + "&yield="
-						+ yieldView.getText() + "&buy=" + buyView.getText() + "&sell=" + sellView.getText() + "&taxe="
-						+ taxeView.getText() + "&commentary=" + commentaryView.getText().toString().replaceAll(" ", "%20");
-				MainTask mainTask = new MainTask(OverallActivity.this, UrlType.UPDATEHISTORY, params);
-				mainTask.execute((Void) null);
-				alert.dismiss();
-			}
-		});
+            String params = null;
+            params = "?accountId=" + account.getId() + "&liquidity=" + liquidityView.getText() + "&yield="
+                    + yieldView.getText() + "&buy=" + buyView.getText() + "&sell=" + sellView.getText() + "&taxe="
+                    + taxeView.getText() + "&commentary=" + commentaryView.getText().toString().replaceAll(" ", "%20");
+            MainTask mainTask = new MainTask(OverallActivity.this, UrlType.UPDATEHISTORY, params);
+            mainTask.execute((Void) null);
+            alert.dismiss();
+        });
 		dialogButton = alert.findViewById(R.id.dialogButtonCancel);
-		dialogButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				alert.dismiss();
-			}
-		});
+		dialogButton.setOnClickListener(v -> alert.dismiss());
 		alert.show();
 	}
 

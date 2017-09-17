@@ -176,7 +176,7 @@ public class EntityBuilder {
     }
 
     private List<Account> buildAccounts(JSONArray array) throws JSONException {
-        List<Account> accounts = new ArrayList<Account>();
+        List<Account> accounts = new ArrayList<>();
         boolean find = true;
         int i = 0;
         JSONObject temp;
@@ -199,7 +199,7 @@ public class EntityBuilder {
     }
 
     private List<ShareValue> buildShareValues(JSONArray array) throws JSONException {
-        List<ShareValue> shareValues = new ArrayList<ShareValue>();
+        List<ShareValue> shareValues = new ArrayList<>();
         boolean find = true;
         int i = 0;
         JSONObject temp;
@@ -234,7 +234,7 @@ public class EntityBuilder {
     }
 
     private List<Equity> buildEquities(JSONArray array) throws JSONException {
-        List<Equity> equities = new ArrayList<Equity>();
+        List<Equity> equities = new ArrayList<>();
         boolean find = true;
         int i = 0;
         JSONObject temp;

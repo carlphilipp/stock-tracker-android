@@ -82,28 +82,20 @@ public class LoginActivity extends Activity {
 		errorView = findViewById(R.id.login_error);
 
 		mPasswordView = findViewById(R.id.password);
-		mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-			@Override
-			public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-				if (id == R.id.login || id == EditorInfo.IME_NULL) {
-					attemptLogin();
-					return true;
-				}
-				return false;
-			}
-		});
+		mPasswordView.setOnEditorActionListener((textView, id, keyEvent) -> {
+            if (id == R.id.login || id == EditorInfo.IME_NULL) {
+                attemptLogin();
+                return true;
+            }
+            return false;
+        });
 
 		checkBox = findViewById(R.id.checkbox);
 		mLoginFormView = findViewById(R.id.login_form);
 		mLoginStatusView = findViewById(R.id.login_status);
 		mLoginStatusMessageView = findViewById(R.id.login_status_message);
 
-		findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				attemptLogin();
-			}
-		});
+		findViewById(R.id.sign_in_button).setOnClickListener(view -> attemptLogin());
 		EasyTracker.getInstance().setContext(this);
 	}
 

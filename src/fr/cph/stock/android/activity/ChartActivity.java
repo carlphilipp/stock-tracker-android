@@ -116,7 +116,7 @@ public class ChartActivity extends Activity implements IStockTrackerActivity {
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         String data = null;
         try {
-            InputStream is = null;
+            InputStream is;
             StringWriter writer = new StringWriter();
             switch (chartType) {
                 case CAPITALIZATION:

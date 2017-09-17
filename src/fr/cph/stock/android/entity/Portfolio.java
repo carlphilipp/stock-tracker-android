@@ -56,7 +56,7 @@ public class Portfolio implements Parcelable {
 	
 	private String totalVariation;
 
-	private List<Equity> equities;
+	private List<Equity> equities = new ArrayList<Equity>();
 	private List<ShareValue> shareValues;
 	private List<Account> accounts;
 
@@ -370,11 +370,11 @@ public class Portfolio implements Parcelable {
 		chartCapTitle = in.readString();
 		chartCapDraw = in.readString();
 		chartCapCompanies = in.readString();
-		equities = new ArrayList<Equity>();
+		equities = new ArrayList<>();
 		in.readTypedList(equities, Equity.CREATOR);
-		shareValues = new ArrayList<ShareValue>();
+		shareValues = new ArrayList<>();
 		in.readTypedList(shareValues, ShareValue.CREATOR);
-		accounts = new ArrayList<Account>();
+		accounts = new ArrayList<>();
 		in.readTypedList(accounts, Account.CREATOR);
 		totalVariation = in.readString();
 	}
