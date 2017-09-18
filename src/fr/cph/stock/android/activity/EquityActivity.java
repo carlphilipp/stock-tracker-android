@@ -42,99 +42,99 @@ import fr.cph.stock.android.task.MainTask;
 
 public class EquityActivity extends ListActivity implements IStockTrackerActivity {
 
-    private static final String TAG = "EquityActivity";
+	private static final String TAG = "EquityActivity";
 
-    private EquityAdapter mAdapter;
-    private List<Equity> equities;
-    private TextView lastUpdatedView;
-    private TextView errorView;
-    private MenuItem menuItem;
+	private EquityAdapter mAdapter;
+	private List<Equity> equities;
+	private TextView lastUpdatedView;
+	private TextView errorView;
+	private MenuItem menuItem;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        Log.v(TAG, "EquityActivity onCreate");
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.equity_list_activity);
-        errorView = findViewById(R.id.errorMessage);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		Log.v(TAG, "EquityActivity onCreate");
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.equity_list_activity);
+		errorView = findViewById(R.id.errorMessage);
 
-        Bundle b = getIntent().getExtras();
-        Portfolio portfolio = b.getParcelable("portfolio");
+		Bundle b = getIntent().getExtras();
+		Portfolio portfolio = b.getParcelable("portfolio");
 
-        equities = portfolio.getEquities();
-        mAdapter = new EquityAdapter(equities, getApplicationContext());
-        setListAdapter(mAdapter);
+		equities = portfolio.getEquities();
+		mAdapter = new EquityAdapter(equities, getApplicationContext());
+		setListAdapter(mAdapter);
 
-        lastUpdatedView = findViewById(R.id.lastUpdated);
-        lastUpdatedView.setText(portfolio.getLastUpdate());
-        // Set context
-    }
+		lastUpdatedView = findViewById(R.id.lastUpdated);
+		lastUpdatedView.setText(portfolio.getLastUpdate());
+		// Set context
+	}
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        MainTask mainTask;
-        switch (item.getItemId()) {
-            case R.id.action_logout:
-                mainTask = new MainTask(this, UrlType.LOGOUT, null);
-                mainTask.execute((Void) null);
-                return true;
-            case R.id.refresh:
-                menuItem = item;
-                menuItem.setActionView(R.layout.progressbar);
-                menuItem.expandActionView();
-                mainTask = new MainTask(this, UrlType.RELOAD, null);
-                mainTask.execute((Void) null);
-                return true;
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle item selection
+		MainTask mainTask;
+		switch (item.getItemId()) {
+			case R.id.action_logout:
+				mainTask = new MainTask(this, UrlType.LOGOUT, null);
+				mainTask.execute((Void) null);
+				return true;
+			case R.id.refresh:
+				menuItem = item;
+				menuItem.setActionView(R.layout.progressbar);
+				menuItem.expandActionView();
+				mainTask = new MainTask(this, UrlType.RELOAD, null);
+				mainTask.execute((Void) null);
+				return true;
+			case android.R.id.home:
+				finish();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
 
-    @Override
-    public void reloadData(Portfolio portfolio) {
-        // StockTrackerApp app = (StockTrackerApp) getApplication();
-        equities.clear();
-        equities.addAll(portfolio.getEquities());
-        mAdapter.notifyDataSetChanged();
-        lastUpdatedView.setText(portfolio.getLastUpdate());
-        menuItem.collapseActionView();
-        menuItem.setActionView(null);
-        Intent resultIntent = new Intent();
-        resultIntent.putExtra("portfolio", portfolio);
-        setResult(Activity.RESULT_OK, resultIntent);
-        StockTrackerApp app = (StockTrackerApp) getApplication();
-        app.toast();
-    }
+	@Override
+	public void reloadData(Portfolio portfolio) {
+		// StockTrackerApp app = (StockTrackerApp) getApplication();
+		equities.clear();
+		equities.addAll(portfolio.getEquities());
+		mAdapter.notifyDataSetChanged();
+		lastUpdatedView.setText(portfolio.getLastUpdate());
+		menuItem.collapseActionView();
+		menuItem.setActionView(null);
+		Intent resultIntent = new Intent();
+		resultIntent.putExtra("portfolio", portfolio);
+		setResult(Activity.RESULT_OK, resultIntent);
+		StockTrackerApp app = (StockTrackerApp) getApplication();
+		app.toast();
+	}
 
-    @Override
-    public void displayError(JSONObject json) {
-        boolean sessionError = ((StockTrackerApp) getApplication()).isSessionError(json);
-        if (sessionError) {
-            ((StockTrackerApp) getApplication()).loadErrorActivity(this, json);
-        } else {
-            errorView.setText(json.optString("error"));
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,
-                    LayoutParams.MATCH_PARENT);
-            params.addRule(RelativeLayout.BELOW, errorView.getId());
-            ListView listView = findViewById(android.R.id.list);
-            listView.setLayoutParams(params);
-            menuItem.collapseActionView();
-            menuItem.setActionView(null);
-        }
-    }
+	@Override
+	public void displayError(JSONObject json) {
+		boolean sessionError = ((StockTrackerApp) getApplication()).isSessionError(json);
+		if (sessionError) {
+			((StockTrackerApp) getApplication()).loadErrorActivity(this, json);
+		} else {
+			errorView.setText(json.optString("error"));
+			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,
+					LayoutParams.MATCH_PARENT);
+			params.addRule(RelativeLayout.BELOW, errorView.getId());
+			ListView listView = findViewById(android.R.id.list);
+			listView.setLayoutParams(params);
+			menuItem.collapseActionView();
+			menuItem.setActionView(null);
+		}
+	}
 
-    @Override
-    public void logOut() {
-        ((StockTrackerApp) getApplication()).logOut(this);
-    }
+	@Override
+	public void logOut() {
+		((StockTrackerApp) getApplication()).logOut(this);
+	}
 }

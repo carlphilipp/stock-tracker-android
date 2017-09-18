@@ -25,119 +25,119 @@ import static fr.cph.stock.android.util.UserContext.FORMAT_LOCAL_ONE;
 
 public class ShareValue implements Parcelable {
 
-    private String date;
-    private String account;
-    private Double portfolioValue;
-    private Double shareQuantity;
-    private Double shareValue;
-    private Double monthlyYield;
-    private boolean up;
-    private String commentary;
+	private String date;
+	private String account;
+	private Double portfolioValue;
+	private Double shareQuantity;
+	private Double shareValue;
+	private Double monthlyYield;
+	private boolean up;
+	private String commentary;
 
-    public ShareValue() {
-    }
+	public ShareValue() {
+	}
 
-    public ShareValue(Parcel in) {
-        readFromParcel(in);
-    }
+	public ShareValue(Parcel in) {
+		readFromParcel(in);
+	}
 
-    public String getDate() {
-        return date;
-    }
+	public String getDate() {
+		return date;
+	}
 
-    public void setDate(String date) {
-        this.date = date;
-    }
+	public void setDate(String date) {
+		this.date = date;
+	}
 
-    public String getAccount() {
-        return account;
-    }
+	public String getAccount() {
+		return account;
+	}
 
-    public void setAccount(String account) {
-        this.account = account;
-    }
+	public void setAccount(String account) {
+		this.account = account;
+	}
 
-    public String getCommentary() {
-        return commentary;
-    }
+	public String getCommentary() {
+		return commentary;
+	}
 
-    public void setCommentary(String commentary) {
-        this.commentary = commentary;
-    }
+	public void setCommentary(String commentary) {
+		this.commentary = commentary;
+	}
 
-    public String getShareValue() {
-        return FORMAT_LOCAL_ONE.format(shareValue);
-    }
+	public String getShareValue() {
+		return FORMAT_LOCAL_ONE.format(shareValue);
+	}
 
-    public void setShareValue(final Double shareValue) {
-        this.shareValue = shareValue;
-    }
+	public void setShareValue(final Double shareValue) {
+		this.shareValue = shareValue;
+	}
 
-    public boolean isUp() {
-        return shareValue > 100;
-    }
+	public boolean isUp() {
+		return shareValue > 100;
+	}
 
-    public String getPortfolioValue() {
-        return UserContext.FORMAT_CURRENCY_ONE.format(portfolioValue);
-    }
+	public String getPortfolioValue() {
+		return UserContext.FORMAT_CURRENCY_ONE.format(portfolioValue);
+	}
 
-    public void setPortfolioValue(Double portfolioValue) {
-        this.portfolioValue = portfolioValue;
-    }
+	public void setPortfolioValue(Double portfolioValue) {
+		this.portfolioValue = portfolioValue;
+	}
 
-    public String getShareQuantity() {
-        return UserContext.FORMAT_LOCAL_ONE.format(shareQuantity);
-    }
+	public String getShareQuantity() {
+		return UserContext.FORMAT_LOCAL_ONE.format(shareQuantity);
+	}
 
-    public void setShareQuantity(Double shareQuantity) {
-        this.shareQuantity = shareQuantity;
-    }
+	public void setShareQuantity(Double shareQuantity) {
+		this.shareQuantity = shareQuantity;
+	}
 
-    public String getMonthlyYield() {
-        return UserContext.FORMAT_CURRENCY_ONE.format(monthlyYield);
-    }
+	public String getMonthlyYield() {
+		return UserContext.FORMAT_CURRENCY_ONE.format(monthlyYield);
+	}
 
-    public void setMonthlyYield(Double monthlyYield) {
-        this.monthlyYield = monthlyYield;
-    }
+	public void setMonthlyYield(Double monthlyYield) {
+		this.monthlyYield = monthlyYield;
+	}
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
+	@Override
+	public int describeContents() {
+		return 0;
+	}
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(date);
-        dest.writeString(account);
-        dest.writeDouble(portfolioValue);
-        dest.writeDouble(shareQuantity);
-        dest.writeDouble(shareValue);
-        dest.writeDouble(monthlyYield);
-        dest.writeString(commentary);
-        dest.writeByte((byte) (up ? 1 : 0)); // myBoolean = in.readByte() == 1;
-    }
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(date);
+		dest.writeString(account);
+		dest.writeDouble(portfolioValue);
+		dest.writeDouble(shareQuantity);
+		dest.writeDouble(shareValue);
+		dest.writeDouble(monthlyYield);
+		dest.writeString(commentary);
+		dest.writeByte((byte) (up ? 1 : 0)); // myBoolean = in.readByte() == 1;
+	}
 
-    private void readFromParcel(Parcel in) {
-        date = in.readString();
-        account = in.readString();
-        portfolioValue = in.readDouble();
-        shareQuantity = in.readDouble();
-        shareValue = in.readDouble();
-        monthlyYield = in.readDouble();
-        commentary = in.readString();
-        up = in.readByte() == 1;
+	private void readFromParcel(Parcel in) {
+		date = in.readString();
+		account = in.readString();
+		portfolioValue = in.readDouble();
+		shareQuantity = in.readDouble();
+		shareValue = in.readDouble();
+		monthlyYield = in.readDouble();
+		commentary = in.readString();
+		up = in.readByte() == 1;
 
-    }
+	}
 
-    public static final Parcelable.Creator<ShareValue> CREATOR = new Parcelable.Creator<ShareValue>() {
-        public ShareValue createFromParcel(Parcel in) {
-            return new ShareValue(in);
-        }
+	public static final Parcelable.Creator<ShareValue> CREATOR = new Parcelable.Creator<ShareValue>() {
+		public ShareValue createFromParcel(Parcel in) {
+			return new ShareValue(in);
+		}
 
-        public ShareValue[] newArray(int size) {
-            return new ShareValue[size];
-        }
-    };
+		public ShareValue[] newArray(int size) {
+			return new ShareValue[size];
+		}
+	};
 
 }

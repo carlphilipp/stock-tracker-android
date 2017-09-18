@@ -41,88 +41,88 @@ import fr.cph.stock.android.task.MainTask;
  */
 public class BaseActivity extends Activity {
 
-    private static final String TAG = "Base";
-    public static final String PREFS_NAME = "StockTracker";
-    private View mLoginStatusView;
-    private String login;
-    private String password;
+	private static final String TAG = "Base";
+	public static final String PREFS_NAME = "StockTracker";
+	private View mLoginStatusView;
+	private String login;
+	private String password;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        Log.v(TAG, "BaseActivity onCreate");
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.loading);
-        mLoginStatusView = findViewById(R.id.login_status);
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		Log.v(TAG, "BaseActivity onCreate");
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.loading);
+		mLoginStatusView = findViewById(R.id.login_status);
+		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 
-        if (settings.contains("login") && settings.contains("password")) {
-            showProgress(true, null);
-            login = settings.getString("login", null);
-            password = settings.getString("password", null);
-            UrlType urlAuth = UrlType.AUTH;
-            String params = "?login=" + login + "&password=" + password;
-            MainTask main = new MainTask(this, urlAuth, params);
-            main.execute((Void) null);
-        } else {
-            showProgress(false, null);
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-            finish();
-        }
-    }
+		if (settings.contains("login") && settings.contains("password")) {
+			showProgress(true, null);
+			login = settings.getString("login", null);
+			password = settings.getString("password", null);
+			UrlType urlAuth = UrlType.AUTH;
+			String params = "?login=" + login + "&password=" + password;
+			MainTask main = new MainTask(this, urlAuth, params);
+			main.execute((Void) null);
+		} else {
+			showProgress(false, null);
+			Intent intent = new Intent(this, LoginActivity.class);
+			startActivity(intent);
+			finish();
+		}
+	}
 
-    /**
-     * Show progress bar
-     *
-     * @param show         show the bar or not
-     * @param errorMessage the error message
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show, String errorMessage) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-            mLoginStatusView.setVisibility(View.VISIBLE);
-            mLoginStatusView.animate().setDuration(shortAnimTime).alpha(show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mLoginStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mLoginStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
-        }
-    }
+	/**
+	 * Show progress bar
+	 *
+	 * @param show         show the bar or not
+	 * @param errorMessage the error message
+	 */
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+	private void showProgress(final boolean show, String errorMessage) {
+		// On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+		// for very easy animations. If available, use these APIs to fade-in
+		// the progress spinner.
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+			int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+			mLoginStatusView.setVisibility(View.VISIBLE);
+			mLoginStatusView.animate().setDuration(shortAnimTime).alpha(show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+				@Override
+				public void onAnimationEnd(Animator animation) {
+					mLoginStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
+				}
+			});
+		} else {
+			// The ViewPropertyAnimator APIs are not available, so simply show
+			// and hide the relevant UI components.
+			mLoginStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
+		}
+	}
 
-    /**
-     * Load home
-     *
-     * @param portfolio the portfolio
-     */
-    public void loadHome(Portfolio portfolio) {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("portfolio", portfolio);
-        showProgress(false, null);
-        finish();
-        startActivity(intent);
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-    }
+	/**
+	 * Load home
+	 *
+	 * @param portfolio the portfolio
+	 */
+	public void loadHome(Portfolio portfolio) {
+		Intent intent = new Intent(this, MainActivity.class);
+		intent.putExtra("portfolio", portfolio);
+		showProgress(false, null);
+		finish();
+		startActivity(intent);
+		overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+	}
 
-    /**
-     * Display error
-     *
-     * @param jsonObject the json object
-     */
-    public void displayError(JSONObject jsonObject) {
-        Intent intent = new Intent(this, ErrorActivity.class);
-        intent.putExtra("data", jsonObject.toString());
-        intent.putExtra("login", login);
-        intent.putExtra("password", password);
-        startActivity(intent);
-        finish();
-    }
+	/**
+	 * Display error
+	 *
+	 * @param jsonObject the json object
+	 */
+	public void displayError(JSONObject jsonObject) {
+		Intent intent = new Intent(this, ErrorActivity.class);
+		intent.putExtra("data", jsonObject.toString());
+		intent.putExtra("login", login);
+		intent.putExtra("password", password);
+		startActivity(intent);
+		finish();
+	}
 }

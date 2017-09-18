@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,15 +16,16 @@
 
 package fr.cph.stock.android.task;
 
-import org.json.JSONObject;
-
 import android.os.AsyncTask;
 import android.util.Log;
-import fr.cph.stock.android.entity.EntityBuilder;
+
+import org.json.JSONObject;
+
 import fr.cph.stock.android.entity.Portfolio;
 import fr.cph.stock.android.entity.ResponseDTO;
 import fr.cph.stock.android.enumtype.UrlType;
 import fr.cph.stock.android.exception.AppException;
+import fr.cph.stock.android.util.UserContext;
 import fr.cph.stock.android.web.Connect;
 
 public class MainTask extends AsyncTask<Void, Void, Boolean> {
@@ -34,7 +35,7 @@ public class MainTask extends AsyncTask<Void, Void, Boolean> {
 	private Object object;
 	private UrlType url;
 	private String params;
-	private ResponseDTO json;
+	private ResponseDTO responseDTO;
 	private String error;
 
 	public MainTask(Object object, UrlType url, String params) {
@@ -50,69 +51,62 @@ public class MainTask extends AsyncTask<Void, Void, Boolean> {
 	@Override
 	protected Boolean doInBackground(Void... params) {
 		boolean toReturn = true;
-		Connect connect = Connect.getInstance();
+		final Connect connect = Connect.getInstance();
 		connect.setRequest(url.getUrl() + this.params);
 		try {
-			json = connect.getJSONObject();
-		} catch (AppException e) {
+			responseDTO = connect.getResponse();
+		} catch (final AppException e) {
 			Log.w(TAG, e.getMessage());
 			this.error = e.getMessage();
 			toReturn = false;
 		}
+		UserContext.setup(responseDTO.getUser().getLocale());
 		// TODO handle error in responsedto
-/*		if (json != null) {
-			String errorMessage = json.optString("error");
-			if (!errorMessage.equals("")) {
-				this.error = errorMessage;
-				toReturn = false;
-			}
-		}*/
+/*        if (responseDTO != null) {
+			String errorMessage = responseDTO.optString("error");
+            if (!errorMessage.equals("")) {
+                this.error = errorMessage;
+                toReturn = false;
+            }
+        }*/
 		return toReturn;
 	}
 
 	@Override
 	protected void onPostExecute(final Boolean success) {
 		try {
-			Class<?> classe = object.getClass();
+			Class<?> clazz = object.getClass();
 			Class<?>[] param;
-			Portfolio portfolio;
-			EntityBuilder entityBuilder;
 			if (success) {
 				switch (url) {
-				case LOGOUT:
-					Log.i(TAG, "logout: " + classe.getName());
-					classe.getMethod("logOut").invoke(object);
-					break;
-				case UPDATEHISTORY:
-					param = new Class[1];
-					param[0] = Portfolio.class;
-					//entityBuilder = new EntityBuilder(json);
-					portfolio = json.getPortfolio();
-					classe.getMethod("reloadData", param).invoke(object, portfolio);
-					break;
-				case AUTH:
-					param = new Class[1];
-					param[0] = Portfolio.class;
-					//entityBuilder = new EntityBuilder(json);
-					portfolio = json.getPortfolio();
-					classe.getMethod("loadHome", param).invoke(object, portfolio);
-					break;
-				case RELOAD:
-					param = new Class[1];
-					param[0] = Portfolio.class;
-					//entityBuilder = new EntityBuilder(json);
-					portfolio = json.getPortfolio();
-					classe.getMethod("reloadData", param).invoke(object, portfolio);
-					break;
+					case LOGOUT:
+						Log.i(TAG, "logout: " + clazz.getName());
+						clazz.getMethod("logOut").invoke(object);
+						break;
+					case UPDATEHISTORY:
+						param = new Class[1];
+						param[0] = Portfolio.class;
+						clazz.getMethod("reloadData", param).invoke(object, responseDTO.getPortfolio());
+						break;
+					case AUTH:
+						param = new Class[1];
+						param[0] = Portfolio.class;
+						clazz.getMethod("loadHome", param).invoke(object, responseDTO.getPortfolio());
+						break;
+					case RELOAD:
+						param = new Class[1];
+						param[0] = Portfolio.class;
+						clazz.getMethod("reloadData", param).invoke(object, responseDTO.getPortfolio());
+						break;
 				}
 			} else {
 				param = new Class[1];
 				param[0] = JSONObject.class;
-				JSONObject derp = new JSONObject();
-				derp.accumulate("error", error);
-				classe.getMethod("displayError", param).invoke(object, derp);
+				final JSONObject jsonError = new JSONObject();
+				jsonError.accumulate("error", error);
+				clazz.getMethod("displayError", param).invoke(object, jsonError);
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			Log.e(TAG, "", e);
 		}
 		super.onPostExecute(success);

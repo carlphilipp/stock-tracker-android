@@ -28,167 +28,167 @@ import fr.cph.stock.android.util.UserContext;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Equity implements Parcelable {
 
-    private String name;
-    private Double unitCostPrice;
-    private Double value;
-    private Double plusMinusValue;
-    private boolean up;
-    private boolean upVariation;
-    private Double quantity;
-    private Double yieldYear;
-    private Double yieldUnitCostPrice;
-    private Double quote;
-    private Double plusMinusUnitCostPriceValue;
-    private String variation;
+	private String name;
+	private Double unitCostPrice;
+	private Double value;
+	private Double plusMinusValue;
+	private boolean up;
+	private boolean upVariation;
+	private Double quantity;
+	private Double yieldYear;
+	private Double yieldUnitCostPrice;
+	private Double quote;
+	private Double plusMinusUnitCostPriceValue;
+	private String variation;
 
-    public Equity() {
+	public Equity() {
 
-    }
+	}
 
-    public Equity(Parcel in) {
-        readFromParcel(in);
-    }
+	public Equity(Parcel in) {
+		readFromParcel(in);
+	}
 
-    public String getQuantity() {
-        return UserContext.FORMAT_LOCAL_ONE.format(quantity);
-    }
+	public String getQuantity() {
+		return UserContext.FORMAT_LOCAL_ONE.format(quantity);
+	}
 
-    public void setQuantity(Double quantity) {
-        this.quantity = quantity;
-    }
+	public void setQuantity(Double quantity) {
+		this.quantity = quantity;
+	}
 
-    public String getYieldYear() {
-        return UserContext.FORMAT_LOCAL_ONE.format(yieldYear) + "%";
-    }
+	public String getYieldYear() {
+		return UserContext.FORMAT_LOCAL_ONE.format(yieldYear) + "%";
+	}
 
-    public void setYieldYear(Double yieldYear) {
-        this.yieldYear = yieldYear;
-    }
+	public void setYieldYear(Double yieldYear) {
+		this.yieldYear = yieldYear;
+	}
 
-    public String getYieldUnitCostPrice() {
-        return UserContext.FORMAT_LOCAL_ONE.format(yieldUnitCostPrice) + "%";
-    }
+	public String getYieldUnitCostPrice() {
+		return UserContext.FORMAT_LOCAL_ONE.format(yieldUnitCostPrice) + "%";
+	}
 
-    public void setYieldUnitCostPrice(Double yieldUnitCostPrice) {
-        this.yieldUnitCostPrice = yieldUnitCostPrice;
-    }
+	public void setYieldUnitCostPrice(Double yieldUnitCostPrice) {
+		this.yieldUnitCostPrice = yieldUnitCostPrice;
+	}
 
-    public String getQuote() {
-        return UserContext.FORMAT_LOCAL_TWO.format(quote);
-    }
+	public String getQuote() {
+		return UserContext.FORMAT_LOCAL_TWO.format(quote);
+	}
 
-    public void setQuote(Double quote) {
-        this.quote = quote;
-    }
+	public void setQuote(Double quote) {
+		this.quote = quote;
+	}
 
-    public String getPlusMinusUnitCostPriceValue() {
-        return plusMinusValue > 0
-                ? "+" + UserContext.FORMAT_LOCAL_ZERO.format(plusMinusUnitCostPriceValue)
-                : UserContext.FORMAT_LOCAL_ZERO.format(plusMinusUnitCostPriceValue);
-    }
+	public String getPlusMinusUnitCostPriceValue() {
+		return plusMinusValue > 0
+				? "+" + UserContext.FORMAT_LOCAL_ZERO.format(plusMinusUnitCostPriceValue)
+				: UserContext.FORMAT_LOCAL_ZERO.format(plusMinusUnitCostPriceValue);
+	}
 
-    public void setPlusMinusUnitCostPriceValue(final Double plusMinusUnitCostPriceValue) {
-        this.plusMinusUnitCostPriceValue = plusMinusUnitCostPriceValue;
-    }
+	public void setPlusMinusUnitCostPriceValue(final Double plusMinusUnitCostPriceValue) {
+		this.plusMinusUnitCostPriceValue = plusMinusUnitCostPriceValue;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getUnitCostPrice() {
-        return UserContext.FORMAT_LOCAL_TWO.format(unitCostPrice);
-    }
+	public String getUnitCostPrice() {
+		return UserContext.FORMAT_LOCAL_TWO.format(unitCostPrice);
+	}
 
-    public void setUnitCostPrice(Double unitCostPrice) {
-        this.unitCostPrice = unitCostPrice;
-    }
+	public void setUnitCostPrice(Double unitCostPrice) {
+		this.unitCostPrice = unitCostPrice;
+	}
 
-    public String getValue() {
-        return UserContext.FORMAT_LOCAL_ZERO.format(value);
-    }
+	public String getValue() {
+		return UserContext.FORMAT_LOCAL_ZERO.format(value);
+	}
 
-    public void setValue(final Double value) {
-        this.value = value;
-    }
+	public void setValue(final Double value) {
+		this.value = value;
+	}
 
-    public String getPlusMinusValue() {
-        return plusMinusValue > 0
-                ? "+" + UserContext.FORMAT_LOCAL_ONE.format(plusMinusValue) + "%"
-                : UserContext.FORMAT_LOCAL_ONE.format(plusMinusValue) + "%";
-    }
+	public String getPlusMinusValue() {
+		return plusMinusValue > 0
+				? "+" + UserContext.FORMAT_LOCAL_ONE.format(plusMinusValue) + "%"
+				: UserContext.FORMAT_LOCAL_ONE.format(plusMinusValue) + "%";
+	}
 
-    public void setPlusMinusValue(Double plusMinusValue) {
-        this.plusMinusValue = plusMinusValue;
-    }
+	public void setPlusMinusValue(Double plusMinusValue) {
+		this.plusMinusValue = plusMinusValue;
+	}
 
-    public boolean isUp() {
-        return plusMinusValue > 0;
-    }
+	public boolean isUp() {
+		return plusMinusValue > 0;
+	}
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
+	@Override
+	public int describeContents() {
+		return 0;
+	}
 
-    public String getVariation() {
-        return variation == null ? "?" : variation;
-    }
+	public String getVariation() {
+		return variation == null ? "?" : variation;
+	}
 
-    public void setVariation(String variation) {
-        this.variation = variation;
-    }
+	public void setVariation(String variation) {
+		this.variation = variation;
+	}
 
-    public boolean isUpVariation() {
-        return upVariation;
-    }
+	public boolean isUpVariation() {
+		return upVariation;
+	}
 
-    public void setUpVariation(boolean upVariation) {
-        this.upVariation = upVariation;
-    }
+	public void setUpVariation(boolean upVariation) {
+		this.upVariation = upVariation;
+	}
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(name);
-        dest.writeDouble(unitCostPrice);
-        dest.writeDouble(value);
-        dest.writeDouble(plusMinusValue);
-        dest.writeDouble(quantity);
-        dest.writeDouble(yieldYear);
-        dest.writeDouble(yieldUnitCostPrice);
-        dest.writeDouble(quote);
-        dest.writeDouble(plusMinusUnitCostPriceValue);
-        dest.writeByte((byte) (up ? 1 : 0)); // myBoolean = in.readByte() == 1;
-        dest.writeString(variation);
-        dest.writeByte((byte) (upVariation ? 1 : 0));
-    }
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(name);
+		dest.writeDouble(unitCostPrice);
+		dest.writeDouble(value);
+		dest.writeDouble(plusMinusValue);
+		dest.writeDouble(quantity);
+		dest.writeDouble(yieldYear);
+		dest.writeDouble(yieldUnitCostPrice);
+		dest.writeDouble(quote);
+		dest.writeDouble(plusMinusUnitCostPriceValue);
+		dest.writeByte((byte) (up ? 1 : 0)); // myBoolean = in.readByte() == 1;
+		dest.writeString(variation);
+		dest.writeByte((byte) (upVariation ? 1 : 0));
+	}
 
-    private void readFromParcel(Parcel in) {
-        name = in.readString();
-        unitCostPrice = in.readDouble();
-        value = in.readDouble();
-        plusMinusValue = in.readDouble();
-        quantity = in.readDouble();
-        yieldYear = in.readDouble();
-        yieldUnitCostPrice = in.readDouble();
-        quote = in.readDouble();
-        plusMinusUnitCostPriceValue = in.readDouble();
-        up = in.readByte() == 1;
-        variation = in.readString();
-        upVariation = in.readByte() == 1;
-    }
+	private void readFromParcel(Parcel in) {
+		name = in.readString();
+		unitCostPrice = in.readDouble();
+		value = in.readDouble();
+		plusMinusValue = in.readDouble();
+		quantity = in.readDouble();
+		yieldYear = in.readDouble();
+		yieldUnitCostPrice = in.readDouble();
+		quote = in.readDouble();
+		plusMinusUnitCostPriceValue = in.readDouble();
+		up = in.readByte() == 1;
+		variation = in.readString();
+		upVariation = in.readByte() == 1;
+	}
 
-    public static final Parcelable.Creator<Equity> CREATOR = new Parcelable.Creator<Equity>() {
-        public Equity createFromParcel(Parcel in) {
-            return new Equity(in);
-        }
+	public static final Parcelable.Creator<Equity> CREATOR = new Parcelable.Creator<Equity>() {
+		public Equity createFromParcel(Parcel in) {
+			return new Equity(in);
+		}
 
-        public Equity[] newArray(int size) {
-            return new Equity[size];
-        }
-    };
+		public Equity[] newArray(int size) {
+			return new Equity[size];
+		}
+	};
 
 }

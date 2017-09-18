@@ -49,134 +49,134 @@ import fr.cph.stock.android.task.MainTask;
 
 public class OverallActivity extends ListActivity implements IStockTrackerActivity {
 
-    private static final String TAG = "OverallActivity";
+	private static final String TAG = "OverallActivity";
 
-    private MenuItem menuItem;
-    private MenuItem refreshItem;
-    private List<ShareValue> shareValues;
-    private ShareValueAdapter ada;
-    private TextView errorView;
-    private Portfolio portfolio;
+	private MenuItem menuItem;
+	private MenuItem refreshItem;
+	private List<ShareValue> shareValues;
+	private ShareValueAdapter ada;
+	private TextView errorView;
+	private Portfolio portfolio;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.overall_activity);
-        errorView = findViewById(R.id.errorMessage);
-        Bundle b = getIntent().getExtras();
-        portfolio = b.getParcelable("portfolio");
-        shareValues = portfolio.getShareValues();
-        ada = new ShareValueAdapter(shareValues, getApplicationContext());
-        setListAdapter(ada);
-    }
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.overall_activity);
+		errorView = findViewById(R.id.errorMessage);
+		Bundle b = getIntent().getExtras();
+		portfolio = b.getParcelable("portfolio");
+		shareValues = portfolio.getShareValues();
+		ada = new ShareValueAdapter(shareValues, getApplicationContext());
+		setListAdapter(ada);
+	}
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.overall, menu);
-        refreshItem = menu.getItem(2);
-        return true;
-    }
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.overall, menu);
+		refreshItem = menu.getItem(2);
+		return true;
+	}
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        MainTask mainTask;
-        switch (item.getItemId()) {
-            case R.id.action_logout:
-                mainTask = new MainTask(this, UrlType.LOGOUT, null);
-                mainTask.execute((Void) null);
-                return true;
-            case R.id.refresh:
-                menuItem = item;
-                menuItem.setActionView(R.layout.progressbar);
-                menuItem.expandActionView();
-                mainTask = new MainTask(this, UrlType.RELOAD, null);
-                mainTask.execute((Void) null);
-                return true;
-            case R.id.action_update:
-                showPanelUpdateHistory();
-                return true;
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		MainTask mainTask;
+		switch (item.getItemId()) {
+			case R.id.action_logout:
+				mainTask = new MainTask(this, UrlType.LOGOUT, null);
+				mainTask.execute((Void) null);
+				return true;
+			case R.id.refresh:
+				menuItem = item;
+				menuItem.setActionView(R.layout.progressbar);
+				menuItem.expandActionView();
+				mainTask = new MainTask(this, UrlType.RELOAD, null);
+				mainTask.execute((Void) null);
+				return true;
+			case R.id.action_update:
+				showPanelUpdateHistory();
+				return true;
+			case android.R.id.home:
+				finish();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
 
-    private void showPanelUpdateHistory() {
-        final Dialog alert = new Dialog(this);
-        alert.setTitle("Update history");
-        alert.setContentView(R.layout.history_dialog);
+	private void showPanelUpdateHistory() {
+		final Dialog alert = new Dialog(this);
+		alert.setTitle("Update history");
+		alert.setContentView(R.layout.history_dialog);
 
-        final Spinner checked = alert.findViewById(R.id.accountList);
-        List<String> list = new ArrayList<>();
-        for (Account acc : portfolio.getAccounts()) {
-            list.add(acc.getName());
-        }
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        checked.setAdapter(dataAdapter);
+		final Spinner checked = alert.findViewById(R.id.accountList);
+		List<String> list = new ArrayList<>();
+		for (Account acc : portfolio.getAccounts()) {
+			list.add(acc.getName());
+		}
+		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
+		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		checked.setAdapter(dataAdapter);
 
-        Button dialogButton = alert.findViewById(R.id.dialogButtonOK);
-        dialogButton.setOnClickListener(v -> {
-            refreshItem.setActionView(R.layout.progressbar);
-            refreshItem.expandActionView();
-            Account account = portfolio.getAccounts().get(checked.getSelectedItemPosition());
-            EditText liquidityView = alert.findViewById(R.id.liquidityMov);
-            EditText yieldView = alert.findViewById(R.id.yield);
-            EditText buyView = alert.findViewById(R.id.buy);
-            EditText sellView = alert.findViewById(R.id.sell);
-            EditText taxeView = alert.findViewById(R.id.taxe);
-            EditText commentaryView = alert.findViewById(R.id.commentaryEditText);
+		Button dialogButton = alert.findViewById(R.id.dialogButtonOK);
+		dialogButton.setOnClickListener(v -> {
+			refreshItem.setActionView(R.layout.progressbar);
+			refreshItem.expandActionView();
+			Account account = portfolio.getAccounts().get(checked.getSelectedItemPosition());
+			EditText liquidityView = alert.findViewById(R.id.liquidityMov);
+			EditText yieldView = alert.findViewById(R.id.yield);
+			EditText buyView = alert.findViewById(R.id.buy);
+			EditText sellView = alert.findViewById(R.id.sell);
+			EditText taxeView = alert.findViewById(R.id.taxe);
+			EditText commentaryView = alert.findViewById(R.id.commentaryEditText);
 
-            String params = null;
-            params = "?accountId=" + account.getId() + "&liquidity=" + liquidityView.getText() + "&yield="
-                    + yieldView.getText() + "&buy=" + buyView.getText() + "&sell=" + sellView.getText() + "&taxe="
-                    + taxeView.getText() + "&commentary=" + commentaryView.getText().toString().replaceAll(" ", "%20");
-            MainTask mainTask = new MainTask(OverallActivity.this, UrlType.UPDATEHISTORY, params);
-            mainTask.execute((Void) null);
-            alert.dismiss();
-        });
-        dialogButton = alert.findViewById(R.id.dialogButtonCancel);
-        dialogButton.setOnClickListener(v -> alert.dismiss());
-        alert.show();
-    }
+			String params = null;
+			params = "?accountId=" + account.getId() + "&liquidity=" + liquidityView.getText() + "&yield="
+					+ yieldView.getText() + "&buy=" + buyView.getText() + "&sell=" + sellView.getText() + "&taxe="
+					+ taxeView.getText() + "&commentary=" + commentaryView.getText().toString().replaceAll(" ", "%20");
+			MainTask mainTask = new MainTask(OverallActivity.this, UrlType.UPDATEHISTORY, params);
+			mainTask.execute((Void) null);
+			alert.dismiss();
+		});
+		dialogButton = alert.findViewById(R.id.dialogButtonCancel);
+		dialogButton.setOnClickListener(v -> alert.dismiss());
+		alert.show();
+	}
 
-    @Override
-    public void reloadData(Portfolio portfolio) {
-        shareValues.clear();
-        shareValues.addAll(portfolio.getShareValues());
-        ada.notifyDataSetChanged();
-        refreshItem.collapseActionView();
-        refreshItem.setActionView(null);
-        Intent resultIntent = new Intent();
-        resultIntent.putExtra("portfolio", portfolio);
-        setResult(Activity.RESULT_OK, resultIntent);
-        StockTrackerApp app = (StockTrackerApp) getApplication();
-        app.toast();
-    }
+	@Override
+	public void reloadData(Portfolio portfolio) {
+		shareValues.clear();
+		shareValues.addAll(portfolio.getShareValues());
+		ada.notifyDataSetChanged();
+		refreshItem.collapseActionView();
+		refreshItem.setActionView(null);
+		Intent resultIntent = new Intent();
+		resultIntent.putExtra("portfolio", portfolio);
+		setResult(Activity.RESULT_OK, resultIntent);
+		StockTrackerApp app = (StockTrackerApp) getApplication();
+		app.toast();
+	}
 
-    @Override
-    public void displayError(JSONObject json) {
-        Log.i(TAG, json.toString());
-        boolean sessionError = ((StockTrackerApp) getApplication()).isSessionError(json);
-        if (sessionError) {
-            ((StockTrackerApp) getApplication()).loadErrorActivity(this, json);
-        } else {
-            errorView.setText(json.optString("error"));
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,
-                    LayoutParams.MATCH_PARENT);
-            params.addRule(RelativeLayout.BELOW, errorView.getId());
-            ListView listView = findViewById(android.R.id.list);
-            listView.setLayoutParams(params);
-            refreshItem.collapseActionView();
-            refreshItem.setActionView(null);
-        }
-    }
+	@Override
+	public void displayError(JSONObject json) {
+		Log.i(TAG, json.toString());
+		boolean sessionError = ((StockTrackerApp) getApplication()).isSessionError(json);
+		if (sessionError) {
+			((StockTrackerApp) getApplication()).loadErrorActivity(this, json);
+		} else {
+			errorView.setText(json.optString("error"));
+			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,
+					LayoutParams.MATCH_PARENT);
+			params.addRule(RelativeLayout.BELOW, errorView.getId());
+			ListView listView = findViewById(android.R.id.list);
+			listView.setLayoutParams(params);
+			refreshItem.collapseActionView();
+			refreshItem.setActionView(null);
+		}
+	}
 
-    @Override
-    public void logOut() {
-        ((StockTrackerApp) getApplication()).logOut(this);
-    }
+	@Override
+	public void logOut() {
+		((StockTrackerApp) getApplication()).logOut(this);
+	}
 }

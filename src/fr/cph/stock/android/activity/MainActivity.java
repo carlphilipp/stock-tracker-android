@@ -39,149 +39,149 @@ import fr.cph.stock.android.task.MainTask;
 
 public class MainActivity extends Activity implements IStockTrackerActivity {
 
-    private static final String TAG = "MainActivity";
+	private static final String TAG = "MainActivity";
 
-    private MenuItem menuItem;
+	private MenuItem menuItem;
 
-    public static final int ACCOUNT_REQUEST = 1;
-    public static final int EQUITY_REQUEST = 2;
-    public static final int OVERALL_REQUEST = 3;
-    public static final int CHART_REQUEST = 4;
+	public static final int ACCOUNT_REQUEST = 1;
+	public static final int EQUITY_REQUEST = 2;
+	public static final int OVERALL_REQUEST = 3;
+	public static final int CHART_REQUEST = 4;
 
-    private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
+	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
 
-    private MainListAdapter ada;
-    private Portfolio portfolio;
-    private TextView errorView;
-    private ListView listView;
+	private MainListAdapter ada;
+	private Portfolio portfolio;
+	private TextView errorView;
+	private ListView listView;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.main);
 
-        Bundle b = getIntent().getExtras();
-        portfolio = b.getParcelable("portfolio");
+		Bundle b = getIntent().getExtras();
+		portfolio = b.getParcelable("portfolio");
 
-        ada = new MainListAdapter(this, portfolio);
-        listView = findViewById(R.id.mainList);
-        listView.setAdapter(ada);
-        listView.setOnItemClickListener((arg0, arg1, position, arg3) -> {
-            Intent intent;
-            switch (position) {
-                case 0:
-                    intent = new Intent(getBaseContext(), AccountActivity.class);
-                    intent.putExtra("portfolio", portfolio);
-                    startActivityForResult(intent, MainActivity.ACCOUNT_REQUEST);
-                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                    break;
-                case 1:
-                    intent = new Intent(getBaseContext(), EquityActivity.class);
-                    intent.putExtra("portfolio", portfolio);
-                    startActivityForResult(intent, MainActivity.EQUITY_REQUEST);
-                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                    break;
-                case 2:
-                    intent = new Intent(getBaseContext(), OverallActivity.class);
-                    intent.putExtra("portfolio", portfolio);
-                    startActivityForResult(intent, MainActivity.OVERALL_REQUEST);
-                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                    break;
-            }
-        });
+		ada = new MainListAdapter(this, portfolio);
+		listView = findViewById(R.id.mainList);
+		listView.setAdapter(ada);
+		listView.setOnItemClickListener((arg0, arg1, position, arg3) -> {
+			Intent intent;
+			switch (position) {
+				case 0:
+					intent = new Intent(getBaseContext(), AccountActivity.class);
+					intent.putExtra("portfolio", portfolio);
+					startActivityForResult(intent, MainActivity.ACCOUNT_REQUEST);
+					overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+					break;
+				case 1:
+					intent = new Intent(getBaseContext(), EquityActivity.class);
+					intent.putExtra("portfolio", portfolio);
+					startActivityForResult(intent, MainActivity.EQUITY_REQUEST);
+					overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+					break;
+				case 2:
+					intent = new Intent(getBaseContext(), OverallActivity.class);
+					intent.putExtra("portfolio", portfolio);
+					startActivityForResult(intent, MainActivity.OVERALL_REQUEST);
+					overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+					break;
+			}
+		});
 
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_SHOW_CUSTOM);
+		ActionBar actionBar = getActionBar();
+		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_SHOW_CUSTOM);
 
-        errorView = findViewById(R.id.errorMessage);
-        errorView.setOnClickListener(new ErrorMainOnClickListener(listView, errorView));
-    }
+		errorView = findViewById(R.id.errorMessage);
+		errorView.setOnClickListener(new ErrorMainOnClickListener(listView, errorView));
+	}
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-    }
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+	}
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-        switch (resultCode) {
-            case 100:
-                finish();
-                break;
-            case Activity.RESULT_OK:
-                Bundle b = data.getExtras();
-                portfolio = b.getParcelable("portfolio");
-                ada.update(portfolio);
-                break;
-        }
-    }
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+		switch (resultCode) {
+			case 100:
+				finish();
+				break;
+			case Activity.RESULT_OK:
+				Bundle b = data.getExtras();
+				portfolio = b.getParcelable("portfolio");
+				ada.update(portfolio);
+				break;
+		}
+	}
 
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        // Restore the previously serialized current dropdown position.
-        if (savedInstanceState.containsKey(STATE_SELECTED_NAVIGATION_ITEM)) {
-            getActionBar().setSelectedNavigationItem(savedInstanceState.getInt(STATE_SELECTED_NAVIGATION_ITEM));
-        }
-    }
+	@Override
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
+		// Restore the previously serialized current dropdown position.
+		if (savedInstanceState.containsKey(STATE_SELECTED_NAVIGATION_ITEM)) {
+			getActionBar().setSelectedNavigationItem(savedInstanceState.getInt(STATE_SELECTED_NAVIGATION_ITEM));
+		}
+	}
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        MainTask mainTask;
-        switch (item.getItemId()) {
-            case R.id.action_logout:
-                mainTask = new MainTask(this, UrlType.LOGOUT, null);
-                mainTask.execute((Void) null);
-                return true;
-            case R.id.refresh:
-                menuItem = item;
-                menuItem.setActionView(R.layout.progressbar);
-                menuItem.expandActionView();
-                mainTask = new MainTask(this, UrlType.RELOAD, null);
-                mainTask.execute((Void) null);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle item selection
+		MainTask mainTask;
+		switch (item.getItemId()) {
+			case R.id.action_logout:
+				mainTask = new MainTask(this, UrlType.LOGOUT, null);
+				mainTask.execute((Void) null);
+				return true;
+			case R.id.refresh:
+				menuItem = item;
+				menuItem.setActionView(R.layout.progressbar);
+				menuItem.expandActionView();
+				mainTask = new MainTask(this, UrlType.RELOAD, null);
+				mainTask.execute((Void) null);
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
 
-    @Override
-    public void reloadData(Portfolio portfolio) {
-        this.portfolio = portfolio;
-        menuItem.collapseActionView();
-        menuItem.setActionView(null);
-        ada.update(this.portfolio);
-        StockTrackerApp app = (StockTrackerApp) getApplication();
-        app.toast();
-    }
+	@Override
+	public void reloadData(Portfolio portfolio) {
+		this.portfolio = portfolio;
+		menuItem.collapseActionView();
+		menuItem.setActionView(null);
+		ada.update(this.portfolio);
+		StockTrackerApp app = (StockTrackerApp) getApplication();
+		app.toast();
+	}
 
-    @Override
-    public void displayError(JSONObject json) {
-        boolean sessionError = ((StockTrackerApp) getApplication()).isSessionError(json);
-        if (sessionError) {
-            ((StockTrackerApp) getApplication()).loadErrorActivity(this, json);
-        } else {
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,
-                    LayoutParams.MATCH_PARENT);
-            params.addRule(RelativeLayout.BELOW, errorView.getId());
-            listView.setLayoutParams(params);
-            errorView.setText(json.optString("error"));
-            menuItem.collapseActionView();
-            menuItem.setActionView(null);
-        }
-    }
+	@Override
+	public void displayError(JSONObject json) {
+		boolean sessionError = ((StockTrackerApp) getApplication()).isSessionError(json);
+		if (sessionError) {
+			((StockTrackerApp) getApplication()).loadErrorActivity(this, json);
+		} else {
+			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,
+					LayoutParams.MATCH_PARENT);
+			params.addRule(RelativeLayout.BELOW, errorView.getId());
+			listView.setLayoutParams(params);
+			errorView.setText(json.optString("error"));
+			menuItem.collapseActionView();
+			menuItem.setActionView(null);
+		}
+	}
 
-    @Override
-    public void logOut() {
-        ((StockTrackerApp) getApplication()).logOut(this);
-    }
+	@Override
+	public void logOut() {
+		((StockTrackerApp) getApplication()).logOut(this);
+	}
 
 }

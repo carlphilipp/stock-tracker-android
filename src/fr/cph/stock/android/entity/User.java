@@ -18,7 +18,6 @@ package fr.cph.stock.android.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Locale;
 
@@ -26,54 +25,16 @@ import java.util.Locale;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class User {
 
-    @JsonProperty("id")
-    private String userId;
-    private String datePattern;
-    private String datePatternWithoutHourMin;
-    private Locale locale;
-    private String lastUpdate;
+	private Locale locale;
 
-    public User() {
-    }
+	public User() {
+	}
 
-    public Locale getLocale() {
-        return locale;
-    }
+	public Locale getLocale() {
+		return locale;
+	}
 
-    public void setLocale(Locale locale) {
-        this.locale = locale;
-    }
-
-    public String getLastUpdate() {
-        return lastUpdate;
-    }
-
-    public void setLastUpdate(String lastUpdate) {
-        this.lastUpdate = lastUpdate;
-    }
-
-    public String getDatePatternWithoutHourMin() {
-        return datePatternWithoutHourMin;
-    }
-
-    public void setDatePatternWithoutHourMin(String datePatternWithoutHourMin) {
-        this.datePatternWithoutHourMin = datePatternWithoutHourMin;
-    }
-
-    public String getDatePattern() {
-        return datePattern;
-    }
-
-    public void setDatePattern(String datePattern) {
-        this.datePattern = datePattern;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
+	public void setLocale(Locale locale) {
+		this.locale = locale;
+	}
 }

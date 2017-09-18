@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,8 +16,6 @@
 
 package fr.cph.stock.android.adapter;
 
-import java.util.List;
-
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -25,16 +23,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import java.util.List;
+
 import fr.cph.stock.android.R;
 import fr.cph.stock.android.entity.ShareValue;
 
-public class ShareValueAdapter extends BaseAdapter{
-	
+public class ShareValueAdapter extends BaseAdapter {
+
 	private List<ShareValue> sharesValues;
 	private Context context;
-	
-	public ShareValueAdapter(List<ShareValue> sharesValues, Context context){
-		this.sharesValues =  sharesValues;
+
+	public ShareValueAdapter(List<ShareValue> sharesValues, Context context) {
+		this.sharesValues = sharesValues;
 		this.context = context;
 	}
 
@@ -60,7 +61,7 @@ public class ShareValueAdapter extends BaseAdapter{
 			LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			v = vi.inflate(R.layout.list_item_share_value, null);
 		}
-		
+
 		TextView dateView = v.findViewById(R.id.date);
 		TextView shareValueView = v.findViewById(R.id.shareValue);
 		shareValueView.setTextColor(Color.rgb(0, 160, 0));
@@ -69,13 +70,13 @@ public class ShareValueAdapter extends BaseAdapter{
 		TextView portfolioValueView = v.findViewById(R.id.portfolioValue);
 		TextView shareQuantityView = v.findViewById(R.id.shareQuantity);
 		TextView monthlyYieldView = v.findViewById(R.id.monthlyYield2);
-		
+
 
 		ShareValue shareValue = sharesValues.get(position);
 		dateView.setText(shareValue.getDate());
 		shareValueView.setText(shareValue.getShareValue());
 		commentaryView.setText(shareValue.getCommentary());
-		accountView.setText(shareValue.getAccount());	
+		accountView.setText(shareValue.getAccount());
 		portfolioValueView.setText(shareValue.getPortfolioValue());
 		shareQuantityView.setText(shareValue.getShareQuantity());
 		monthlyYieldView.setText(shareValue.getMonthlyYield());

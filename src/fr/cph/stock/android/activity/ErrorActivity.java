@@ -31,40 +31,40 @@ import fr.cph.stock.android.entity.Portfolio;
 import fr.cph.stock.android.listener.ErrorButtonOnClickListener;
 
 public class ErrorActivity extends Activity {
-    private static final String TAG = "ErrorActivity";
+	private static final String TAG = "ErrorActivity";
 
-    private TextView error;
-    private String login;
-    private String password;
+	private TextView error;
+	private String login;
+	private String password;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.error);
-        String msg = getIntent().getExtras().getString("data");
-        login = getIntent().getExtras().getString("login");
-        password = getIntent().getExtras().getString("password");
-        try {
-            JSONObject json = new JSONObject(msg);
-            error = findViewById(R.id.error_message);
-            error.setText(json.optString("error"));
-        } catch (JSONException e) {
-            Log.e(TAG, e.getMessage(), e);
-        }
-        Button button = findViewById(R.id.retry_button);
-        button.setOnClickListener(new ErrorButtonOnClickListener(this, login, password));
-    }
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.error);
+		String msg = getIntent().getExtras().getString("data");
+		login = getIntent().getExtras().getString("login");
+		password = getIntent().getExtras().getString("password");
+		try {
+			JSONObject json = new JSONObject(msg);
+			error = findViewById(R.id.error_message);
+			error.setText(json.optString("error"));
+		} catch (JSONException e) {
+			Log.e(TAG, e.getMessage(), e);
+		}
+		Button button = findViewById(R.id.retry_button);
+		button.setOnClickListener(new ErrorButtonOnClickListener(this, login, password));
+	}
 
-    public void displayError(JSONObject json) {
-        error.setText(json.optString("error"));
-    }
+	public void displayError(JSONObject json) {
+		error.setText(json.optString("error"));
+	}
 
-    public void loadHome(Portfolio portfolio) {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("portfolio", portfolio);
-        finish();
-        startActivity(intent);
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-    }
+	public void loadHome(Portfolio portfolio) {
+		Intent intent = new Intent(this, MainActivity.class);
+		intent.putExtra("portfolio", portfolio);
+		finish();
+		startActivity(intent);
+		overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+	}
 
 }

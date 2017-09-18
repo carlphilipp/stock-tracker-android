@@ -34,109 +34,109 @@ import fr.cph.stock.android.listener.ChartListener;
 
 public class MainListAdapter extends BaseAdapter {
 
-    private MainActivity activity;
-    private Portfolio portfolio;
+	private MainActivity activity;
+	private Portfolio portfolio;
 
-    public MainListAdapter(MainActivity activity, Portfolio portfolio) {
-        this.activity = activity;
-        this.portfolio = portfolio;
-    }
+	public MainListAdapter(MainActivity activity, Portfolio portfolio) {
+		this.activity = activity;
+		this.portfolio = portfolio;
+	}
 
-    @Override
-    public boolean isEnabled(int position) {
-        return position != 3;
-    }
+	@Override
+	public boolean isEnabled(int position) {
+		return position != 3;
+	}
 
-    @Override
-    public int getCount() {
-        return 4;
-    }
+	@Override
+	public int getCount() {
+		return 4;
+	}
 
-    @Override
-    public Object getItem(int position) {
-        return null;
-    }
+	@Override
+	public Object getItem(int position) {
+		return null;
+	}
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
+	@Override
+	public long getItemId(int position) {
+		return position;
+	}
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View v = convertView;
-        TextView textView;
-        switch (position) {
-            case 0:
-                if (v == null) {
-                    LayoutInflater vi = (LayoutInflater) activity.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    v = vi.inflate(R.layout.main_list_item_cell1, null);
-                }
-                textView = v.findViewById(R.id.portfolio_value_main);
-                textView.setText(portfolio.getTotalValue());
-                textView = v.findViewById(R.id.liquidity_value_main);
-                textView.setText(portfolio.getLiquidity());
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		View v = convertView;
+		TextView textView;
+		switch (position) {
+			case 0:
+				if (v == null) {
+					LayoutInflater vi = (LayoutInflater) activity.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+					v = vi.inflate(R.layout.main_list_item_cell1, null);
+				}
+				textView = v.findViewById(R.id.portfolio_value_main);
+				textView.setText(portfolio.getTotalValue());
+				textView = v.findViewById(R.id.liquidity_value_main);
+				textView.setText(portfolio.getLiquidity());
 
-                break;
-            case 1:
-                if (v == null) {
-                    LayoutInflater vi = (LayoutInflater) activity.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    v = vi.inflate(R.layout.main_list_item_cell2, null);
-                }
-                textView = v.findViewById(R.id.current_performance_value);
-                textView.setText(portfolio.getTotalGain());
-                if (portfolio.isUp()) {
-                    textView.setTextColor(Color.rgb(0, 160, 0));
-                } else {
-                    textView.setTextColor(Color.rgb(160, 0, 0));
-                }
+				break;
+			case 1:
+				if (v == null) {
+					LayoutInflater vi = (LayoutInflater) activity.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+					v = vi.inflate(R.layout.main_list_item_cell2, null);
+				}
+				textView = v.findViewById(R.id.current_performance_value);
+				textView.setText(portfolio.getTotalGain());
+				if (portfolio.isUp()) {
+					textView.setTextColor(Color.rgb(0, 160, 0));
+				} else {
+					textView.setTextColor(Color.rgb(160, 0, 0));
+				}
 
-                textView = v.findViewById(R.id.today_performance_value);
-                textView.setText(portfolio.getTotalVariation());
-                if (portfolio.isTodayUp()) {
-                    textView.setTextColor(Color.rgb(0, 160, 0));
-                } else {
-                    textView.setTextColor(Color.rgb(160, 0, 0));
-                }
-                break;
-            case 2:
-                if (v == null) {
-                    LayoutInflater vi = (LayoutInflater) activity.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    v = vi.inflate(R.layout.main_list_item_cell3, null);
-                }
-                textView = v.findViewById(R.id.performance_value);
-                textView.setText(portfolio.getShareValues().get(0).getShareValue());
-                if (portfolio.getShareValues().get(0).isUp()) {
-                    textView.setTextColor(Color.rgb(0, 160, 0));
-                } else {
-                    textView.setTextColor(Color.rgb(160, 0, 0));
-                }
-                textView = v.findViewById(R.id.last_updated_value);
-                textView.setText(portfolio.getLastUpdate());
-                break;
-            case 3:
-                if (v == null) {
-                    LayoutInflater vi = (LayoutInflater) activity.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    v = vi.inflate(R.layout.main_list_item_cell4, null);
-                }
-                ImageButton shareValueView = v.findViewById(R.id.shareValueChart);
-                ChartListener chartShareValueListener = new ChartListener(activity, portfolio, ChartType.SHARE_VALUE);
-                shareValueView.setOnClickListener(chartShareValueListener);
+				textView = v.findViewById(R.id.today_performance_value);
+				textView.setText(portfolio.getTotalVariation());
+				if (portfolio.isTodayUp()) {
+					textView.setTextColor(Color.rgb(0, 160, 0));
+				} else {
+					textView.setTextColor(Color.rgb(160, 0, 0));
+				}
+				break;
+			case 2:
+				if (v == null) {
+					LayoutInflater vi = (LayoutInflater) activity.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+					v = vi.inflate(R.layout.main_list_item_cell3, null);
+				}
+				textView = v.findViewById(R.id.performance_value);
+				textView.setText(portfolio.getShareValues().get(0).getShareValue());
+				if (portfolio.getShareValues().get(0).isUp()) {
+					textView.setTextColor(Color.rgb(0, 160, 0));
+				} else {
+					textView.setTextColor(Color.rgb(160, 0, 0));
+				}
+				textView = v.findViewById(R.id.last_updated_value);
+				textView.setText(portfolio.getLastUpdate());
+				break;
+			case 3:
+				if (v == null) {
+					LayoutInflater vi = (LayoutInflater) activity.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+					v = vi.inflate(R.layout.main_list_item_cell4, null);
+				}
+				ImageButton shareValueView = v.findViewById(R.id.shareValueChart);
+				ChartListener chartShareValueListener = new ChartListener(activity, portfolio, ChartType.SHARE_VALUE);
+				shareValueView.setOnClickListener(chartShareValueListener);
 
-                ImageView sectorChartView = v.findViewById(R.id.sectorChart);
-                ChartListener chartSectorListener = new ChartListener(activity, portfolio, ChartType.SECTOR);
-                sectorChartView.setOnClickListener(chartSectorListener);
+				ImageView sectorChartView = v.findViewById(R.id.sectorChart);
+				ChartListener chartSectorListener = new ChartListener(activity, portfolio, ChartType.SECTOR);
+				sectorChartView.setOnClickListener(chartSectorListener);
 
-                ImageView capChartView = v.findViewById(R.id.capChart);
-                ChartListener chartCapListener = new ChartListener(activity, portfolio, ChartType.CAPITALIZATION);
-                capChartView.setOnClickListener(chartCapListener);
-                break;
-        }
-        return v;
-    }
+				ImageView capChartView = v.findViewById(R.id.capChart);
+				ChartListener chartCapListener = new ChartListener(activity, portfolio, ChartType.CAPITALIZATION);
+				capChartView.setOnClickListener(chartCapListener);
+				break;
+		}
+		return v;
+	}
 
-    public void update(Portfolio portfolio) {
-        this.portfolio = portfolio;
-        this.notifyDataSetChanged();
-    }
+	public void update(Portfolio portfolio) {
+		this.portfolio = portfolio;
+		this.notifyDataSetChanged();
+	}
 }

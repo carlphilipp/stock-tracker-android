@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,21 +16,20 @@
 
 package fr.cph.stock.android.web;
 
+import org.apache.http.conn.scheme.SocketFactory;
+import org.apache.http.conn.ssl.AllowAllHostnameVerifier;
+import org.apache.http.conn.ssl.SSLSocketFactory;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.security.KeyManagementException;
-import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
-
-import org.apache.http.conn.scheme.SocketFactory;
-import org.apache.http.conn.ssl.AllowAllHostnameVerifier;
-import org.apache.http.conn.ssl.SSLSocketFactory;
 
 public class TrustAllSSLSocketFactory extends SSLSocketFactory {
 	private javax.net.ssl.SSLSocketFactory factory;
@@ -39,7 +38,7 @@ public class TrustAllSSLSocketFactory extends SSLSocketFactory {
 		super(null);
 		try {
 			SSLContext sslcontext = SSLContext.getInstance("TLS");
-			sslcontext.init(null, new TrustManager[] { new TrustAllManager() }, null);
+			sslcontext.init(null, new TrustManager[]{new TrustAllManager()}, null);
 			factory = sslcontext.getSocketFactory();
 			setHostnameVerifier(new AllowAllHostnameVerifier());
 		} catch (Exception ex) {
