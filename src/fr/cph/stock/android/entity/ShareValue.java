@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,125 +19,125 @@ package fr.cph.stock.android.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import fr.cph.stock.android.util.UserContext;
+
+import static fr.cph.stock.android.util.UserContext.FORMAT_LOCAL_ONE;
+
 public class ShareValue implements Parcelable {
 
-	private String date;
-	private String account;
-	private String portfolioValue;
-	private String shareQuantity;
-	private String shareValue;
-	private String monthlyYield;
-	private boolean up;
-	private String commentary;
+    private String date;
+    private String account;
+    private Double portfolioValue;
+    private Double shareQuantity;
+    private Double shareValue;
+    private Double monthlyYield;
+    private boolean up;
+    private String commentary;
 
-	public ShareValue() {
-	}
+    public ShareValue() {
+    }
 
-	public ShareValue(Parcel in) {
-		readFromParcel(in);
-	}
+    public ShareValue(Parcel in) {
+        readFromParcel(in);
+    }
 
-	public String getDate() {
-		return date;
-	}
+    public String getDate() {
+        return date;
+    }
 
-	public void setDate(String date) {
-		this.date = date;
-	}
+    public void setDate(String date) {
+        this.date = date;
+    }
 
-	public String getAccount() {
-		return account;
-	}
+    public String getAccount() {
+        return account;
+    }
 
-	public void setAccount(String account) {
-		this.account = account;
-	}
+    public void setAccount(String account) {
+        this.account = account;
+    }
 
-	public String getCommentary() {
-		return commentary;
-	}
+    public String getCommentary() {
+        return commentary;
+    }
 
-	public void setCommentary(String commentary) {
-		this.commentary = commentary;
-	}
+    public void setCommentary(String commentary) {
+        this.commentary = commentary;
+    }
 
-	public String getShareValue() {
-		return shareValue;
-	}
+    public String getShareValue() {
+        return FORMAT_LOCAL_ONE.format(shareValue);
+    }
 
-	public void setShareValue(String shareValue) {
-		this.shareValue = shareValue;
-	}
+    public void setShareValue(final Double shareValue) {
+        this.shareValue = shareValue;
+    }
 
-	public boolean isUp() {
-		return up;
-	}
+    public boolean isUp() {
+        return shareValue > 100;
+    }
 
-	public void setUp(boolean up) {
-		this.up = up;
-	}
+    public String getPortfolioValue() {
+        return UserContext.FORMAT_CURRENCY_ONE.format(portfolioValue);
+    }
 
-	public String getPortfolioValue() {
-		return portfolioValue;
-	}
+    public void setPortfolioValue(Double portfolioValue) {
+        this.portfolioValue = portfolioValue;
+    }
 
-	public void setPortfolioValue(String portfolioValue) {
-		this.portfolioValue = portfolioValue;
-	}
+    public String getShareQuantity() {
+        return UserContext.FORMAT_LOCAL_ONE.format(shareQuantity);
+    }
 
-	public String getShareQuantity() {
-		return shareQuantity;
-	}
+    public void setShareQuantity(Double shareQuantity) {
+        this.shareQuantity = shareQuantity;
+    }
 
-	public void setShareQuantity(String shareQuantity) {
-		this.shareQuantity = shareQuantity;
-	}
+    public String getMonthlyYield() {
+        return UserContext.FORMAT_CURRENCY_ONE.format(monthlyYield);
+    }
 
-	public String getMonthlyYield() {
-		return monthlyYield;
-	}
+    public void setMonthlyYield(Double monthlyYield) {
+        this.monthlyYield = monthlyYield;
+    }
 
-	public void setMonthlyYield(String monthlyYield) {
-		this.monthlyYield = monthlyYield;
-	}
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
-	@Override
-	public int describeContents() {
-		return 0;
-	}
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(date);
+        dest.writeString(account);
+        dest.writeDouble(portfolioValue);
+        dest.writeDouble(shareQuantity);
+        dest.writeDouble(shareValue);
+        dest.writeDouble(monthlyYield);
+        dest.writeString(commentary);
+        dest.writeByte((byte) (up ? 1 : 0)); // myBoolean = in.readByte() == 1;
+    }
 
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeString(date);
-		dest.writeString(account);
-		dest.writeString(portfolioValue);
-		dest.writeString(shareQuantity);
-		dest.writeString(shareValue);
-		dest.writeString(monthlyYield);
-		dest.writeString(commentary);
-		dest.writeByte((byte) (up ? 1 : 0)); // myBoolean = in.readByte() == 1;
-	}
+    private void readFromParcel(Parcel in) {
+        date = in.readString();
+        account = in.readString();
+        portfolioValue = in.readDouble();
+        shareQuantity = in.readDouble();
+        shareValue = in.readDouble();
+        monthlyYield = in.readDouble();
+        commentary = in.readString();
+        up = in.readByte() == 1;
 
-	private void readFromParcel(Parcel in) {
-		date = in.readString();
-		account = in.readString();
-		portfolioValue = in.readString();
-		shareQuantity = in.readString();
-		shareValue = in.readString();
-		monthlyYield = in.readString();
-		commentary = in.readString();
-		up = in.readByte() == 1;
+    }
 
-	}
+    public static final Parcelable.Creator<ShareValue> CREATOR = new Parcelable.Creator<ShareValue>() {
+        public ShareValue createFromParcel(Parcel in) {
+            return new ShareValue(in);
+        }
 
-	public static final Parcelable.Creator<ShareValue> CREATOR = new Parcelable.Creator<ShareValue>() {
-		public ShareValue createFromParcel(Parcel in) {
-			return new ShareValue(in);
-		}
-
-		public ShareValue[] newArray(int size) {
-			return new ShareValue[size];
-		}
-	};
+        public ShareValue[] newArray(int size) {
+            return new ShareValue[size];
+        }
+    };
 
 }

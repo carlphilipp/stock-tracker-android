@@ -18,6 +18,9 @@ package fr.cph.stock.android.web;
 
 import android.util.Log;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -27,14 +30,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.nio.charset.Charset;
 
+import fr.cph.stock.android.entity.ResponseDTO;
 import fr.cph.stock.android.exception.AppException;
+import fr.cph.stock.android.util.UserContext;
 
 public class Connect {
 
@@ -76,24 +81,22 @@ public class Connect {
     }
 
     protected String connectUrl(String address) throws IOException {
-        String toreturn;
         client.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 30000);
         client.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 60000);
-        Log.d(TAG, "adress: " + address);
+        Log.d(TAG, "address: " + address);
         HttpGet get = new HttpGet(address);
         HttpResponse getResponse = client.execute(get);
         HttpEntity responseEntity = getResponse.getEntity();
-
         Charset charset = Charset.forName("UTF8");
-        InputStreamReader in = new InputStreamReader(responseEntity.getContent(), charset);
-        int c = in.read();
-        StringBuilder build = new StringBuilder();
-        while (c != -1) {
-            build.append((char) c);
-            c = in.read();
+        InputStream in = null;
+        try {
+            in = responseEntity.getContent();
+            return IOUtils.toString(in, charset);
+        } finally {
+            if (in != null) {
+                in.close();
+            }
         }
-        toreturn = build.toString();
-        return toreturn;
     }
 
     protected JSONObject convertDataToJSONObject(String data) throws JSONException {
@@ -101,20 +104,16 @@ public class Connect {
         return new JSONObject(data);
     }
 
-    public JSONObject getJSONObject() throws AppException {
-        String data;
-        JSONObject json;
+    public ResponseDTO getJSONObject() throws AppException {
         try {
-            data = connectUrl(urlBuilder());
-            json = convertDataToJSONObject(data);
-        } catch (UnsupportedEncodingException e) {
-            throw new AppException(e.getMessage(), e);
+            final ObjectMapper mapper = new ObjectMapper();
+            final String data = connectUrl(urlBuilder());
+            final ResponseDTO responseDTO = mapper.readValue(data, ResponseDTO.class);
+            // FIXME to setup later in the process
+            UserContext.setup(responseDTO.getUser().getLocale());
+            return responseDTO;
         } catch (IOException e) {
             throw new AppException(e.getMessage(), e);
-        } catch (JSONException e) {
-            throw new AppException(e.getMessage(), e);
         }
-        return json;
     }
-
 }

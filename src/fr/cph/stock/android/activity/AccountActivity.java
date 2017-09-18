@@ -259,10 +259,10 @@ public class AccountActivity extends Activity implements IStockTrackerActivity {
         liquidityView.setText(portfolio.getLiquidity());
         yieldYearView.setText(portfolio.getYieldYear());
         shareValueView.setText(portfolio.getShareValues().get(0).getShareValue());
-        gainView.setText(portfolio.getGainPerformance());
-        perfView.setText(portfolio.getPerformancePerformance());
-        yieldView.setText(portfolio.getYieldPerformance());
-        taxesView.setText(portfolio.getTaxesPerformace());
+        gainView.setText(String.valueOf(portfolio.getPerformance().getGain()));
+        perfView.setText((String.valueOf(portfolio.getPerformance().getPerformance())));
+        yieldView.setText((String.valueOf(portfolio.getPerformance().getYield())));
+        taxesView.setText((String.valueOf(portfolio.getPerformance().getTaxes())));
         if (withAccounts) {
             int j = 0;
             int size = portfolio.getAccounts().size();

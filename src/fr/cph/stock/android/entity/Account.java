@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,86 +19,92 @@ package fr.cph.stock.android.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import fr.cph.stock.android.util.UserContext;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Account implements Parcelable {
 
-	public String id;
-	public String name;
-	public String currency;
-	public String liquidity;
+    public String id;
+    public String name;
+    public String currency;
+    public Double liquidity;
 
-	public Account() {
+    public Account() {
+    }
 
-	}
+    public Account(Parcel in) {
+        readFromParcel(in);
+    }
 
-	public Account(Parcel in) {
-		readFromParcel(in);
-	}
+    public String getId() {
+        return id;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getCurrency() {
+        return currency;
+    }
 
-	public String getCurrency() {
-		return currency;
-	}
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
 
-	public void setCurrency(String currency) {
-		this.currency = currency;
-	}
+    public String getLiquidity() {
+        return UserContext.FORMAT_LOCAL_ONE.format(liquidity);
+    }
 
-	public String getLiquidity() {
-		return liquidity;
-	}
+    public void setLiquidity(Double liquidity) {
+        this.liquidity = liquidity;
+    }
 
-	public void setLiquidity(String liquidity) {
-		this.liquidity = liquidity;
-	}
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
-	@Override
-	public int describeContents() {
-		return 0;
-	}
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(name);
+        dest.writeString(currency);
+        dest.writeDouble(liquidity);
+    }
 
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeString(id);
-		dest.writeString(name);
-		dest.writeString(currency);
-		dest.writeString(liquidity);
-	}
+    private void readFromParcel(Parcel in) {
+        id = in.readString();
+        name = in.readString();
+        currency = in.readString();
+        liquidity = in.readDouble();
+    }
 
-	private void readFromParcel(Parcel in) {
-		id = in.readString();
-		name = in.readString();
-		currency = in.readString();
-		liquidity = in.readString();
-	}
+    public static final Parcelable.Creator<Account> CREATOR = new Parcelable.Creator<Account>() {
+        public Account createFromParcel(Parcel in) {
+            return new Account(in);
+        }
 
-	public static final Parcelable.Creator<Account> CREATOR = new Parcelable.Creator<Account>() {
-		public Account createFromParcel(Parcel in) {
-			return new Account(in);
-		}
+        public Account[] newArray(int size) {
+            return new Account[size];
+        }
+    };
 
-		public Account[] newArray(int size) {
-			return new Account[size];
-		}
-	};
-
-	@Override
-	public String toString() {
-		return getName() + " " + getCurrency() + " " + getLiquidity();
-	}
+    @Override
+    public String toString() {
+        return getName() + " " + getCurrency() + " " + getLiquidity();
+    }
 
 }

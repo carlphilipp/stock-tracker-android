@@ -22,6 +22,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import fr.cph.stock.android.entity.EntityBuilder;
 import fr.cph.stock.android.entity.Portfolio;
+import fr.cph.stock.android.entity.ResponseDTO;
 import fr.cph.stock.android.enumtype.UrlType;
 import fr.cph.stock.android.exception.AppException;
 import fr.cph.stock.android.web.Connect;
@@ -33,7 +34,7 @@ public class MainTask extends AsyncTask<Void, Void, Boolean> {
 	private Object object;
 	private UrlType url;
 	private String params;
-	private JSONObject json;
+	private ResponseDTO json;
 	private String error;
 
 	public MainTask(Object object, UrlType url, String params) {
@@ -58,13 +59,14 @@ public class MainTask extends AsyncTask<Void, Void, Boolean> {
 			this.error = e.getMessage();
 			toReturn = false;
 		}
-		if (json != null) {
+		// TODO handle error in responsedto
+/*		if (json != null) {
 			String errorMessage = json.optString("error");
 			if (!errorMessage.equals("")) {
 				this.error = errorMessage;
 				toReturn = false;
 			}
-		}
+		}*/
 		return toReturn;
 	}
 
@@ -84,22 +86,22 @@ public class MainTask extends AsyncTask<Void, Void, Boolean> {
 				case UPDATEHISTORY:
 					param = new Class[1];
 					param[0] = Portfolio.class;
-					entityBuilder = new EntityBuilder(json);
-					portfolio = entityBuilder.getPortfolio();
+					//entityBuilder = new EntityBuilder(json);
+					portfolio = json.getPortfolio();
 					classe.getMethod("reloadData", param).invoke(object, portfolio);
 					break;
 				case AUTH:
 					param = new Class[1];
 					param[0] = Portfolio.class;
-					entityBuilder = new EntityBuilder(json);
-					portfolio = entityBuilder.getPortfolio();
+					//entityBuilder = new EntityBuilder(json);
+					portfolio = json.getPortfolio();
 					classe.getMethod("loadHome", param).invoke(object, portfolio);
 					break;
 				case RELOAD:
 					param = new Class[1];
 					param[0] = Portfolio.class;
-					entityBuilder = new EntityBuilder(json);
-					portfolio = entityBuilder.getPortfolio();
+					//entityBuilder = new EntityBuilder(json);
+					portfolio = json.getPortfolio();
 					classe.getMethod("reloadData", param).invoke(object, portfolio);
 					break;
 				}
