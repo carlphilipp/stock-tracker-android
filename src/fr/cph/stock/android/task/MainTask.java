@@ -60,15 +60,13 @@ public class MainTask extends AsyncTask<Void, Void, Boolean> {
 			this.error = e.getMessage();
 			toReturn = false;
 		}
-		UserContext.setup(responseDTO.getUser().getLocale());
-		// TODO handle error in responsedto
-/*        if (responseDTO != null) {
-			String errorMessage = responseDTO.optString("error");
-            if (!errorMessage.equals("")) {
-                this.error = errorMessage;
-                toReturn = false;
-            }
-        }*/
+		if (responseDTO != null) {
+			final String errorMessage = responseDTO.getError();
+			if (errorMessage != null && !errorMessage.equals("")) {
+				this.error = errorMessage;
+				toReturn = false;
+			}
+		}
 		return toReturn;
 	}
 
@@ -78,6 +76,7 @@ public class MainTask extends AsyncTask<Void, Void, Boolean> {
 			Class<?> clazz = object.getClass();
 			Class<?>[] param;
 			if (success) {
+				UserContext.setup(responseDTO.getPortfolio().getLocale());
 				switch (url) {
 					case LOGOUT:
 						Log.i(TAG, "logout: " + clazz.getName());

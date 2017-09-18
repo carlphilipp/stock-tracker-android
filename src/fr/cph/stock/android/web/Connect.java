@@ -96,6 +96,7 @@ public class Connect {
 	public ResponseDTO getResponse() throws AppException {
 		try {
 			final String data = connectUrl(urlBuilder());
+			Log.d(TAG, "Response: " + data);
 			return mapper.readValue(data, ResponseDTO.class);
 		} catch (IOException e) {
 			throw new AppException(e.getMessage(), e);

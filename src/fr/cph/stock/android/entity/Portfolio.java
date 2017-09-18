@@ -25,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import fr.cph.stock.android.util.UserContext;
 
@@ -35,6 +36,7 @@ import static fr.cph.stock.android.util.UserContext.FORMAT_LOCAL_ONE;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Portfolio implements Parcelable {
 
+	private Locale locale;
 	private Double totalValue;
 	private Double totalGain;
 	private Double totalPlusMinusValue;
@@ -362,4 +364,12 @@ public class Portfolio implements Parcelable {
 			return new Portfolio[size];
 		}
 	};
+
+	public Locale getLocale() {
+		return locale;
+	}
+
+	public void setLocale(Locale locale) {
+		this.locale = locale;
+	}
 }

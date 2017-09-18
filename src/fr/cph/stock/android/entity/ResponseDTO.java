@@ -7,15 +7,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResponseDTO {
 	private Portfolio portfolio;
-	private User user;
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
+	private String error;
 
 	public Portfolio getPortfolio() {
 		return portfolio;
@@ -23,5 +16,13 @@ public class ResponseDTO {
 
 	public void setPortfolio(Portfolio portfolio) {
 		this.portfolio = portfolio;
+	}
+
+	public String getError() {
+		return error;
+	}
+
+	public void setError(String error) {
+		this.error = error;
 	}
 }
