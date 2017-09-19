@@ -21,9 +21,7 @@ import android.content.Context;
 public class Util {
 
 	public static int convertDpToPxl(int dpValue, Context context) {
-		float d = context.getResources().getDisplayMetrics().density;
-		int margin = (int) (dpValue * d);
-		return margin;
+		float density = context.getResources().getDisplayMetrics().density;
+		return (int) (dpValue * density);
 	}
-
 }

@@ -25,25 +25,26 @@ import fr.cph.stock.android.activity.MainActivity;
 import fr.cph.stock.android.entity.Portfolio;
 import fr.cph.stock.android.enumtype.ChartType;
 
+import static fr.cph.stock.android.Constants.PORTFOLIO;
+
 public class ChartListener implements OnClickListener {
 
 	private Portfolio portfolio;
 	private MainActivity activity;
 	private ChartType chartType;
 
-	public ChartListener(MainActivity activity, Portfolio portfolio, ChartType chartType) {
+	public ChartListener(final MainActivity activity, final Portfolio portfolio, final ChartType chartType) {
 		this.activity = activity;
 		this.portfolio = portfolio;
 		this.chartType = chartType;
 	}
 
 	@Override
-	public void onClick(View v) {
-		Intent intent = new Intent(activity.getApplicationContext(), ChartActivity.class);
-		intent.putExtra("portfolio", portfolio);
+	public void onClick(final View v) {
+		final Intent intent = new Intent(activity.getApplicationContext(), ChartActivity.class);
+		intent.putExtra(PORTFOLIO, portfolio);
 		intent.putExtra("chartType", chartType.getValue());
 		activity.startActivityForResult(intent, MainActivity.CHART_REQUEST);
 		activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 	}
-
 }

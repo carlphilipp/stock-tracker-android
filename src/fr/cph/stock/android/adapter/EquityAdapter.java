@@ -17,7 +17,6 @@
 package fr.cph.stock.android.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,68 +28,83 @@ import java.util.List;
 import fr.cph.stock.android.R;
 import fr.cph.stock.android.entity.Equity;
 
+import static fr.cph.stock.android.Constants.GREEN;
+import static fr.cph.stock.android.Constants.RED;
+
 public class EquityAdapter extends BaseAdapter {
 
-	private List<Equity> data;
+	private List<Equity> equities;
 	private Context context;
 
-	public EquityAdapter(List<Equity> data, Context rootView) {
-		this.data = data;
-		this.context = rootView;
+	public EquityAdapter(final List<Equity> equities, final Context context) {
+		this.equities = equities;
+		this.context = context;
 	}
 
 	@Override
 	public int getCount() {
-		return data.size();
+		return equities.size();
 	}
 
 	@Override
-	public Object getItem(int position) {
-		return data.get(position);
+	public Object getItem(final int position) {
+		return equities.get(position);
 	}
 
 	@Override
-	public long getItemId(int position) {
+	public long getItemId(final int position) {
 		return position;
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		View v = convertView;
-		if (v == null) {
-			LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			v = vi.inflate(R.layout.list_item_equity, null);
-		}
-		TextView nameView = v.findViewById(R.id.name);
-		TextView unitCostPriceView = v.findViewById(R.id.unitCostPriceValue);
-		TextView valueView = v.findViewById(R.id.value);
-		TextView plusMinusValueView = v.findViewById(R.id.plusMinusValue);
-		TextView quantityView = v.findViewById(R.id.quantityValue);
-		TextView yieldYearView = v.findViewById(R.id.yieldYear);
-		TextView quoteView = v.findViewById(R.id.quoteValue);
-		TextView gainView = v.findViewById(R.id.gain);
-		TextView todayView = v.findViewById(R.id.today);
+	public View getView(final int position, View convertView, final ViewGroup parent) {
+		final Equity equity = (Equity) getItem(position);
+		final ViewHolder viewHolder;
 
-		final Equity equity = data.get(position);
-		nameView.setText(equity.getName());
-		unitCostPriceView.setText(equity.getUnitCostPrice());
-		valueView.setText(equity.getValue());
-		plusMinusValueView.setText(equity.getPlusMinusValue());
-		if (equity.isUp()) {
-			plusMinusValueView.setTextColor(Color.rgb(0, 160, 0));
+		if (convertView == null) {
+			viewHolder = new ViewHolder();
+			final LayoutInflater inflater = LayoutInflater.from(context.getApplicationContext());
+			convertView = inflater.inflate(R.layout.list_item_equity, parent, false);
+
+			viewHolder.name = convertView.findViewById(R.id.name);
+			viewHolder.unitCostPrice = convertView.findViewById(R.id.unitCostPriceValue);
+			viewHolder.value = convertView.findViewById(R.id.value);
+			viewHolder.plusMinusValue = convertView.findViewById(R.id.plusMinusValue);
+			viewHolder.quantity = convertView.findViewById(R.id.quantityValue);
+			viewHolder.yieldYear = convertView.findViewById(R.id.yieldYear);
+			viewHolder.quote = convertView.findViewById(R.id.quoteValue);
+			viewHolder.gain = convertView.findViewById(R.id.gain);
+			viewHolder.today = convertView.findViewById(R.id.today);
+
+			convertView.setTag(viewHolder);
 		} else {
-			plusMinusValueView.setTextColor(Color.rgb(160, 0, 0));
+			viewHolder = (ViewHolder) convertView.getTag();
 		}
-		quantityView.setText(equity.getQuantity());
-		yieldYearView.setText(equity.getYieldUnitCostPrice());
-		quoteView.setText(equity.getQuote());
-		gainView.setText(equity.getPlusMinusUnitCostPriceValue());
-		todayView.setText(equity.getVariation());
-		if (equity.isUpVariation()) {
-			todayView.setTextColor(Color.rgb(0, 160, 0));
-		} else {
-			todayView.setTextColor(Color.rgb(160, 0, 0));
-		}
-		return v;
+
+		viewHolder.name.setText(equity.getName());
+		viewHolder.unitCostPrice.setText(equity.getUnitCostPrice());
+		viewHolder.value.setText(equity.getValue());
+		viewHolder.plusMinusValue.setText(equity.getPlusMinusValue());
+		viewHolder.plusMinusValue.setTextColor(equity.isUp() ? GREEN : RED);
+		viewHolder.quantity.setText(equity.getQuantity());
+		viewHolder.yieldYear.setText(equity.getYieldUnitCostPrice());
+		viewHolder.quote.setText(equity.getQuote());
+		viewHolder.gain.setText(equity.getPlusMinusUnitCostPriceValue());
+		viewHolder.today.setText(equity.getVariation());
+		viewHolder.today.setTextColor(equity.isUpVariation() ? GREEN : RED);
+
+		return convertView;
+	}
+
+	private class ViewHolder {
+		TextView name;
+		TextView unitCostPrice;
+		TextView value;
+		TextView plusMinusValue;
+		TextView quantity;
+		TextView yieldYear;
+		TextView quote;
+		TextView gain;
+		TextView today;
 	}
 }

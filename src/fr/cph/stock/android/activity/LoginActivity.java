@@ -42,6 +42,11 @@ import fr.cph.stock.android.enumtype.UrlType;
 import fr.cph.stock.android.task.MainTask;
 import fr.cph.stock.android.web.Md5;
 
+import static fr.cph.stock.android.Constants.LOGIN;
+import static fr.cph.stock.android.Constants.PASSWORD;
+import static fr.cph.stock.android.Constants.PORTFOLIO;
+import static fr.cph.stock.android.Constants.PREFS_NAME;
+
 /**
  * Activity which displays a login screen to the user, offering registration as well.
  */
@@ -196,25 +201,20 @@ public class LoginActivity extends Activity {
 	}
 
 	public void loadHome(Portfolio portfolio) {
-		//String result = json.optString("error");
-//		if (result.equals("")) {
 		finish();
 		if (checkBox.isChecked()) {
 			saveCredentials();
 		}
-		Intent intent = new Intent(this, MainActivity.class);
-		intent.putExtra("portfolio", portfolio);
+		final Intent intent = new Intent(this, MainActivity.class);
+		intent.putExtra(PORTFOLIO, portfolio);
 		startActivity(intent);
-//		} else {
-//			showProgress(false, result);
-//		}
 	}
 
 	private void saveCredentials() {
-		SharedPreferences settings = getSharedPreferences(BaseActivity.PREFS_NAME, 0);
-		settings.edit().putString("login", mLogin).commit();
+		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+		settings.edit().putString(LOGIN, mLogin).commit();
 		Md5 md5 = new Md5(mPassword);
-		settings.edit().putString("password", md5.getHexInString()).commit();
+		settings.edit().putString(PASSWORD, md5.getHexInString()).commit();
 
 	}
 

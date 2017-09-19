@@ -27,17 +27,15 @@ public class ErrorMainOnClickListener implements View.OnClickListener {
 	private ListView listView;
 	private TextView errorView;
 
-	public ErrorMainOnClickListener(ListView listView, TextView errorView) {
+	public ErrorMainOnClickListener(final ListView listView, final TextView errorView) {
 		this.listView = listView;
 		this.errorView = errorView;
 	}
 
 	@Override
-	public void onClick(View v) {
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,
-				LayoutParams.MATCH_PARENT);
+	public void onClick(final View v) {
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		listView.setLayoutParams(params);
 		errorView.setText("");
 	}
-
 }

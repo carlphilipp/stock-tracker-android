@@ -37,6 +37,8 @@ import fr.cph.stock.android.enumtype.UrlType;
 import fr.cph.stock.android.listener.ErrorMainOnClickListener;
 import fr.cph.stock.android.task.MainTask;
 
+import static fr.cph.stock.android.Constants.PORTFOLIO;
+
 public class MainActivity extends Activity implements IStockTrackerActivity {
 
 	private static final String TAG = "MainActivity";
@@ -61,7 +63,7 @@ public class MainActivity extends Activity implements IStockTrackerActivity {
 		setContentView(R.layout.main);
 
 		Bundle b = getIntent().getExtras();
-		portfolio = b.getParcelable("portfolio");
+		portfolio = b.getParcelable(PORTFOLIO);
 
 		ada = new MainListAdapter(this, portfolio);
 		listView = findViewById(R.id.mainList);
@@ -71,19 +73,19 @@ public class MainActivity extends Activity implements IStockTrackerActivity {
 			switch (position) {
 				case 0:
 					intent = new Intent(getBaseContext(), AccountActivity.class);
-					intent.putExtra("portfolio", portfolio);
+					intent.putExtra(PORTFOLIO, portfolio);
 					startActivityForResult(intent, MainActivity.ACCOUNT_REQUEST);
 					overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 					break;
 				case 1:
 					intent = new Intent(getBaseContext(), EquityActivity.class);
-					intent.putExtra("portfolio", portfolio);
+					intent.putExtra(PORTFOLIO, portfolio);
 					startActivityForResult(intent, MainActivity.EQUITY_REQUEST);
 					overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 					break;
 				case 2:
 					intent = new Intent(getBaseContext(), OverallActivity.class);
-					intent.putExtra("portfolio", portfolio);
+					intent.putExtra(PORTFOLIO, portfolio);
 					startActivityForResult(intent, MainActivity.OVERALL_REQUEST);
 					overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 					break;
@@ -111,7 +113,7 @@ public class MainActivity extends Activity implements IStockTrackerActivity {
 				break;
 			case Activity.RESULT_OK:
 				Bundle b = data.getExtras();
-				portfolio = b.getParcelable("portfolio");
+				portfolio = b.getParcelable(PORTFOLIO);
 				ada.update(portfolio);
 				break;
 		}

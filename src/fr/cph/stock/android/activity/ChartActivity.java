@@ -47,6 +47,8 @@ import fr.cph.stock.android.enumtype.UrlType;
 import fr.cph.stock.android.task.MainTask;
 import fr.cph.stock.android.web.DebugWebChromeClient;
 
+import static fr.cph.stock.android.Constants.PORTFOLIO;
+
 /**
  * This class reprents the chart activity
  *
@@ -73,7 +75,7 @@ public class ChartActivity extends Activity implements IStockTrackerActivity {
 		setContentView(R.layout.chart_activity);
 
 		Bundle b = getIntent().getExtras();
-		portfolio = b.getParcelable("portfolio");
+		portfolio = b.getParcelable(PORTFOLIO);
 		chartType = ChartType.getEnum(b.getString("chartType"));
 
 		errorView = findViewById(R.id.errorMessage);
@@ -179,7 +181,7 @@ public class ChartActivity extends Activity implements IStockTrackerActivity {
 		menuItem.collapseActionView();
 		menuItem.setActionView(null);
 		Intent resultIntent = new Intent();
-		resultIntent.putExtra("portfolio", portfolio);
+		resultIntent.putExtra(PORTFOLIO, portfolio);
 		this.portfolio = portfolio;
 		String data = getData();
 		webView.loadDataWithBaseURL("file:///android_asset/www/", data, "text/html", "UTF-8", null);

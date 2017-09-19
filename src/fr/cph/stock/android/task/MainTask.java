@@ -38,7 +38,7 @@ public class MainTask extends AsyncTask<Void, Void, Boolean> {
 	private ResponseDTO responseDTO;
 	private String error;
 
-	public MainTask(Object object, UrlType url, String params) {
+	public MainTask(final Object object, final UrlType url, final String params) {
 		this.object = object;
 		this.url = url;
 		if (params == null) {
@@ -79,7 +79,7 @@ public class MainTask extends AsyncTask<Void, Void, Boolean> {
 				UserContext.setup(responseDTO.getPortfolio().getLocale());
 				switch (url) {
 					case LOGOUT:
-						Log.i(TAG, "logout: " + clazz.getName());
+						Log.d(TAG, "logout: " + clazz.getName());
 						clazz.getMethod("logOut").invoke(object);
 						break;
 					case UPDATEHISTORY:

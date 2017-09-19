@@ -40,6 +40,8 @@ import fr.cph.stock.android.entity.Portfolio;
 import fr.cph.stock.android.enumtype.UrlType;
 import fr.cph.stock.android.task.MainTask;
 
+import static fr.cph.stock.android.Constants.PORTFOLIO;
+
 public class EquityActivity extends ListActivity implements IStockTrackerActivity {
 
 	private static final String TAG = "EquityActivity";
@@ -58,7 +60,7 @@ public class EquityActivity extends ListActivity implements IStockTrackerActivit
 		errorView = findViewById(R.id.errorMessage);
 
 		Bundle b = getIntent().getExtras();
-		Portfolio portfolio = b.getParcelable("portfolio");
+		Portfolio portfolio = b.getParcelable(PORTFOLIO);
 
 		equities = portfolio.getEquities();
 		mAdapter = new EquityAdapter(equities, getApplicationContext());
@@ -110,7 +112,7 @@ public class EquityActivity extends ListActivity implements IStockTrackerActivit
 		menuItem.collapseActionView();
 		menuItem.setActionView(null);
 		Intent resultIntent = new Intent();
-		resultIntent.putExtra("portfolio", portfolio);
+		resultIntent.putExtra(PORTFOLIO, portfolio);
 		setResult(Activity.RESULT_OK, resultIntent);
 		StockTrackerApp app = (StockTrackerApp) getApplication();
 		app.toast();

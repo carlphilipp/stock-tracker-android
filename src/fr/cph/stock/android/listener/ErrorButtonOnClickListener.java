@@ -21,7 +21,9 @@ import android.view.View;
 import fr.cph.stock.android.activity.ErrorActivity;
 import fr.cph.stock.android.enumtype.UrlType;
 import fr.cph.stock.android.task.MainTask;
-import fr.cph.stock.android.web.Connect;
+
+import static fr.cph.stock.android.Constants.URL_LOGIN;
+import static fr.cph.stock.android.Constants.URL_PASSWORD;
 
 public class ErrorButtonOnClickListener implements View.OnClickListener {
 
@@ -36,10 +38,10 @@ public class ErrorButtonOnClickListener implements View.OnClickListener {
 	}
 
 	@Override
-	public void onClick(View v) {
-		String params = Connect.URL_LOGIN + login + Connect.URL_PASSWORD + password;
-		MainTask derp = new MainTask(errorActivity, UrlType.AUTH, params);
-		derp.execute((Void) null);
+	public void onClick(final View v) {
+		final String params = URL_LOGIN + login + URL_PASSWORD + password;
+		final MainTask mainTask = new MainTask(errorActivity, UrlType.AUTH, params);
+		mainTask.execute((Void) null);
 	}
 
 }

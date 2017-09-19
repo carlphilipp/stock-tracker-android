@@ -42,7 +42,6 @@ public class Equity implements Parcelable {
 	private String variation;
 
 	public Equity() {
-
 	}
 
 	public Equity(Parcel in) {

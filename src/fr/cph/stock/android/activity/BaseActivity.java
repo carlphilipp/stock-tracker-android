@@ -34,6 +34,11 @@ import fr.cph.stock.android.entity.Portfolio;
 import fr.cph.stock.android.enumtype.UrlType;
 import fr.cph.stock.android.task.MainTask;
 
+import static fr.cph.stock.android.Constants.LOGIN;
+import static fr.cph.stock.android.Constants.PASSWORD;
+import static fr.cph.stock.android.Constants.PORTFOLIO;
+import static fr.cph.stock.android.Constants.PREFS_NAME;
+
 /**
  * This class represents the base activity of the app
  *
@@ -42,7 +47,6 @@ import fr.cph.stock.android.task.MainTask;
 public class BaseActivity extends Activity {
 
 	private static final String TAG = "Base";
-	public static final String PREFS_NAME = "StockTracker";
 	private View mLoginStatusView;
 	private String login;
 	private String password;
@@ -55,10 +59,10 @@ public class BaseActivity extends Activity {
 		mLoginStatusView = findViewById(R.id.login_status);
 		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 
-		if (settings.contains("login") && settings.contains("password")) {
+		if (settings.contains(LOGIN) && settings.contains(PASSWORD)) {
 			showProgress(true, null);
-			login = settings.getString("login", null);
-			password = settings.getString("password", null);
+			login = settings.getString(LOGIN, null);
+			password = settings.getString(PASSWORD, null);
 			UrlType urlAuth = UrlType.AUTH;
 			String params = "?login=" + login + "&password=" + password;
 			MainTask main = new MainTask(this, urlAuth, params);
@@ -105,7 +109,7 @@ public class BaseActivity extends Activity {
 	 */
 	public void loadHome(Portfolio portfolio) {
 		Intent intent = new Intent(this, MainActivity.class);
-		intent.putExtra("portfolio", portfolio);
+		intent.putExtra(PORTFOLIO, portfolio);
 		showProgress(false, null);
 		finish();
 		startActivity(intent);
@@ -120,8 +124,8 @@ public class BaseActivity extends Activity {
 	public void displayError(JSONObject jsonObject) {
 		Intent intent = new Intent(this, ErrorActivity.class);
 		intent.putExtra("data", jsonObject.toString());
-		intent.putExtra("login", login);
-		intent.putExtra("password", password);
+		intent.putExtra(LOGIN, login);
+		intent.putExtra(PASSWORD, password);
 		startActivity(intent);
 		finish();
 	}

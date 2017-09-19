@@ -30,6 +30,10 @@ import fr.cph.stock.android.R;
 import fr.cph.stock.android.entity.Portfolio;
 import fr.cph.stock.android.listener.ErrorButtonOnClickListener;
 
+import static fr.cph.stock.android.Constants.LOGIN;
+import static fr.cph.stock.android.Constants.PASSWORD;
+import static fr.cph.stock.android.Constants.PORTFOLIO;
+
 public class ErrorActivity extends Activity {
 	private static final String TAG = "ErrorActivity";
 
@@ -42,8 +46,8 @@ public class ErrorActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.error);
 		String msg = getIntent().getExtras().getString("data");
-		login = getIntent().getExtras().getString("login");
-		password = getIntent().getExtras().getString("password");
+		login = getIntent().getExtras().getString(LOGIN);
+		password = getIntent().getExtras().getString(PASSWORD);
 		try {
 			JSONObject json = new JSONObject(msg);
 			error = findViewById(R.id.error_message);
@@ -61,7 +65,7 @@ public class ErrorActivity extends Activity {
 
 	public void loadHome(Portfolio portfolio) {
 		Intent intent = new Intent(this, MainActivity.class);
-		intent.putExtra("portfolio", portfolio);
+		intent.putExtra(PORTFOLIO, portfolio);
 		finish();
 		startActivity(intent);
 		overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);

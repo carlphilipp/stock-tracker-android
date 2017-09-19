@@ -19,11 +19,11 @@ package fr.cph.stock.android.enumtype;
 public enum ChartType {
 	SHARE_VALUE("SHARE_VALUE"), SECTOR("SECTOR"), CAPITALIZATION("CAPITALIZATION");
 
-	ChartType(String value) {
+	ChartType(final String value) {
 		this.value = value;
 	}
 
-	public static ChartType getEnum(String value) {
+	public static ChartType getEnum(final String value) {
 		if (value == null) {
 			throw new IllegalArgumentException();
 		}
