@@ -16,8 +16,7 @@
 
 package fr.cph.stock.android.adapter;
 
-import android.content.Context;
-import android.graphics.Color;
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,23 +26,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import fr.cph.stock.android.R;
-import fr.cph.stock.android.activity.MainActivity;
 import fr.cph.stock.android.entity.Portfolio;
 import fr.cph.stock.android.enumtype.ChartType;
 import fr.cph.stock.android.listener.ChartListener;
 
+import static fr.cph.stock.android.Constants.GREEN;
+import static fr.cph.stock.android.Constants.RED;
+
 public class MainListAdapter extends BaseAdapter {
 
-	private MainActivity activity;
+	private Activity activity;
 	private Portfolio portfolio;
 
-	public MainListAdapter(MainActivity activity, Portfolio portfolio) {
+	public MainListAdapter(final Activity activity, final Portfolio portfolio) {
 		this.activity = activity;
 		this.portfolio = portfolio;
 	}
 
 	@Override
-	public boolean isEnabled(int position) {
+	public boolean isEnabled(final int position) {
 		return position != 3;
 	}
 
@@ -53,89 +54,76 @@ public class MainListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public Object getItem(int position) {
+	public Object getItem(final int position) {
 		return null;
 	}
 
 	@Override
-	public long getItemId(int position) {
+	public long getItemId(final int position) {
 		return position;
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		View v = convertView;
+	public View getView(final int position, View convertView, final ViewGroup parent) {
 		TextView textView;
 		switch (position) {
 			case 0:
-				if (v == null) {
-					LayoutInflater vi = (LayoutInflater) activity.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-					v = vi.inflate(R.layout.main_list_item_cell1, null);
+				if (convertView == null) {
+					final LayoutInflater inflater = LayoutInflater.from(activity);
+					convertView = inflater.inflate(R.layout.main_list_item_cell1, parent, false);
 				}
-				textView = v.findViewById(R.id.portfolio_value_main);
+				textView = convertView.findViewById(R.id.portfolio_value_main);
 				textView.setText(portfolio.getTotalValue());
-				textView = v.findViewById(R.id.liquidity_value_main);
+				textView = convertView.findViewById(R.id.liquidity_value_main);
 				textView.setText(portfolio.getLiquidity());
 
 				break;
 			case 1:
-				if (v == null) {
-					LayoutInflater vi = (LayoutInflater) activity.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-					v = vi.inflate(R.layout.main_list_item_cell2, null);
+				if (convertView == null) {
+					final LayoutInflater inflater = LayoutInflater.from(activity);
+					convertView = inflater.inflate(R.layout.main_list_item_cell2, parent, false);
 				}
-				textView = v.findViewById(R.id.current_performance_value);
+				textView = convertView.findViewById(R.id.current_performance_value);
 				textView.setText(portfolio.getTotalGain());
-				if (portfolio.isUp()) {
-					textView.setTextColor(Color.rgb(0, 160, 0));
-				} else {
-					textView.setTextColor(Color.rgb(160, 0, 0));
-				}
+				textView.setTextColor(portfolio.isUp() ? GREEN : RED);
 
-				textView = v.findViewById(R.id.today_performance_value);
+				textView = convertView.findViewById(R.id.today_performance_value);
 				textView.setText(portfolio.getTotalVariation());
-				if (portfolio.isTodayUp()) {
-					textView.setTextColor(Color.rgb(0, 160, 0));
-				} else {
-					textView.setTextColor(Color.rgb(160, 0, 0));
-				}
+				textView.setTextColor(portfolio.isTodayUp() ? GREEN : RED);
 				break;
 			case 2:
-				if (v == null) {
-					LayoutInflater vi = (LayoutInflater) activity.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-					v = vi.inflate(R.layout.main_list_item_cell3, null);
+				if (convertView == null) {
+					final LayoutInflater inflater = LayoutInflater.from(activity);
+					convertView = inflater.inflate(R.layout.main_list_item_cell3, parent, false);
 				}
-				textView = v.findViewById(R.id.performance_value);
+				textView = convertView.findViewById(R.id.performance_value);
 				textView.setText(portfolio.getShareValues().get(0).getShareValue());
-				if (portfolio.getShareValues().get(0).isUp()) {
-					textView.setTextColor(Color.rgb(0, 160, 0));
-				} else {
-					textView.setTextColor(Color.rgb(160, 0, 0));
-				}
-				textView = v.findViewById(R.id.last_updated_value);
+				textView.setTextColor(portfolio.getShareValues().get(0).isUp() ? GREEN : RED);
+				textView = convertView.findViewById(R.id.last_updated_value);
 				textView.setText(portfolio.getLastUpdate());
 				break;
 			case 3:
-				if (v == null) {
-					LayoutInflater vi = (LayoutInflater) activity.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-					v = vi.inflate(R.layout.main_list_item_cell4, null);
+				if (convertView == null) {
+					final LayoutInflater inflater = LayoutInflater.from(activity);
+					convertView = inflater.inflate(R.layout.main_list_item_cell4, parent, false);
 				}
-				ImageButton shareValueView = v.findViewById(R.id.shareValueChart);
-				ChartListener chartShareValueListener = new ChartListener(activity, portfolio, ChartType.SHARE_VALUE);
+				final ImageButton shareValueView = convertView.findViewById(R.id.shareValueChart);
+				final ChartListener chartShareValueListener = new ChartListener(activity, portfolio, ChartType.SHARE_VALUE);
 				shareValueView.setOnClickListener(chartShareValueListener);
 
-				ImageView sectorChartView = v.findViewById(R.id.sectorChart);
-				ChartListener chartSectorListener = new ChartListener(activity, portfolio, ChartType.SECTOR);
+				final ImageView sectorChartView = convertView.findViewById(R.id.sectorChart);
+				final ChartListener chartSectorListener = new ChartListener(activity, portfolio, ChartType.SECTOR);
 				sectorChartView.setOnClickListener(chartSectorListener);
 
-				ImageView capChartView = v.findViewById(R.id.capChart);
-				ChartListener chartCapListener = new ChartListener(activity, portfolio, ChartType.CAPITALIZATION);
+				final ImageView capChartView = convertView.findViewById(R.id.capChart);
+				final ChartListener chartCapListener = new ChartListener(activity, portfolio, ChartType.CAPITALIZATION);
 				capChartView.setOnClickListener(chartCapListener);
 				break;
 		}
-		return v;
+		return convertView;
 	}
 
-	public void update(Portfolio portfolio) {
+	public void update(final Portfolio portfolio) {
 		this.portfolio = portfolio;
 		this.notifyDataSetChanged();
 	}

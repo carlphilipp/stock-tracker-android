@@ -16,6 +16,7 @@
 
 package fr.cph.stock.android.listener;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,10 +31,10 @@ import static fr.cph.stock.android.Constants.PORTFOLIO;
 public class ChartListener implements OnClickListener {
 
 	private Portfolio portfolio;
-	private MainActivity activity;
+	private Activity activity;
 	private ChartType chartType;
 
-	public ChartListener(final MainActivity activity, final Portfolio portfolio, final ChartType chartType) {
+	public ChartListener(final Activity activity, final Portfolio portfolio, final ChartType chartType) {
 		this.activity = activity;
 		this.portfolio = portfolio;
 		this.chartType = chartType;

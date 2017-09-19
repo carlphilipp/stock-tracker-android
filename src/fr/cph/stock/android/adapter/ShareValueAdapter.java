@@ -34,7 +34,7 @@ public class ShareValueAdapter extends BaseAdapter {
 	private List<ShareValue> sharesValues;
 	private Context context;
 
-	public ShareValueAdapter(List<ShareValue> sharesValues, Context context) {
+	public ShareValueAdapter(final List<ShareValue> sharesValues, final Context context) {
 		this.sharesValues = sharesValues;
 		this.context = context;
 	}
@@ -45,42 +45,58 @@ public class ShareValueAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public Object getItem(int position) {
+	public Object getItem(final int position) {
 		return sharesValues.get(position);
 	}
 
 	@Override
-	public long getItemId(int position) {
+	public long getItemId(final int position) {
 		return position;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		View v = convertView;
-		if (v == null) {
-			LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			v = vi.inflate(R.layout.list_item_share_value, null);
+		final ShareValue shareValue = (ShareValue) getItem(position);
+		final ViewHolder viewHolder;
+
+		if (convertView == null) {
+			viewHolder = new ViewHolder();
+			final LayoutInflater inflater = LayoutInflater.from(context.getApplicationContext());
+			convertView = inflater.inflate(R.layout.list_item_share_value, parent, false);
+
+			viewHolder.dateView = convertView.findViewById(R.id.date);
+			viewHolder.shareValueView = convertView.findViewById(R.id.shareValue);
+			viewHolder.commentaryView = convertView.findViewById(R.id.commentary);
+			viewHolder.accountView = convertView.findViewById(R.id.account);
+			viewHolder.portfolioValueView = convertView.findViewById(R.id.portfolioValue);
+			viewHolder.shareQuantityView = convertView.findViewById(R.id.shareQuantity);
+			viewHolder.monthlyYieldView = convertView.findViewById(R.id.monthlyYield2);
+
+			convertView.setTag(viewHolder);
+		} else {
+			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		TextView dateView = v.findViewById(R.id.date);
-		TextView shareValueView = v.findViewById(R.id.shareValue);
-		shareValueView.setTextColor(Color.rgb(0, 160, 0));
-		TextView commentaryView = v.findViewById(R.id.commentary);
-		TextView accountView = v.findViewById(R.id.account);
-		TextView portfolioValueView = v.findViewById(R.id.portfolioValue);
-		TextView shareQuantityView = v.findViewById(R.id.shareQuantity);
-		TextView monthlyYieldView = v.findViewById(R.id.monthlyYield2);
+		viewHolder.dateView.setText(shareValue.getDate());
+		viewHolder.shareValueView.setText(shareValue.getShareValue());
+		viewHolder.shareValueView.setTextColor(Color.rgb(0, 160, 0));
+		viewHolder.commentaryView.setText(shareValue.getCommentary());
+		viewHolder.accountView.setText(shareValue.getAccount());
+		viewHolder.portfolioValueView.setText(shareValue.getPortfolioValue());
+		viewHolder.shareQuantityView.setText(shareValue.getShareQuantity());
+		viewHolder.monthlyYieldView.setText(shareValue.getMonthlyYield());
 
+		return convertView;
+	}
 
-		ShareValue shareValue = sharesValues.get(position);
-		dateView.setText(shareValue.getDate());
-		shareValueView.setText(shareValue.getShareValue());
-		commentaryView.setText(shareValue.getCommentary());
-		accountView.setText(shareValue.getAccount());
-		portfolioValueView.setText(shareValue.getPortfolioValue());
-		shareQuantityView.setText(shareValue.getShareQuantity());
-		monthlyYieldView.setText(shareValue.getMonthlyYield());
-		return v;
+	private class ViewHolder {
+		TextView dateView;
+		TextView shareValueView;
+		TextView commentaryView;
+		TextView accountView;
+		TextView portfolioValueView;
+		TextView shareQuantityView;
+		TextView monthlyYieldView;
 	}
 
 }
