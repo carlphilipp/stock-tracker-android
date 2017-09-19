@@ -53,7 +53,6 @@ public class OverallActivity extends ListActivity implements IStockTrackerActivi
 
 	private static final String TAG = "OverallActivity";
 
-	private MenuItem menuItem;
 	private MenuItem refreshItem;
 	private List<ShareValue> shareValues;
 	private ShareValueAdapter ada;
@@ -61,19 +60,20 @@ public class OverallActivity extends ListActivity implements IStockTrackerActivi
 	private Portfolio portfolio;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	protected void onCreate(final Bundle bundle) {
+		super.onCreate(bundle);
 		setContentView(R.layout.overall_activity);
+		portfolio = bundle != null
+				? bundle.getParcelable(PORTFOLIO)
+				: getIntent().getParcelableExtra(PORTFOLIO);
 		errorView = findViewById(R.id.errorMessage);
-		Bundle b = getIntent().getExtras();
-		portfolio = b.getParcelable(PORTFOLIO);
 		shareValues = portfolio.getShareValues();
 		ada = new ShareValueAdapter(shareValues, getApplicationContext());
 		setListAdapter(ada);
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(final Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.overall, menu);
 		refreshItem = menu.getItem(2);
@@ -81,7 +81,7 @@ public class OverallActivity extends ListActivity implements IStockTrackerActivi
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+	public boolean onOptionsItemSelected(final MenuItem item) {
 		MainTask mainTask;
 		switch (item.getItemId()) {
 			case R.id.action_logout:
@@ -89,9 +89,8 @@ public class OverallActivity extends ListActivity implements IStockTrackerActivi
 				mainTask.execute((Void) null);
 				return true;
 			case R.id.refresh:
-				menuItem = item;
-				menuItem.setActionView(R.layout.progressbar);
-				menuItem.expandActionView();
+				item.setActionView(R.layout.progressbar);
+				item.expandActionView();
 				mainTask = new MainTask(this, UrlType.RELOAD, null);
 				mainTask.execute((Void) null);
 				return true;
@@ -116,7 +115,7 @@ public class OverallActivity extends ListActivity implements IStockTrackerActivi
 		for (Account acc : portfolio.getAccounts()) {
 			list.add(acc.getName());
 		}
-		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
+		ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list);
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		checked.setAdapter(dataAdapter);
 
@@ -132,8 +131,7 @@ public class OverallActivity extends ListActivity implements IStockTrackerActivi
 			EditText taxeView = alert.findViewById(R.id.taxe);
 			EditText commentaryView = alert.findViewById(R.id.commentaryEditText);
 
-			String params = null;
-			params = "?accountId=" + account.getId() + "&liquidity=" + liquidityView.getText() + "&yield="
+			String params = "?accountId=" + account.getId() + "&liquidity=" + liquidityView.getText() + "&yield="
 					+ yieldView.getText() + "&buy=" + buyView.getText() + "&sell=" + sellView.getText() + "&taxe="
 					+ taxeView.getText() + "&commentary=" + commentaryView.getText().toString().replaceAll(" ", "%20");
 			MainTask mainTask = new MainTask(OverallActivity.this, UrlType.UPDATEHISTORY, params);
@@ -146,7 +144,7 @@ public class OverallActivity extends ListActivity implements IStockTrackerActivi
 	}
 
 	@Override
-	public void reloadData(Portfolio portfolio) {
+	public void reloadData(final Portfolio portfolio) {
 		shareValues.clear();
 		shareValues.addAll(portfolio.getShareValues());
 		ada.notifyDataSetChanged();
@@ -160,15 +158,14 @@ public class OverallActivity extends ListActivity implements IStockTrackerActivi
 	}
 
 	@Override
-	public void displayError(JSONObject json) {
-		Log.i(TAG, json.toString());
+	public void displayError(final JSONObject json) {
+		Log.d(TAG, json.toString());
 		boolean sessionError = ((StockTrackerApp) getApplication()).isSessionError(json);
 		if (sessionError) {
 			((StockTrackerApp) getApplication()).loadErrorActivity(this, json);
 		} else {
 			errorView.setText(json.optString("error"));
-			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,
-					LayoutParams.MATCH_PARENT);
+			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 			params.addRule(RelativeLayout.BELOW, errorView.getId());
 			ListView listView = findViewById(android.R.id.list);
 			listView.setLayoutParams(params);

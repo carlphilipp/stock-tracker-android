@@ -197,8 +197,7 @@ public class ChartActivity extends Activity implements IStockTrackerActivity {
 			((StockTrackerApp) getApplication()).loadErrorActivity(this, json);
 		} else {
 			errorView.setText(json.optString("error"));
-			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,
-					LayoutParams.MATCH_PARENT);
+			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 			params.addRule(RelativeLayout.BELOW, errorView.getId());
 			WebView webView = findViewById(R.id.webView);
 			webView.setLayoutParams(params);

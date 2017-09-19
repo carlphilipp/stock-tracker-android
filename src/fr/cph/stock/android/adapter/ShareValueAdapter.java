@@ -55,7 +55,7 @@ public class ShareValueAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(int position, View convertView, final ViewGroup parent) {
 		final ShareValue shareValue = (ShareValue) getItem(position);
 		final ViewHolder viewHolder;
 

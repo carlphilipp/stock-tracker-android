@@ -58,12 +58,13 @@ public class MainActivity extends Activity implements IStockTrackerActivity {
 	private ListView listView;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	protected void onCreate(final Bundle bundle) {
+		super.onCreate(bundle);
 		setContentView(R.layout.main);
 
-		Bundle b = getIntent().getExtras();
-		portfolio = b.getParcelable(PORTFOLIO);
+		portfolio = bundle != null
+				? bundle.getParcelable(PORTFOLIO)
+				: getIntent().getParcelableExtra(PORTFOLIO);
 
 		ada = new MainListAdapter(this, portfolio);
 		listView = findViewById(R.id.mainList);
@@ -100,20 +101,14 @@ public class MainActivity extends Activity implements IStockTrackerActivity {
 	}
 
 	@Override
-	protected void onRestart() {
-		super.onRestart();
-	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	protected void onActivityResult(final int requestCode, final int resultCode, final Intent intent) {
 		overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 		switch (resultCode) {
 			case 100:
 				finish();
 				break;
 			case Activity.RESULT_OK:
-				Bundle b = data.getExtras();
-				portfolio = b.getParcelable(PORTFOLIO);
+				portfolio = intent.getParcelableExtra(PORTFOLIO);
 				ada.update(portfolio);
 				break;
 		}
@@ -171,8 +166,7 @@ public class MainActivity extends Activity implements IStockTrackerActivity {
 		if (sessionError) {
 			((StockTrackerApp) getApplication()).loadErrorActivity(this, json);
 		} else {
-			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,
-					LayoutParams.MATCH_PARENT);
+			final RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 			params.addRule(RelativeLayout.BELOW, errorView.getId());
 			listView.setLayoutParams(params);
 			errorView.setText(json.optString("error"));
@@ -185,5 +179,4 @@ public class MainActivity extends Activity implements IStockTrackerActivity {
 	public void logOut() {
 		((StockTrackerApp) getApplication()).logOut(this);
 	}
-
 }

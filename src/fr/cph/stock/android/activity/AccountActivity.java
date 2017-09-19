@@ -62,7 +62,7 @@ public class AccountActivity extends Activity implements IStockTrackerActivity {
 	private TextView totalValueView;
 	private TextView totalGainView;
 	private TextView totalPlusMinusValueView;
-	private TextView lastUpateView;
+	private TextView lastUpdateView;
 	private TextView liquidityView;
 	private TextView yieldYearView;
 	private TextView shareValueView;
@@ -85,7 +85,7 @@ public class AccountActivity extends Activity implements IStockTrackerActivity {
 		totalValueView = findViewById(R.id.totalValue);
 		totalGainView = findViewById(R.id.totalGain);
 		totalPlusMinusValueView = findViewById(R.id.totalPlusMinusValue);
-		lastUpateView = findViewById(R.id.lastUpdate);
+		lastUpdateView = findViewById(R.id.lastUpdate);
 		liquidityView = findViewById(R.id.liquidity);
 		yieldYearView = findViewById(R.id.yieldYear);
 		shareValueView = findViewById(R.id.shareValue);
@@ -107,8 +107,7 @@ public class AccountActivity extends Activity implements IStockTrackerActivity {
 			currentAccountNameTextView.setText(account.getName());
 			currentAccountNameTextView.setTextColor(Color.GRAY);
 			currentAccountNameTextView.setId(nameID);
-			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
-					LayoutParams.WRAP_CONTENT);
+			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			if (i != 0) {
 				params.addRule(RelativeLayout.BELOW, recent.getId());
 			}
@@ -228,8 +227,7 @@ public class AccountActivity extends Activity implements IStockTrackerActivity {
 			((StockTrackerApp) getApplication()).loadErrorActivity(this, json);
 		} else {
 			errorView.setText(json.optString("error"));
-			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
-					LayoutParams.WRAP_CONTENT);
+			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			params.addRule(RelativeLayout.BELOW, errorView.getId());
 			params.addRule(RelativeLayout.CENTER_HORIZONTAL);
 			totalValueView.setLayoutParams(params);
@@ -257,7 +255,7 @@ public class AccountActivity extends Activity implements IStockTrackerActivity {
 		} else {
 			totalPlusMinusValueView.setTextColor(Color.rgb(160, 0, 0));
 		}
-		lastUpateView.setText(portfolio.getLastUpdate());
+		lastUpdateView.setText(portfolio.getLastUpdate());
 		liquidityView.setText(portfolio.getLiquidity());
 		yieldYearView.setText(portfolio.getYieldYear());
 		shareValueView.setText(portfolio.getShareValues().get(0).getShareValue());
