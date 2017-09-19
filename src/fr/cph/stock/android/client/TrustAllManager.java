@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.android.web;
+package fr.cph.stock.android.client;
 
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;

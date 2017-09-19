@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.android.web;
-
-import android.content.Context;
+package fr.cph.stock.android.client;
 
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.PlainSocketFactory;
@@ -28,32 +26,23 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
-public class MyHttpClient extends DefaultHttpClient {
+class HttpsClient extends DefaultHttpClient {
 
-	Context context;
-
-	public MyHttpClient() {
-
-		HttpParams httpParameters = new BasicHttpParams();
-		int timeoutConnection = 6000;
+	HttpsClient() {
+		final HttpParams httpParameters = new BasicHttpParams();
+		final int timeoutConnection = 6000;
 
 		HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
-		int timeoutSocket = 6000;
+		final int timeoutSocket = 6000;
 
 		HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
 		this.setParams(httpParameters);
-
-	}
-
-	public MyHttpClient(Context context) {
-		this();
-		this.context = context;
 	}
 
 	@Override
 	protected ClientConnectionManager createClientConnectionManager() {
 		try {
-			SchemeRegistry registry = new SchemeRegistry();
+			final SchemeRegistry registry = new SchemeRegistry();
 			registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
 			registry.register(new Scheme("https", new TrustAllSSLSocketFactory(), 443));
 			return new SingleClientConnManager(getParams(), registry);

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.android.web;
+package fr.cph.stock.android.client;
 
 import org.apache.http.conn.scheme.SocketFactory;
 import org.apache.http.conn.ssl.AllowAllHostnameVerifier;

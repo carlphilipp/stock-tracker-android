@@ -21,12 +21,12 @@ import android.util.Log;
 
 import org.json.JSONObject;
 
+import fr.cph.stock.android.client.Client;
 import fr.cph.stock.android.entity.Portfolio;
 import fr.cph.stock.android.entity.ResponseDTO;
 import fr.cph.stock.android.enumtype.UrlType;
 import fr.cph.stock.android.exception.AppException;
 import fr.cph.stock.android.util.UserContext;
-import fr.cph.stock.android.web.Connect;
 
 public class MainTask extends AsyncTask<Void, Void, Boolean> {
 
@@ -51,10 +51,8 @@ public class MainTask extends AsyncTask<Void, Void, Boolean> {
 	@Override
 	protected Boolean doInBackground(Void... params) {
 		boolean toReturn = true;
-		final Connect connect = Connect.getInstance();
-		connect.setRequest(url.getUrl() + this.params);
 		try {
-			responseDTO = connect.getResponse();
+			responseDTO = Client.getInstance().getResponse(url.getUrl() + this.params);
 		} catch (final AppException e) {
 			Log.w(TAG, e.getMessage());
 			this.error = e.getMessage();
