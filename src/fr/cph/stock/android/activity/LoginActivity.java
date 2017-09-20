@@ -171,30 +171,23 @@ public class LoginActivity extends Activity {
 		// On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
 		// for very easy animations. If available, use these APIs to fade-in
 		// the progress spinner.
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-			int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+		int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-			mLoginStatusView.setVisibility(View.VISIBLE);
-			mLoginStatusView.animate().setDuration(shortAnimTime).alpha(show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-				@Override
-				public void onAnimationEnd(Animator animation) {
-					mLoginStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
-				}
-			});
+		mLoginStatusView.setVisibility(View.VISIBLE);
+		mLoginStatusView.animate().setDuration(shortAnimTime).alpha(show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				mLoginStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
+			}
+		});
 
-			mLoginFormView.setVisibility(View.VISIBLE);
-			mLoginFormView.animate().setDuration(shortAnimTime).alpha(show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-				@Override
-				public void onAnimationEnd(Animator animation) {
-					mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-				}
-			});
-		} else {
-			// The ViewPropertyAnimator APIs are not available, so simply show
-			// and hide the relevant UI components.
-			mLoginStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
-			mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-		}
+		mLoginFormView.setVisibility(View.VISIBLE);
+		mLoginFormView.animate().setDuration(shortAnimTime).alpha(show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+			}
+		});
 		if (!show) {
 			errorView.setText(errorMessage);
 			errorView.setTextColor(Color.rgb(160, 0, 0));
@@ -216,14 +209,14 @@ public class LoginActivity extends Activity {
 	}
 
 	private void saveCredentials() {
-		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-		settings.edit().putString(LOGIN, mLogin).commit();
-		Md5 md5 = new Md5(mPassword);
-		settings.edit().putString(PASSWORD, md5.getHexInString()).commit();
+		final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+		settings.edit().putString(LOGIN, mLogin).apply();
+		final Md5 md5 = new Md5(mPassword);
+		settings.edit().putString(PASSWORD, md5.getHexInString()).apply();
 
 	}
 
-	public void displayError(JSONObject json) {
+	public void displayError(final JSONObject json) {
 		showProgress(false, json.optString("error"));
 	}
 }

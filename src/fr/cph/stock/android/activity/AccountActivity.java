@@ -78,8 +78,7 @@ public class AccountActivity extends Activity implements IStockTrackerActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.account_activity);
 
-		Bundle b = getIntent().getExtras();
-		portfolio = b.getParcelable(PORTFOLIO);
+		portfolio = getIntent().getParcelableExtra(PORTFOLIO);
 
 		errorView = findViewById(R.id.errorMessage);
 		totalValueView = findViewById(R.id.totalValue);
@@ -94,7 +93,7 @@ public class AccountActivity extends Activity implements IStockTrackerActivity {
 		yieldView = findViewById(R.id.yieldPerf);
 		taxesView = findViewById(R.id.taxes);
 
-		RelativeLayout accLayout = findViewById(R.id.accountsLayout);
+		final RelativeLayout accountsLayout = findViewById(R.id.accountsLayout);
 		TextView recent = new TextView(getApplicationContext());
 		textViews = new ArrayList<>();
 		int id = 1;
@@ -113,7 +112,7 @@ public class AccountActivity extends Activity implements IStockTrackerActivity {
 			}
 			params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 			currentAccountNameTextView.setLayoutParams(params);
-			accLayout.addView(currentAccountNameTextView, params);
+			accountsLayout.addView(currentAccountNameTextView, params);
 			textViews.add(currentAccountNameTextView);
 
 			View viewPoint1 = new View(getApplicationContext());
@@ -127,7 +126,7 @@ public class AccountActivity extends Activity implements IStockTrackerActivity {
 				params.addRule(RelativeLayout.BELOW, recent.getId());
 			}
 			viewPoint1.setLayoutParams(params);
-			accLayout.addView(viewPoint1, params);
+			accountsLayout.addView(viewPoint1, params);
 
 			TextView currentCurrencyTextView = new TextView(getApplicationContext());
 			currentCurrencyTextView.setText(account.getCurrency());
@@ -139,7 +138,7 @@ public class AccountActivity extends Activity implements IStockTrackerActivity {
 				params.addRule(RelativeLayout.BELOW, recent.getId());
 			}
 			currentCurrencyTextView.setLayoutParams(params);
-			accLayout.addView(currentCurrencyTextView, params);
+			accountsLayout.addView(currentCurrencyTextView, params);
 			textViews.add(currentCurrencyTextView);
 
 			View viewPoint2 = new View(getApplicationContext());
@@ -152,7 +151,7 @@ public class AccountActivity extends Activity implements IStockTrackerActivity {
 				params.addRule(RelativeLayout.BELOW, recent.getId());
 			}
 			viewPoint2.setLayoutParams(params);
-			accLayout.addView(viewPoint2, params);
+			accountsLayout.addView(viewPoint2, params);
 
 			TextView currentTextView = new TextView(getApplicationContext());
 			currentTextView.setText(account.getLiquidity());
@@ -165,7 +164,7 @@ public class AccountActivity extends Activity implements IStockTrackerActivity {
 			params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 			currentTextView.setLayoutParams(params);
 			recent = currentTextView;
-			accLayout.addView(currentTextView, params);
+			accountsLayout.addView(currentTextView, params);
 			textViews.add(currentTextView);
 
 			id++;

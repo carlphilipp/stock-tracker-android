@@ -24,7 +24,6 @@ import android.widget.Toast;
 
 import org.json.JSONObject;
 
-import fr.cph.stock.android.activity.BaseActivity;
 import fr.cph.stock.android.activity.ErrorActivity;
 import fr.cph.stock.android.activity.LoginActivity;
 
@@ -49,10 +48,10 @@ public class StockTrackerApp extends Application {
 		final String login = settings.getString(LOGIN, null);
 		final String password = settings.getString(PASSWORD, null);
 		if (login != null) {
-			settings.edit().remove(LOGIN).commit();
+			settings.edit().remove(LOGIN).apply();
 		}
 		if (password != null) {
-			settings.edit().remove(PASSWORD).commit();
+			settings.edit().remove(PASSWORD).apply();
 		}
 		activity.setResult(100);
 		activity.finish();

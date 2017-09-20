@@ -30,9 +30,9 @@ import static fr.cph.stock.android.Constants.URL_PASSWORD;
 
 public class ErrorButtonOnClickListener implements View.OnClickListener {
 
-	private ErrorActivity errorActivity;
-	private String login;
-	private String password;
+	private final ErrorActivity errorActivity;
+	private final String login;
+	private final String password;
 
 	public ErrorButtonOnClickListener(ErrorActivity errorActivity, String login, String password) {
 		this.errorActivity = errorActivity;

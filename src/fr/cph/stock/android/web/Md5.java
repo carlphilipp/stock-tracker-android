@@ -25,9 +25,9 @@ public class Md5 {
 
 	private static final String TAG = "Md5";
 
-	private String password;
+	private final String password;
 
-	public Md5(String password) {
+	public Md5(final String password) {
 		this.password = password;
 	}
 
@@ -35,16 +35,16 @@ public class Md5 {
 		MessageDigest md = null;
 		try {
 			md = MessageDigest.getInstance("MD5");
+			md.update(password.getBytes());
 		} catch (NoSuchAlgorithmException e) {
 			Log.i(TAG, e.getMessage());
 		}
-		md.update(password.getBytes());
 
 		// convert the byte to hex format method 2
-		StringBuffer hexString = new StringBuffer();
+		final StringBuilder hexString = new StringBuilder();
 		byte byteData[] = md.digest();
-		for (int i = 0; i < byteData.length; i++) {
-			String hex = Integer.toHexString(0xff & byteData[i]);
+		for (byte aByteData : byteData) {
+			String hex = Integer.toHexString(0xff & aByteData);
 			if (hex.length() == 1)
 				hexString.append('0');
 			hexString.append(hex);

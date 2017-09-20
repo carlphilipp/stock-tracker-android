@@ -71,13 +71,12 @@ public class ChartActivity extends Activity implements IStockTrackerActivity {
 
 	@SuppressLint("SetJavaScriptEnabled")
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.chart_activity);
 
-		Bundle b = getIntent().getExtras();
-		portfolio = b.getParcelable(PORTFOLIO);
-		chartType = ChartType.getEnum(b.getString("chartType"));
+		portfolio = getIntent().getParcelableExtra(PORTFOLIO);
+		chartType = ChartType.getEnum(getIntent().getStringExtra("chartType"));
 
 		errorView = findViewById(R.id.errorMessage);
 		actionBar = getActionBar();
@@ -96,8 +95,8 @@ public class ChartActivity extends Activity implements IStockTrackerActivity {
 		DisplayMetrics metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 		String data = null;
+		InputStream is = null;
 		try {
-			InputStream is;
 			StringWriter writer = new StringWriter();
 			switch (chartType) {
 				case CAPITALIZATION:
@@ -144,6 +143,8 @@ public class ChartActivity extends Activity implements IStockTrackerActivity {
 			}
 		} catch (IOException e) {
 			Log.e(TAG, "", e);
+		}finally {
+			IOUtils.closeQuietly(is);
 		}
 		return data;
 	}

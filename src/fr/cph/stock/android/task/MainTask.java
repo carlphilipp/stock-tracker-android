@@ -35,9 +35,9 @@ public class MainTask extends AsyncTask<Void, Void, Boolean> {
 
 	private static final String TAG = "MainTask";
 
-	private Object object;
-	private UrlType urlType;
-	private Map<String, String> params;
+	private final Object object;
+	private final UrlType urlType;
+	private final Map<String, String> params;
 	private ResponseDTO responseDTO;
 	private String error;
 
@@ -54,7 +54,7 @@ public class MainTask extends AsyncTask<Void, Void, Boolean> {
 		try {
 			responseDTO = Client.getInstance().getResponse(urlType, this.params);
 		} catch (final AppException e) {
-			Log.w(TAG, e.getMessage());
+			Log.e(TAG, e.getMessage(), e);
 			this.error = e.getMessage();
 			toReturn = false;
 		}

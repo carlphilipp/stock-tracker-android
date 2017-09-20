@@ -60,8 +60,7 @@ public class EquityActivity extends ListActivity implements IStockTrackerActivit
 		setContentView(R.layout.equity_list_activity);
 		errorView = findViewById(R.id.errorMessage);
 
-		Bundle b = getIntent().getExtras();
-		Portfolio portfolio = b.getParcelable(PORTFOLIO);
+		final Portfolio portfolio =getIntent().getParcelableExtra(PORTFOLIO);
 
 		equities = portfolio.getEquities();
 		mAdapter = new EquityAdapter(equities, getApplicationContext());

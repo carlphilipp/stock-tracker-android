@@ -95,8 +95,10 @@ public class MainActivity extends Activity implements IStockTrackerActivity {
 			}
 		});
 
-		ActionBar actionBar = getActionBar();
-		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_SHOW_CUSTOM);
+		final ActionBar actionBar = getActionBar();
+		if (actionBar != null) {
+			actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_SHOW_CUSTOM);
+		}
 
 		errorView = findViewById(R.id.errorMessage);
 		errorView.setOnClickListener(new ErrorMainOnClickListener(listView, errorView));

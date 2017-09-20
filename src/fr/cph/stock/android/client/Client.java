@@ -44,7 +44,7 @@ public class Client {
 
 	private static Client instance = null;
 
-	private ObjectMapper mapper;
+	private final ObjectMapper mapper;
 
 	private Client() {
 		final CookieManager cookieManager = new CookieManager(null, CookiePolicy.ACCEPT_ALL);
@@ -92,10 +92,7 @@ public class Client {
 				result = IOUtils.toString(stream, Charset.forName("UTF8"));
 			}
 		} finally {
-			// Close Stream and disconnect HTTPS connection.
-			if (stream != null) {
-				stream.close();
-			}
+			IOUtils.closeQuietly(stream);
 			if (connection != null) {
 				connection.disconnect();
 			}

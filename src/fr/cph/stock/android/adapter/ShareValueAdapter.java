@@ -31,8 +31,8 @@ import fr.cph.stock.android.entity.ShareValue;
 
 public class ShareValueAdapter extends BaseAdapter {
 
-	private List<ShareValue> sharesValues;
-	private Context context;
+	private final List<ShareValue> sharesValues;
+	private final Context context;
 
 	public ShareValueAdapter(final List<ShareValue> sharesValues, final Context context) {
 		this.sharesValues = sharesValues;

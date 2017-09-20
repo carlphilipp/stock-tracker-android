@@ -35,7 +35,7 @@ public enum ChartType {
 		throw new IllegalArgumentException();
 	}
 
-	private String value;
+	private final String value;
 
 	public String getValue() {
 		return value;

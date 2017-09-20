@@ -33,8 +33,8 @@ import static fr.cph.stock.android.Constants.RED;
 
 public class EquityAdapter extends BaseAdapter {
 
-	private List<Equity> equities;
-	private Context context;
+	private final List<Equity> equities;
+	private final Context context;
 
 	public EquityAdapter(final List<Equity> equities, final Context context) {
 		this.equities = equities;

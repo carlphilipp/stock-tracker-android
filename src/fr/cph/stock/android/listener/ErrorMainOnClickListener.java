@@ -24,8 +24,8 @@ import android.widget.TextView;
 
 public class ErrorMainOnClickListener implements View.OnClickListener {
 
-	private ListView listView;
-	private TextView errorView;
+	private final ListView listView;
+	private final TextView errorView;
 
 	public ErrorMainOnClickListener(final ListView listView, final TextView errorView) {
 		this.listView = listView;

@@ -35,7 +35,7 @@ import static fr.cph.stock.android.Constants.RED;
 
 public class MainListAdapter extends BaseAdapter {
 
-	private Activity activity;
+	private final Activity activity;
 	private Portfolio portfolio;
 
 	public MainListAdapter(final Activity activity, final Portfolio portfolio) {

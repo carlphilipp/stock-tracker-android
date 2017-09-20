@@ -38,16 +38,14 @@ public class ErrorActivity extends Activity {
 	private static final String TAG = "ErrorActivity";
 
 	private TextView error;
-	private String login;
-	private String password;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.error);
-		String msg = getIntent().getExtras().getString("data");
-		login = getIntent().getExtras().getString(LOGIN);
-		password = getIntent().getExtras().getString(PASSWORD);
+		final String msg = getIntent().getStringExtra("data");
+		final String login = getIntent().getStringExtra(LOGIN);
+		final String password = getIntent().getStringExtra(PASSWORD);
 		try {
 			JSONObject json = new JSONObject(msg);
 			error = findViewById(R.id.error_message);
@@ -59,12 +57,12 @@ public class ErrorActivity extends Activity {
 		button.setOnClickListener(new ErrorButtonOnClickListener(this, login, password));
 	}
 
-	public void displayError(JSONObject json) {
+	public void displayError(final JSONObject json) {
 		error.setText(json.optString("error"));
 	}
 
-	public void loadHome(Portfolio portfolio) {
-		Intent intent = new Intent(this, MainActivity.class);
+	public void loadHome(final Portfolio portfolio) {
+		final Intent intent = new Intent(this, MainActivity.class);
 		intent.putExtra(PORTFOLIO, portfolio);
 		finish();
 		startActivity(intent);

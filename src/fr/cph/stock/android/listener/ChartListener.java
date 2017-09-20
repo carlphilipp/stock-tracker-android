@@ -30,9 +30,9 @@ import static fr.cph.stock.android.Constants.PORTFOLIO;
 
 public class ChartListener implements OnClickListener {
 
-	private Portfolio portfolio;
-	private Activity activity;
-	private ChartType chartType;
+	private final Portfolio portfolio;
+	private final Activity activity;
+	private final ChartType chartType;
 
 	public ChartListener(final Activity activity, final Portfolio portfolio, final ChartType chartType) {
 		this.activity = activity;
