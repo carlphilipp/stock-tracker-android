@@ -38,6 +38,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.util.Collections;
 
 import fr.cph.stock.android.R;
 import fr.cph.stock.android.StockTrackerApp;
@@ -159,14 +160,14 @@ public class ChartActivity extends Activity implements IStockTrackerActivity {
 		MainTask mainTask;
 		switch (item.getItemId()) {
 			case R.id.action_logout:
-				mainTask = new MainTask(this, UrlType.LOGOUT, null);
+				mainTask = new MainTask(this, UrlType.LOGOUT, Collections.emptyMap());
 				mainTask.execute((Void) null);
 				return true;
 			case R.id.refresh:
 				menuItem = item;
 				menuItem.setActionView(R.layout.progressbar);
 				menuItem.expandActionView();
-				mainTask = new MainTask(this, UrlType.RELOAD, null);
+				mainTask = new MainTask(this, UrlType.RELOAD, Collections.emptyMap());
 				mainTask.execute((Void) null);
 				return true;
 			case android.R.id.home:

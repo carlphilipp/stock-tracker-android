@@ -31,6 +31,7 @@ import android.widget.TextView;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import fr.cph.stock.android.R;
@@ -49,7 +50,6 @@ import static fr.cph.stock.android.Constants.PORTFOLIO;
  * @author Carl-Philipp Harmant
  */
 public class AccountActivity extends Activity implements IStockTrackerActivity {
-
 
 	private static final String TAG = "AccountActivity";
 	private Portfolio portfolio;
@@ -189,14 +189,14 @@ public class AccountActivity extends Activity implements IStockTrackerActivity {
 		MainTask mainTask;
 		switch (item.getItemId()) {
 			case R.id.action_logout:
-				mainTask = new MainTask(this, UrlType.LOGOUT, null);
+				mainTask = new MainTask(this, UrlType.LOGOUT, Collections.emptyMap());
 				mainTask.execute((Void) null);
 				return true;
 			case R.id.refresh:
 				menuItem = item;
 				menuItem.setActionView(R.layout.progressbar);
 				menuItem.expandActionView();
-				mainTask = new MainTask(this, UrlType.RELOAD, null);
+				mainTask = new MainTask(this, UrlType.RELOAD, Collections.emptyMap());
 				mainTask.execute((Void) null);
 				return true;
 			case android.R.id.home:

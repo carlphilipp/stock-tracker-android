@@ -17,9 +17,12 @@
 package fr.cph.stock.android.task;
 
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import org.json.JSONObject;
+
+import java.util.Map;
 
 import fr.cph.stock.android.client.Client;
 import fr.cph.stock.android.entity.Portfolio;
@@ -33,26 +36,23 @@ public class MainTask extends AsyncTask<Void, Void, Boolean> {
 	private static final String TAG = "MainTask";
 
 	private Object object;
-	private UrlType url;
-	private String params;
+	private UrlType urlType;
+	private Map<String, String> params;
 	private ResponseDTO responseDTO;
 	private String error;
 
-	public MainTask(final Object object, final UrlType url, final String params) {
+	//FIXME logout does not seem to be working
+	public MainTask(final Object object, final UrlType urlType, @NonNull final Map<String, String> params) {
 		this.object = object;
-		this.url = url;
-		if (params == null) {
-			this.params = "";
-		} else {
-			this.params = params;
-		}
+		this.urlType = urlType;
+		this.params = params;
 	}
 
 	@Override
 	protected Boolean doInBackground(Void... params) {
 		boolean toReturn = true;
 		try {
-			responseDTO = Client.getInstance().getResponse(url.getUrl() + this.params);
+			responseDTO = Client.getInstance().getResponse(urlType, this.params);
 		} catch (final AppException e) {
 			Log.w(TAG, e.getMessage());
 			this.error = e.getMessage();
@@ -75,7 +75,7 @@ public class MainTask extends AsyncTask<Void, Void, Boolean> {
 			Class<?>[] param;
 			if (success) {
 				UserContext.setup(responseDTO.getPortfolio().getLocale());
-				switch (url) {
+				switch (urlType) {
 					case LOGOUT:
 						Log.d(TAG, "logout: " + clazz.getName());
 						clazz.getMethod("logOut").invoke(object);

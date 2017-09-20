@@ -29,6 +29,9 @@ import android.view.View;
 
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import fr.cph.stock.android.R;
 import fr.cph.stock.android.entity.Portfolio;
 import fr.cph.stock.android.enumtype.UrlType;
@@ -63,9 +66,11 @@ public class BaseActivity extends Activity {
 			showProgress(true, null);
 			login = settings.getString(LOGIN, null);
 			password = settings.getString(PASSWORD, null);
-			UrlType urlAuth = UrlType.AUTH;
-			String params = "?login=" + login + "&password=" + password;
-			MainTask main = new MainTask(this, urlAuth, params);
+			final Map<String, String> params = new HashMap<String, String>() {{
+				put("login", login);
+				put("password", password);
+			}};
+			MainTask main = new MainTask(this, UrlType.AUTH, params);
 			main.execute((Void) null);
 		} else {
 			showProgress(false, null);

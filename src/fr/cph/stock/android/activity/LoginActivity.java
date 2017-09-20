@@ -36,6 +36,9 @@ import android.widget.TextView;
 
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import fr.cph.stock.android.R;
 import fr.cph.stock.android.entity.Portfolio;
 import fr.cph.stock.android.enumtype.UrlType;
@@ -154,9 +157,11 @@ public class LoginActivity extends Activity {
 			mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
 			showProgress(true, null);
 			Md5 md5 = new Md5(mPassword);
-			UrlType urlAuth = UrlType.AUTH;
-			String params = "?login=" + mLogin + "&password=" + md5.getHexInString();
-			MainTask derp = new MainTask(this, urlAuth, params);
+			final Map<String, String> params = new HashMap<String, String>() {{
+				put("login", mLogin);
+				put("password", md5.getHexInString());
+			}};
+			MainTask derp = new MainTask(this, UrlType.AUTH, params);
 			derp.execute((Void) null);
 		}
 	}

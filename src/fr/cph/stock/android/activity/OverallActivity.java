@@ -36,7 +36,10 @@ import android.widget.TextView;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.cph.stock.android.R;
 import fr.cph.stock.android.StockTrackerApp;
@@ -85,13 +88,13 @@ public class OverallActivity extends ListActivity implements IStockTrackerActivi
 		MainTask mainTask;
 		switch (item.getItemId()) {
 			case R.id.action_logout:
-				mainTask = new MainTask(this, UrlType.LOGOUT, null);
+				mainTask = new MainTask(this, UrlType.LOGOUT, Collections.emptyMap());
 				mainTask.execute((Void) null);
 				return true;
 			case R.id.refresh:
 				item.setActionView(R.layout.progressbar);
 				item.expandActionView();
-				mainTask = new MainTask(this, UrlType.RELOAD, null);
+				mainTask = new MainTask(this, UrlType.RELOAD, Collections.emptyMap());
 				mainTask.execute((Void) null);
 				return true;
 			case R.id.action_update:
@@ -131,9 +134,15 @@ public class OverallActivity extends ListActivity implements IStockTrackerActivi
 			EditText taxeView = alert.findViewById(R.id.taxe);
 			EditText commentaryView = alert.findViewById(R.id.commentaryEditText);
 
-			String params = "?accountId=" + account.getId() + "&liquidity=" + liquidityView.getText() + "&yield="
-					+ yieldView.getText() + "&buy=" + buyView.getText() + "&sell=" + sellView.getText() + "&taxe="
-					+ taxeView.getText() + "&commentary=" + commentaryView.getText().toString().replaceAll(" ", "%20");
+			final Map<String, String> params = new HashMap<String, String>() {{
+				put("accountId", account.getId());
+				put("liquidity", liquidityView.getText().toString());
+				put("yield", yieldView.getText().toString());
+				put("buy", buyView.getText().toString());
+				put("sell", sellView.getText().toString());
+				put("taxe", taxeView.getText().toString());
+				put("commentary", commentaryView.getText().toString().replaceAll(" ", "%20"));
+			}};
 			MainTask mainTask = new MainTask(OverallActivity.this, UrlType.UPDATEHISTORY, params);
 			mainTask.execute((Void) null);
 			alert.dismiss();

@@ -16,24 +16,26 @@
 
 package fr.cph.stock.android.client;
 
+import android.net.Uri;
 import android.util.Log;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.CoreConnectionPNames;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
+import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.Map;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import fr.cph.stock.android.entity.ResponseDTO;
+import fr.cph.stock.android.enumtype.UrlType;
 import fr.cph.stock.android.exception.AppException;
 
 public class Client {
@@ -41,19 +43,17 @@ public class Client {
 	private static final String TAG = "Client";
 
 	//public static String URL_BASE = "http://192.168.1.145:8080/";
-	private static String URL_BASE = "https://www.stocktracker.fr/";
+	private static String SCHEME = "https";
+	private static String BASE_URL = "www.stocktracker.fr";
+	private static String AUTH_PATH = "authmobile";
 
 	private static Client instance = null;
 
-	private DefaultHttpClient client;
 	private ObjectMapper mapper;
 
 	private Client() {
 		final CookieManager cookieManager = new CookieManager(null, CookiePolicy.ACCEPT_ALL);
 		CookieHandler.setDefault(cookieManager);
-		client = new HttpsClient();
-		client.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 30000);
-		client.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 60000);
 		mapper = new ObjectMapper();
 	}
 
@@ -64,27 +64,47 @@ public class Client {
 		return instance;
 	}
 
-	private String get(final String address) throws IOException {
-		Log.d(TAG, "address: " + address);
-		final HttpResponse response = client.execute(new HttpGet(address));
-		InputStream in = null;
+	public ResponseDTO getResponse(final UrlType urlType, final Map<String, String> params) throws AppException {
 		try {
-			in = response.getEntity().getContent();
-			return IOUtils.toString(in, Charset.forName("UTF8"));
-		} finally {
-			if (in != null) {
-				in.close();
-			}
-		}
-	}
-
-	public ResponseDTO getResponse(final String url) throws AppException {
-		try {
-			final String data = get(URL_BASE + url);
+			final Uri.Builder builder = new Uri.Builder().scheme(SCHEME)
+					.authority(BASE_URL)
+					.appendPath(urlType.getUrl());
+			params.forEach(builder::appendQueryParameter);
+			Log.d(TAG, "Request: " + builder.toString());
+			URL url = new URL(builder.toString());
+			final String data = getContent(url);
 			Log.d(TAG, "Response: " + data);
 			return mapper.readValue(data, ResponseDTO.class);
 		} catch (final IOException e) {
 			throw new AppException(e.getMessage(), e);
 		}
+	}
+
+	private String getContent(final URL url) throws IOException {
+		InputStream stream = null;
+		HttpsURLConnection connection = null;
+		String result = null;
+		try {
+			connection = (HttpsURLConnection) url.openConnection();
+			connection.setReadTimeout(3000);
+			connection.setConnectTimeout(3000);
+			connection.setRequestMethod("GET");
+			connection.setDoInput(true);
+			connection.connect();
+			// Retrieve the response body as an InputStream.
+			stream = connection.getInputStream();
+			if (stream != null) {
+				result = IOUtils.toString(stream, Charset.forName("UTF8"));
+			}
+		} finally {
+			// Close Stream and disconnect HTTPS connection.
+			if (stream != null) {
+				stream.close();
+			}
+			if (connection != null) {
+				connection.disconnect();
+			}
+		}
+		return result;
 	}
 }
