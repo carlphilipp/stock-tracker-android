@@ -58,9 +58,6 @@ android {
         }
     }
 
-    // TODO migrate to okhttp
-    useLibrary 'org.apache.http.legacy'
-
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
         exclude 'META-INF/LICENSE.txt'

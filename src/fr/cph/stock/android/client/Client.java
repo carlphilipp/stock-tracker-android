@@ -42,11 +42,6 @@ public class Client {
 
 	private static final String TAG = "Client";
 
-	//public static String URL_BASE = "http://192.168.1.145:8080/";
-	private static String SCHEME = "https";
-	private static String BASE_URL = "www.stocktracker.fr";
-	private static String AUTH_PATH = "authmobile";
-
 	private static Client instance = null;
 
 	private ObjectMapper mapper;
@@ -66,8 +61,8 @@ public class Client {
 
 	public ResponseDTO getResponse(final UrlType urlType, final Map<String, String> params) throws AppException {
 		try {
-			final Uri.Builder builder = new Uri.Builder().scheme(SCHEME)
-					.authority(BASE_URL)
+			final Uri.Builder builder = new Uri.Builder().scheme("https")
+					.authority("www.stocktracker.fr")
 					.appendPath(urlType.getUrl());
 			params.forEach(builder::appendQueryParameter);
 			Log.d(TAG, "Request: " + builder.toString());
