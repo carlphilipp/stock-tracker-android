@@ -1,12 +1,15 @@
 /**
  * Copyright 2013 Carl-Philipp Harmant
- * <p>
+ *
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
+ *
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,22 +17,24 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.android.domain;
+package fr.cph.stock.android.domain
 
-public enum UrlType {
-	AUTH("authmobile"), LOGOUT("logoutmobile"), UPDATEHISTORY("updatesharevaluemobile"), RELOAD("reloadportfoliomobile");
+enum class ChartType private constructor(val value: String) {
+    SHARE_VALUE("SHARE_VALUE"), SECTOR("SECTOR"), CAPITALIZATION("CAPITALIZATION");
 
-	UrlType(String url) {
-		this.url = url;
-	}
 
-	public String getUrl() {
-		return url;
-	}
+    companion object {
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	private String url;
+        fun getEnum(value: String?): ChartType {
+            if (value == null) {
+                throw IllegalArgumentException()
+            }
+            for (c in values()) {
+                if (value.equals(c.value, ignoreCase = true)) {
+                    return c
+                }
+            }
+            throw IllegalArgumentException()
+        }
+    }
 }

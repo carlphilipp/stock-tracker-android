@@ -75,7 +75,7 @@ public class ChartActivity extends Activity implements IStockTrackerActivity {
 		setContentView(R.layout.chart_activity);
 
 		portfolio = getIntent().getParcelableExtra(Constants.INSTANCE.getPORTFOLIO());
-		chartType = ChartType.getEnum(getIntent().getStringExtra("chartType"));
+		chartType = ChartType.Companion.getEnum(getIntent().getStringExtra("chartType"));
 
 		errorView = findViewById(R.id.errorMessage);
 		actionBar = getActionBar();

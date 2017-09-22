@@ -1,12 +1,15 @@
 /**
  * Copyright 2013 Carl-Philipp Harmant
- * <p>
+ *
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
+ *
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,30 +17,16 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.android.domain;
+package fr.cph.stock.android.domain
 
-public enum ChartType {
-	SHARE_VALUE("SHARE_VALUE"), SECTOR("SECTOR"), CAPITALIZATION("CAPITALIZATION");
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonInclude
 
-	ChartType(final String value) {
-		this.value = value;
-	}
+import java.util.Locale
 
-	public static ChartType getEnum(final String value) {
-		if (value == null) {
-			throw new IllegalArgumentException();
-		}
-		for (ChartType c : values()) {
-			if (value.equalsIgnoreCase(c.getValue())) {
-				return c;
-			}
-		}
-		throw new IllegalArgumentException();
-	}
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
+class User {
 
-	private final String value;
-
-	public String getValue() {
-		return value;
-	}
+    var locale: Locale? = null
 }
