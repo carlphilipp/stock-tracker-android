@@ -25,13 +25,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import fr.cph.stock.android.Constants;
 import fr.cph.stock.android.R;
-import fr.cph.stock.android.domain.Portfolio;
 import fr.cph.stock.android.domain.ChartType;
+import fr.cph.stock.android.domain.Portfolio;
 import fr.cph.stock.android.listener.ChartListener;
-
-import static fr.cph.stock.android.Constants.GREEN;
-import static fr.cph.stock.android.Constants.RED;
 
 public class MainListAdapter extends BaseAdapter {
 
@@ -85,11 +83,11 @@ public class MainListAdapter extends BaseAdapter {
 				}
 				textView = convertView.findViewById(R.id.current_performance_value);
 				textView.setText(portfolio.getTotalGain());
-				textView.setTextColor(portfolio.isUp() ? GREEN : RED);
+				textView.setTextColor(portfolio.isUp() ? Constants.INSTANCE.getGREEN() : Constants.INSTANCE.getRED());
 
 				textView = convertView.findViewById(R.id.today_performance_value);
 				textView.setText(portfolio.getTotalVariation());
-				textView.setTextColor(portfolio.isTodayUp() ? GREEN : RED);
+				textView.setTextColor(portfolio.isTodayUp() ? Constants.INSTANCE.getGREEN() : Constants.INSTANCE.getRED());
 				break;
 			case 2:
 				if (convertView == null) {
@@ -98,7 +96,7 @@ public class MainListAdapter extends BaseAdapter {
 				}
 				textView = convertView.findViewById(R.id.performance_value);
 				textView.setText(portfolio.getShareValues().get(0).getShareValue());
-				textView.setTextColor(portfolio.getShareValues().get(0).isUp() ? GREEN : RED);
+				textView.setTextColor(portfolio.getShareValues().get(0).isUp() ? Constants.INSTANCE.getGREEN() : Constants.INSTANCE.getRED());
 				textView = convertView.findViewById(R.id.last_updated_value);
 				textView.setText(portfolio.getLastUpdate());
 				break;

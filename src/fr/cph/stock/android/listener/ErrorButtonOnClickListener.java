@@ -21,12 +21,10 @@ import android.view.View;
 import java.util.HashMap;
 import java.util.Map;
 
+import fr.cph.stock.android.Constants;
 import fr.cph.stock.android.activity.ErrorActivity;
 import fr.cph.stock.android.domain.UrlType;
 import fr.cph.stock.android.task.MainTask;
-
-import static fr.cph.stock.android.Constants.URL_LOGIN;
-import static fr.cph.stock.android.Constants.URL_PASSWORD;
 
 public class ErrorButtonOnClickListener implements View.OnClickListener {
 
@@ -43,8 +41,8 @@ public class ErrorButtonOnClickListener implements View.OnClickListener {
 	@Override
 	public void onClick(final View v) {
 		final Map<String, String> params = new HashMap<String, String>() {{
-			put(URL_LOGIN, login);
-			put(URL_PASSWORD, password);
+			put(Constants.INSTANCE.getURL_LOGIN(), login);
+			put(Constants.INSTANCE.getURL_PASSWORD(), password);
 		}};
 		final MainTask mainTask = new MainTask(errorActivity, UrlType.AUTH, params);
 		mainTask.execute((Void) null);

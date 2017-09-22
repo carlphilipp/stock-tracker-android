@@ -40,15 +40,14 @@ import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.Collections;
 
+import fr.cph.stock.android.Constants;
 import fr.cph.stock.android.R;
 import fr.cph.stock.android.StockTrackerApp;
-import fr.cph.stock.android.domain.Portfolio;
 import fr.cph.stock.android.domain.ChartType;
+import fr.cph.stock.android.domain.Portfolio;
 import fr.cph.stock.android.domain.UrlType;
 import fr.cph.stock.android.task.MainTask;
 import fr.cph.stock.android.web.DebugWebChromeClient;
-
-import static fr.cph.stock.android.Constants.PORTFOLIO;
 
 /**
  * This class reprents the chart activity
@@ -75,7 +74,7 @@ public class ChartActivity extends Activity implements IStockTrackerActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.chart_activity);
 
-		portfolio = getIntent().getParcelableExtra(PORTFOLIO);
+		portfolio = getIntent().getParcelableExtra(Constants.INSTANCE.getPORTFOLIO());
 		chartType = ChartType.getEnum(getIntent().getStringExtra("chartType"));
 
 		errorView = findViewById(R.id.errorMessage);
@@ -143,7 +142,7 @@ public class ChartActivity extends Activity implements IStockTrackerActivity {
 			}
 		} catch (IOException e) {
 			Log.e(TAG, "", e);
-		}finally {
+		} finally {
 			IOUtils.closeQuietly(is);
 		}
 		return data;
@@ -183,7 +182,7 @@ public class ChartActivity extends Activity implements IStockTrackerActivity {
 		menuItem.collapseActionView();
 		menuItem.setActionView(null);
 		Intent resultIntent = new Intent();
-		resultIntent.putExtra(PORTFOLIO, portfolio);
+		resultIntent.putExtra(Constants.INSTANCE.getPORTFOLIO(), portfolio);
 		this.portfolio = portfolio;
 		String data = getData();
 		webView.loadDataWithBaseURL("file:///android_asset/www/", data, "text/html", "UTF-8", null);

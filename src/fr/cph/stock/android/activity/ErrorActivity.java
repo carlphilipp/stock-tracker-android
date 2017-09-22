@@ -26,13 +26,10 @@ import android.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import fr.cph.stock.android.Constants;
 import fr.cph.stock.android.R;
 import fr.cph.stock.android.domain.Portfolio;
 import fr.cph.stock.android.listener.ErrorButtonOnClickListener;
-
-import static fr.cph.stock.android.Constants.LOGIN;
-import static fr.cph.stock.android.Constants.PASSWORD;
-import static fr.cph.stock.android.Constants.PORTFOLIO;
 
 public class ErrorActivity extends Activity {
 	private static final String TAG = "ErrorActivity";
@@ -44,8 +41,8 @@ public class ErrorActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.error);
 		final String msg = getIntent().getStringExtra("data");
-		final String login = getIntent().getStringExtra(LOGIN);
-		final String password = getIntent().getStringExtra(PASSWORD);
+		final String login = getIntent().getStringExtra(Constants.INSTANCE.getLOGIN());
+		final String password = getIntent().getStringExtra(Constants.INSTANCE.getPASSWORD());
 		try {
 			JSONObject json = new JSONObject(msg);
 			error = findViewById(R.id.error_message);
@@ -63,10 +60,9 @@ public class ErrorActivity extends Activity {
 
 	public void loadHome(final Portfolio portfolio) {
 		final Intent intent = new Intent(this, MainActivity.class);
-		intent.putExtra(PORTFOLIO, portfolio);
+		intent.putExtra(Constants.INSTANCE.getPORTFOLIO(), portfolio);
 		finish();
 		startActivity(intent);
 		overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 	}
-
 }

@@ -27,10 +27,6 @@ import org.json.JSONObject;
 import fr.cph.stock.android.activity.ErrorActivity;
 import fr.cph.stock.android.activity.LoginActivity;
 
-import static fr.cph.stock.android.Constants.LOGIN;
-import static fr.cph.stock.android.Constants.PASSWORD;
-import static fr.cph.stock.android.Constants.PREFS_NAME;
-
 /**
  * This class extends Application. It defines some functions that will be available anywhere within the app
  *
@@ -44,14 +40,14 @@ public class StockTrackerApp extends Application {
 	 * @param activity the activity to finish
 	 */
 	public void logOut(final Activity activity) {
-		final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-		final String login = settings.getString(LOGIN, null);
-		final String password = settings.getString(PASSWORD, null);
+		final SharedPreferences settings = getSharedPreferences(Constants.INSTANCE.getPREFS_NAME(), 0);
+		final String login = settings.getString(Constants.INSTANCE.getLOGIN(), null);
+		final String password = settings.getString(Constants.INSTANCE.getPASSWORD(), null);
 		if (login != null) {
-			settings.edit().remove(LOGIN).apply();
+			settings.edit().remove(Constants.INSTANCE.getLOGIN()).apply();
 		}
 		if (password != null) {
-			settings.edit().remove(PASSWORD).apply();
+			settings.edit().remove(Constants.INSTANCE.getPASSWORD()).apply();
 		}
 		activity.setResult(100);
 		activity.finish();
@@ -81,11 +77,11 @@ public class StockTrackerApp extends Application {
 	public void loadErrorActivity(Activity currentActivity, JSONObject jsonObject) {
 		Intent intent = new Intent(this, ErrorActivity.class);
 		intent.putExtra("data", jsonObject.toString());
-		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-		String login = settings.getString(LOGIN, null);
-		String password = settings.getString(PASSWORD, null);
-		intent.putExtra(LOGIN, login);
-		intent.putExtra(PASSWORD, password);
+		SharedPreferences settings = getSharedPreferences(Constants.INSTANCE.getPREFS_NAME(), 0);
+		String login = settings.getString(Constants.INSTANCE.getLOGIN(), null);
+		String password = settings.getString(Constants.INSTANCE.getPASSWORD(), null);
+		intent.putExtra(Constants.INSTANCE.getLOGIN(), login);
+		intent.putExtra(Constants.INSTANCE.getPASSWORD(), password);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(intent);
 		currentActivity.finish();

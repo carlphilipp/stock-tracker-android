@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import fr.cph.stock.android.Constants;
 import fr.cph.stock.android.R;
 import fr.cph.stock.android.StockTrackerApp;
 import fr.cph.stock.android.domain.Account;
@@ -41,8 +42,6 @@ import fr.cph.stock.android.domain.Portfolio;
 import fr.cph.stock.android.domain.UrlType;
 import fr.cph.stock.android.task.MainTask;
 import fr.cph.stock.android.util.Util;
-
-import static fr.cph.stock.android.Constants.PORTFOLIO;
 
 /**
  * This class represents the account activity
@@ -78,7 +77,7 @@ public class AccountActivity extends Activity implements IStockTrackerActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.account_activity);
 
-		portfolio = getIntent().getParcelableExtra(PORTFOLIO);
+		portfolio = getIntent().getParcelableExtra(Constants.INSTANCE.getPORTFOLIO());
 
 		errorView = findViewById(R.id.errorMessage);
 		totalValueView = findViewById(R.id.totalValue);
@@ -212,7 +211,7 @@ public class AccountActivity extends Activity implements IStockTrackerActivity {
 		menuItem.setActionView(null);
 		this.portfolio = portfolio;
 		Intent resultIntent = new Intent();
-		resultIntent.putExtra(PORTFOLIO, portfolio);
+		resultIntent.putExtra(Constants.INSTANCE.getPORTFOLIO(), portfolio);
 		setResult(Activity.RESULT_OK, resultIntent);
 		buildUi(true);
 		StockTrackerApp app = (StockTrackerApp) getApplication();

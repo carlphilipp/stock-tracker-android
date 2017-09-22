@@ -33,6 +33,7 @@ import org.json.JSONObject;
 import java.util.Collections;
 import java.util.List;
 
+import fr.cph.stock.android.Constants;
 import fr.cph.stock.android.R;
 import fr.cph.stock.android.StockTrackerApp;
 import fr.cph.stock.android.adapter.EquityAdapter;
@@ -40,8 +41,6 @@ import fr.cph.stock.android.domain.Equity;
 import fr.cph.stock.android.domain.Portfolio;
 import fr.cph.stock.android.domain.UrlType;
 import fr.cph.stock.android.task.MainTask;
-
-import static fr.cph.stock.android.Constants.PORTFOLIO;
 
 public class EquityActivity extends ListActivity implements IStockTrackerActivity {
 
@@ -60,7 +59,7 @@ public class EquityActivity extends ListActivity implements IStockTrackerActivit
 		setContentView(R.layout.equity_list_activity);
 		errorView = findViewById(R.id.errorMessage);
 
-		final Portfolio portfolio =getIntent().getParcelableExtra(PORTFOLIO);
+		final Portfolio portfolio = getIntent().getParcelableExtra(Constants.INSTANCE.getPORTFOLIO());
 
 		equities = portfolio.getEquities();
 		mAdapter = new EquityAdapter(equities, getApplicationContext());
@@ -112,7 +111,7 @@ public class EquityActivity extends ListActivity implements IStockTrackerActivit
 		menuItem.collapseActionView();
 		menuItem.setActionView(null);
 		Intent resultIntent = new Intent();
-		resultIntent.putExtra(PORTFOLIO, portfolio);
+		resultIntent.putExtra(Constants.INSTANCE.getPORTFOLIO(), portfolio);
 		setResult(Activity.RESULT_OK, resultIntent);
 		StockTrackerApp app = (StockTrackerApp) getApplication();
 		app.toast();

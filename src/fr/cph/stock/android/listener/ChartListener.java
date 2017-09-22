@@ -21,12 +21,11 @@ import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import fr.cph.stock.android.Constants;
 import fr.cph.stock.android.activity.ChartActivity;
 import fr.cph.stock.android.activity.MainActivity;
-import fr.cph.stock.android.domain.Portfolio;
 import fr.cph.stock.android.domain.ChartType;
-
-import static fr.cph.stock.android.Constants.PORTFOLIO;
+import fr.cph.stock.android.domain.Portfolio;
 
 public class ChartListener implements OnClickListener {
 
@@ -43,7 +42,7 @@ public class ChartListener implements OnClickListener {
 	@Override
 	public void onClick(final View v) {
 		final Intent intent = new Intent(activity.getApplicationContext(), ChartActivity.class);
-		intent.putExtra(PORTFOLIO, portfolio);
+		intent.putExtra(Constants.INSTANCE.getPORTFOLIO(), portfolio);
 		intent.putExtra("chartType", chartType.getValue());
 		activity.startActivityForResult(intent, MainActivity.CHART_REQUEST);
 		activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);

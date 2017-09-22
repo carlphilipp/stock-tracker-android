@@ -39,16 +39,12 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import fr.cph.stock.android.Constants;
 import fr.cph.stock.android.R;
 import fr.cph.stock.android.domain.Portfolio;
 import fr.cph.stock.android.domain.UrlType;
 import fr.cph.stock.android.task.MainTask;
 import fr.cph.stock.android.web.Md5;
-
-import static fr.cph.stock.android.Constants.LOGIN;
-import static fr.cph.stock.android.Constants.PASSWORD;
-import static fr.cph.stock.android.Constants.PORTFOLIO;
-import static fr.cph.stock.android.Constants.PREFS_NAME;
 
 /**
  * Activity which displays a login screen to the user, offering registration as well.
@@ -204,16 +200,15 @@ public class LoginActivity extends Activity {
 			saveCredentials();
 		}
 		final Intent intent = new Intent(this, MainActivity.class);
-		intent.putExtra(PORTFOLIO, portfolio);
+		intent.putExtra(Constants.INSTANCE.getPORTFOLIO(), portfolio);
 		startActivity(intent);
 	}
 
 	private void saveCredentials() {
-		final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-		settings.edit().putString(LOGIN, mLogin).apply();
+		final SharedPreferences settings = getSharedPreferences(Constants.INSTANCE.getPREFS_NAME(), 0);
+		settings.edit().putString(Constants.INSTANCE.getLOGIN(), mLogin).apply();
 		final Md5 md5 = new Md5(mPassword);
-		settings.edit().putString(PASSWORD, md5.getHexInString()).apply();
-
+		settings.edit().putString(Constants.INSTANCE.getPASSWORD(), md5.getHexInString()).apply();
 	}
 
 	public void displayError(final JSONObject json) {

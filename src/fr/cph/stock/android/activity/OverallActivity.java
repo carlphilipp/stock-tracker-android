@@ -41,6 +41,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import fr.cph.stock.android.Constants;
 import fr.cph.stock.android.R;
 import fr.cph.stock.android.StockTrackerApp;
 import fr.cph.stock.android.adapter.ShareValueAdapter;
@@ -49,8 +50,6 @@ import fr.cph.stock.android.domain.Portfolio;
 import fr.cph.stock.android.domain.ShareValue;
 import fr.cph.stock.android.domain.UrlType;
 import fr.cph.stock.android.task.MainTask;
-
-import static fr.cph.stock.android.Constants.PORTFOLIO;
 
 public class OverallActivity extends ListActivity implements IStockTrackerActivity {
 
@@ -67,8 +66,8 @@ public class OverallActivity extends ListActivity implements IStockTrackerActivi
 		super.onCreate(bundle);
 		setContentView(R.layout.overall_activity);
 		portfolio = bundle != null
-				? bundle.getParcelable(PORTFOLIO)
-				: getIntent().getParcelableExtra(PORTFOLIO);
+				? bundle.getParcelable(Constants.INSTANCE.getPORTFOLIO())
+				: getIntent().getParcelableExtra(Constants.INSTANCE.getPORTFOLIO());
 		errorView = findViewById(R.id.errorMessage);
 		shareValues = portfolio.getShareValues();
 		ada = new ShareValueAdapter(shareValues, getApplicationContext());
@@ -160,7 +159,7 @@ public class OverallActivity extends ListActivity implements IStockTrackerActivi
 		refreshItem.collapseActionView();
 		refreshItem.setActionView(null);
 		Intent resultIntent = new Intent();
-		resultIntent.putExtra(PORTFOLIO, portfolio);
+		resultIntent.putExtra(Constants.INSTANCE.getPORTFOLIO(), portfolio);
 		setResult(Activity.RESULT_OK, resultIntent);
 		StockTrackerApp app = (StockTrackerApp) getApplication();
 		app.toast();

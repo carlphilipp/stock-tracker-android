@@ -32,15 +32,11 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import fr.cph.stock.android.Constants;
 import fr.cph.stock.android.R;
 import fr.cph.stock.android.domain.Portfolio;
 import fr.cph.stock.android.domain.UrlType;
 import fr.cph.stock.android.task.MainTask;
-
-import static fr.cph.stock.android.Constants.LOGIN;
-import static fr.cph.stock.android.Constants.PASSWORD;
-import static fr.cph.stock.android.Constants.PORTFOLIO;
-import static fr.cph.stock.android.Constants.PREFS_NAME;
 
 /**
  * This class represents the base activity of the app
@@ -60,12 +56,12 @@ public class BaseActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.loading);
 		mLoginStatusView = findViewById(R.id.login_status);
-		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+		SharedPreferences settings = getSharedPreferences(Constants.INSTANCE.getPREFS_NAME(), 0);
 
-		if (settings.contains(LOGIN) && settings.contains(PASSWORD)) {
+		if (settings.contains(Constants.INSTANCE.getLOGIN()) && settings.contains(Constants.INSTANCE.getPASSWORD())) {
 			showProgress(true, null);
-			login = settings.getString(LOGIN, null);
-			password = settings.getString(PASSWORD, null);
+			login = settings.getString(Constants.INSTANCE.getLOGIN(), null);
+			password = settings.getString(Constants.INSTANCE.getPASSWORD(), null);
 			final Map<String, String> params = new HashMap<String, String>() {{
 				put("login", login);
 				put("password", password);
@@ -108,7 +104,7 @@ public class BaseActivity extends Activity {
 	 */
 	public void loadHome(Portfolio portfolio) {
 		Intent intent = new Intent(this, MainActivity.class);
-		intent.putExtra(PORTFOLIO, portfolio);
+		intent.putExtra(Constants.INSTANCE.getPORTFOLIO(), portfolio);
 		showProgress(false, null);
 		finish();
 		startActivity(intent);
@@ -123,8 +119,8 @@ public class BaseActivity extends Activity {
 	public void displayError(JSONObject jsonObject) {
 		Intent intent = new Intent(this, ErrorActivity.class);
 		intent.putExtra("data", jsonObject.toString());
-		intent.putExtra(LOGIN, login);
-		intent.putExtra(PASSWORD, password);
+		intent.putExtra(Constants.INSTANCE.getLOGIN(), login);
+		intent.putExtra(Constants.INSTANCE.getPASSWORD(), password);
 		startActivity(intent);
 		finish();
 	}

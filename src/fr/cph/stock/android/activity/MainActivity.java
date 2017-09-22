@@ -31,6 +31,7 @@ import org.json.JSONObject;
 
 import java.util.Collections;
 
+import fr.cph.stock.android.Constants;
 import fr.cph.stock.android.R;
 import fr.cph.stock.android.StockTrackerApp;
 import fr.cph.stock.android.adapter.MainListAdapter;
@@ -38,8 +39,6 @@ import fr.cph.stock.android.domain.Portfolio;
 import fr.cph.stock.android.domain.UrlType;
 import fr.cph.stock.android.listener.ErrorMainOnClickListener;
 import fr.cph.stock.android.task.MainTask;
-
-import static fr.cph.stock.android.Constants.PORTFOLIO;
 
 public class MainActivity extends Activity implements IStockTrackerActivity {
 
@@ -65,8 +64,8 @@ public class MainActivity extends Activity implements IStockTrackerActivity {
 		setContentView(R.layout.main);
 
 		portfolio = bundle != null
-				? bundle.getParcelable(PORTFOLIO)
-				: getIntent().getParcelableExtra(PORTFOLIO);
+				? bundle.getParcelable(Constants.INSTANCE.getPORTFOLIO())
+				: getIntent().getParcelableExtra(Constants.INSTANCE.getPORTFOLIO());
 
 		ada = new MainListAdapter(this, portfolio);
 		listView = findViewById(R.id.mainList);
@@ -76,19 +75,19 @@ public class MainActivity extends Activity implements IStockTrackerActivity {
 			switch (position) {
 				case 0:
 					intent = new Intent(getBaseContext(), AccountActivity.class);
-					intent.putExtra(PORTFOLIO, portfolio);
+					intent.putExtra(Constants.INSTANCE.getPORTFOLIO(), portfolio);
 					startActivityForResult(intent, MainActivity.ACCOUNT_REQUEST);
 					overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 					break;
 				case 1:
 					intent = new Intent(getBaseContext(), EquityActivity.class);
-					intent.putExtra(PORTFOLIO, portfolio);
+					intent.putExtra(Constants.INSTANCE.getPORTFOLIO(), portfolio);
 					startActivityForResult(intent, MainActivity.EQUITY_REQUEST);
 					overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 					break;
 				case 2:
 					intent = new Intent(getBaseContext(), OverallActivity.class);
-					intent.putExtra(PORTFOLIO, portfolio);
+					intent.putExtra(Constants.INSTANCE.getPORTFOLIO(), portfolio);
 					startActivityForResult(intent, MainActivity.OVERALL_REQUEST);
 					overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 					break;
@@ -112,7 +111,7 @@ public class MainActivity extends Activity implements IStockTrackerActivity {
 				finish();
 				break;
 			case Activity.RESULT_OK:
-				portfolio = intent.getParcelableExtra(PORTFOLIO);
+				portfolio = intent.getParcelableExtra(Constants.INSTANCE.getPORTFOLIO());
 				ada.update(portfolio);
 				break;
 		}

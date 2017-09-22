@@ -25,11 +25,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import fr.cph.stock.android.Constants;
 import fr.cph.stock.android.R;
 import fr.cph.stock.android.domain.Equity;
-
-import static fr.cph.stock.android.Constants.GREEN;
-import static fr.cph.stock.android.Constants.RED;
 
 public class EquityAdapter extends BaseAdapter {
 
@@ -85,13 +83,13 @@ public class EquityAdapter extends BaseAdapter {
 		viewHolder.unitCostPrice.setText(equity.getUnitCostPrice());
 		viewHolder.value.setText(equity.getValue());
 		viewHolder.plusMinusValue.setText(equity.getPlusMinusValue());
-		viewHolder.plusMinusValue.setTextColor(equity.isUp() ? GREEN : RED);
+		viewHolder.plusMinusValue.setTextColor(equity.isUp() ? Constants.INSTANCE.getGREEN() : Constants.INSTANCE.getRED());
 		viewHolder.quantity.setText(equity.getQuantity());
 		viewHolder.yieldYear.setText(equity.getYieldUnitCostPrice());
 		viewHolder.quote.setText(equity.getQuote());
 		viewHolder.gain.setText(equity.getPlusMinusUnitCostPriceValue());
 		viewHolder.today.setText(equity.getVariation());
-		viewHolder.today.setTextColor(equity.isUpVariation() ? GREEN : RED);
+		viewHolder.today.setTextColor(equity.isUpVariation() ? Constants.INSTANCE.getGREEN() : Constants.INSTANCE.getRED());
 
 		return convertView;
 	}
