@@ -1,12 +1,15 @@
 /**
  * Copyright 2013 Carl-Philipp Harmant
- * <p>
+ *
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
+ *
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,14 +17,18 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.android.util;
+package fr.cph.stock.android.activity
 
-import android.content.Context;
+import org.json.JSONObject
 
-public class Util {
+import fr.cph.stock.android.domain.Portfolio
 
-	public static int convertDpToPxl(int dpValue, Context context) {
-		float density = context.getResources().getDisplayMetrics().density;
-		return (int) (dpValue * density);
-	}
+interface IStockTrackerActivity {
+
+    fun reloadData(portfolio: Portfolio)
+
+    fun displayError(json: JSONObject)
+
+    fun logOut()
+
 }
