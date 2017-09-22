@@ -44,10 +44,10 @@ import java.util.Map;
 import fr.cph.stock.android.R;
 import fr.cph.stock.android.StockTrackerApp;
 import fr.cph.stock.android.adapter.ShareValueAdapter;
-import fr.cph.stock.android.entity.Account;
-import fr.cph.stock.android.entity.Portfolio;
-import fr.cph.stock.android.entity.ShareValue;
-import fr.cph.stock.android.enumtype.UrlType;
+import fr.cph.stock.android.domain.Account;
+import fr.cph.stock.android.domain.Portfolio;
+import fr.cph.stock.android.domain.ShareValue;
+import fr.cph.stock.android.domain.UrlType;
 import fr.cph.stock.android.task.MainTask;
 
 import static fr.cph.stock.android.Constants.PORTFOLIO;

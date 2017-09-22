@@ -34,8 +34,8 @@ import java.util.Collections;
 import fr.cph.stock.android.R;
 import fr.cph.stock.android.StockTrackerApp;
 import fr.cph.stock.android.adapter.MainListAdapter;
-import fr.cph.stock.android.entity.Portfolio;
-import fr.cph.stock.android.enumtype.UrlType;
+import fr.cph.stock.android.domain.Portfolio;
+import fr.cph.stock.android.domain.UrlType;
 import fr.cph.stock.android.listener.ErrorMainOnClickListener;
 import fr.cph.stock.android.task.MainTask;
 

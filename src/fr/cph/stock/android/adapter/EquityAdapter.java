@@ -26,7 +26,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import fr.cph.stock.android.R;
-import fr.cph.stock.android.entity.Equity;
+import fr.cph.stock.android.domain.Equity;
 
 import static fr.cph.stock.android.Constants.GREEN;
 import static fr.cph.stock.android.Constants.RED;

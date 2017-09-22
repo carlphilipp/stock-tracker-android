@@ -36,9 +36,9 @@ import java.util.List;
 
 import fr.cph.stock.android.R;
 import fr.cph.stock.android.StockTrackerApp;
-import fr.cph.stock.android.entity.Account;
-import fr.cph.stock.android.entity.Portfolio;
-import fr.cph.stock.android.enumtype.UrlType;
+import fr.cph.stock.android.domain.Account;
+import fr.cph.stock.android.domain.Portfolio;
+import fr.cph.stock.android.domain.UrlType;
 import fr.cph.stock.android.task.MainTask;
 import fr.cph.stock.android.util.Util;
 

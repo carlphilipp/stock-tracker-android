@@ -18,7 +18,7 @@ package fr.cph.stock.android.activity;
 
 import org.json.JSONObject;
 
-import fr.cph.stock.android.entity.Portfolio;
+import fr.cph.stock.android.domain.Portfolio;
 
 public interface IStockTrackerActivity {
 

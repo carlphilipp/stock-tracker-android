@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.android.enumtype;
+package fr.cph.stock.android.domain;
 
 public enum UrlType {
 	AUTH("authmobile"), LOGOUT("logoutmobile"), UPDATEHISTORY("updatesharevaluemobile"), RELOAD("reloadportfoliomobile");

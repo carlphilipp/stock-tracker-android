@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.android.enumtype;
+package fr.cph.stock.android.domain;
 
 public enum ChartType {
 	SHARE_VALUE("SHARE_VALUE"), SECTOR("SECTOR"), CAPITALIZATION("CAPITALIZATION");

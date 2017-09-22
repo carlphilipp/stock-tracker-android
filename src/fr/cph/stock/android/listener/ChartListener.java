@@ -23,8 +23,8 @@ import android.view.View.OnClickListener;
 
 import fr.cph.stock.android.activity.ChartActivity;
 import fr.cph.stock.android.activity.MainActivity;
-import fr.cph.stock.android.entity.Portfolio;
-import fr.cph.stock.android.enumtype.ChartType;
+import fr.cph.stock.android.domain.Portfolio;
+import fr.cph.stock.android.domain.ChartType;
 
 import static fr.cph.stock.android.Constants.PORTFOLIO;
 

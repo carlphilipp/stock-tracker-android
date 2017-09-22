@@ -34,8 +34,8 @@ import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import fr.cph.stock.android.entity.ResponseDTO;
-import fr.cph.stock.android.enumtype.UrlType;
+import fr.cph.stock.android.domain.ResponseDTO;
+import fr.cph.stock.android.domain.UrlType;
 import fr.cph.stock.android.exception.AppException;
 
 public class Client {

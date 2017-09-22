@@ -27,7 +27,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import fr.cph.stock.android.R;
-import fr.cph.stock.android.entity.ShareValue;
+import fr.cph.stock.android.domain.ShareValue;
 
 public class ShareValueAdapter extends BaseAdapter {
 

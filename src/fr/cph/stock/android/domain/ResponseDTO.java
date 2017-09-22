@@ -1,4 +1,4 @@
-package fr.cph.stock.android.entity;
+package fr.cph.stock.android.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;

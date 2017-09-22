@@ -40,8 +40,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import fr.cph.stock.android.R;
-import fr.cph.stock.android.entity.Portfolio;
-import fr.cph.stock.android.enumtype.UrlType;
+import fr.cph.stock.android.domain.Portfolio;
+import fr.cph.stock.android.domain.UrlType;
 import fr.cph.stock.android.task.MainTask;
 import fr.cph.stock.android.web.Md5;
 

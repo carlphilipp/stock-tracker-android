@@ -26,8 +26,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import fr.cph.stock.android.R;
-import fr.cph.stock.android.entity.Portfolio;
-import fr.cph.stock.android.enumtype.ChartType;
+import fr.cph.stock.android.domain.Portfolio;
+import fr.cph.stock.android.domain.ChartType;
 import fr.cph.stock.android.listener.ChartListener;
 
 import static fr.cph.stock.android.Constants.GREEN;

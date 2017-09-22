@@ -1,4 +1,4 @@
-package fr.cph.stock.android.entity;
+package fr.cph.stock.android.domain;
 
 import android.os.Parcel;
 import android.os.Parcelable;
