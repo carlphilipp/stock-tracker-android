@@ -98,8 +98,8 @@ class AccountActivity : Activity(), IStockTrackerActivity {
         var nameID = 100
         var viewId1 = 500
         var currencyId = 1000
-        for (i in 0..portfolio!!.accounts.size - 1) {
-            val account = portfolio!!.accounts[i]
+        for (i in 0..portfolio!!.accounts!!.size - 1) {
+            val account = portfolio!!.accounts!![i]
             val currentAccountNameTextView = TextView(applicationContext)
             currentAccountNameTextView.text = account.name
             currentAccountNameTextView.setTextColor(Color.GRAY)
@@ -152,7 +152,7 @@ class AccountActivity : Activity(), IStockTrackerActivity {
             accountsLayout.addView(viewPoint2, params)
 
             val currentTextView = TextView(applicationContext)
-            currentTextView.text = account.liquidity
+            currentTextView.text = account.getLiquidity()
             currentTextView.setTextColor(Color.GRAY)
             currentTextView.id = id
             params = RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
@@ -236,38 +236,38 @@ class AccountActivity : Activity(), IStockTrackerActivity {
     }
 
     private fun buildUi(withAccounts: Boolean) {
-        totalValueView!!.text = portfolio!!.totalValue
-        totalGainView!!.text = portfolio!!.totalGain
+        totalValueView!!.text = portfolio!!.getTotalValue()
+        totalGainView!!.text = portfolio!!.getTotalGain()
         if (portfolio!!.isUp) {
             totalGainView!!.setTextColor(Color.rgb(0, 160, 0))
         } else {
             totalGainView!!.setTextColor(Color.rgb(160, 0, 0))
         }
-        totalPlusMinusValueView!!.text = " (" + portfolio!!.totalPlusMinusValue + ")"
+        totalPlusMinusValueView!!.text = " (" + portfolio!!.getTotalPlusMinusValue() + ")"
         if (portfolio!!.isUp) {
             totalPlusMinusValueView!!.setTextColor(Color.rgb(0, 160, 0))
         } else {
             totalPlusMinusValueView!!.setTextColor(Color.rgb(160, 0, 0))
         }
         lastUpdateView!!.text = portfolio!!.lastUpdate
-        liquidityView!!.text = portfolio!!.liquidity
-        yieldYearView!!.text = portfolio!!.yieldYear
-        shareValueView!!.text = portfolio!!.shareValues[0].shareValue
-        gainView!!.text = portfolio!!.performance.gain.toString()
-        perfView!!.text = portfolio!!.performance.performance.toString()
-        yieldView!!.text = portfolio!!.performance.yield.toString()
-        taxesView!!.text = portfolio!!.performance.taxes.toString()
+        liquidityView!!.text = portfolio!!.getLiquidity()
+        yieldYearView!!.text = portfolio!!.getYieldYear()
+        shareValueView!!.text = portfolio!!.shareValues!![0].getShareValue()
+        gainView!!.text = portfolio!!.performance!!.getGain()
+        perfView!!.text = portfolio!!.performance!!.getPerformance()
+        yieldView!!.text = portfolio!!.performance!!.getYield()
+        taxesView!!.text = portfolio!!.performance!!.getTaxes()
         if (withAccounts) {
             var j = 0
-            val size = portfolio!!.accounts.size
+            val size = portfolio!!.accounts!!.size
             for (i in 0..size - 1) {
-                val account = portfolio!!.accounts[i]
+                val account = portfolio!!.accounts!![i]
 
                 val currentAccountNameTextView = textViews!![j++]
                 currentAccountNameTextView.text = account.name
 
                 val currentTextView = textViews!![j++]
-                currentTextView.text = account.liquidity
+                currentTextView.text = account.getLiquidity()
 
                 val currentCurrencyTextView = textViews!![j++]
                 currentCurrencyTextView.text = account.currency

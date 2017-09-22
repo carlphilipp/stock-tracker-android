@@ -60,7 +60,7 @@ class EquityActivity : ListActivity(), IStockTrackerActivity {
 
         val portfolio = intent.getParcelableExtra<Portfolio>(Constants.PORTFOLIO)
 
-        equities = portfolio.equities
+        equities = portfolio.equities.toMutableList()
         mAdapter = EquityAdapter(equities!!, applicationContext)
         listAdapter = mAdapter
 

@@ -70,15 +70,15 @@ class EquityAdapter(private val equities: List<Equity>, private val context: Con
         }
 
         viewHolder.name!!.text = equity.name
-        viewHolder.unitCostPrice!!.text = equity.unitCostPrice
-        viewHolder.value!!.text = equity.value
-        viewHolder.plusMinusValue!!.text = equity.plusMinusValue
+        viewHolder.unitCostPrice!!.text = equity.getUnitCostPrice()
+        viewHolder.value!!.text = equity.getValue()
+        viewHolder.plusMinusValue!!.text = equity.getPlusMinusValue()
         viewHolder.plusMinusValue!!.setTextColor(if (equity.isUp) Constants.GREEN else Constants.RED)
-        viewHolder.quantity!!.text = equity.quantity
-        viewHolder.yieldYear!!.text = equity.yieldUnitCostPrice
-        viewHolder.quote!!.text = equity.quote
-        viewHolder.gain!!.text = equity.plusMinusUnitCostPriceValue
-        viewHolder.today!!.text = equity.variation
+        viewHolder.quantity!!.text = equity.getQuantity()
+        viewHolder.yieldYear!!.text = equity.getYieldUnitCostPrice()
+        viewHolder.quote!!.text = equity.getQuote()
+        viewHolder.gain!!.text = equity.getPlusMinusUnitCostPriceValue()
+        viewHolder.today!!.text = equity.getVariation()
         viewHolder.today!!.setTextColor(if (equity.isUpVariation) Constants.GREEN else Constants.RED)
 
         return convertView

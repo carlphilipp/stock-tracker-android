@@ -68,7 +68,7 @@ class OverallActivity : ListActivity(), IStockTrackerActivity {
         else
             intent.getParcelableExtra(Constants.PORTFOLIO)
         errorView = findViewById(R.id.errorMessage)
-        shareValues = portfolio!!.shareValues
+        shareValues = portfolio!!.shareValues!!.toMutableList()
         ada = ShareValueAdapter(shareValues!!, applicationContext)
         listAdapter = ada
     }
@@ -114,8 +114,8 @@ class OverallActivity : ListActivity(), IStockTrackerActivity {
 
         val checked = alert.findViewById<Spinner>(R.id.accountList)
         val list = ArrayList<String>()
-        for (acc in portfolio!!.accounts) {
-            list.add(acc.name)
+        for (acc in portfolio!!.accounts!!) {
+            list.add(acc.name!!)
         }
         val dataAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, list)
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -125,7 +125,7 @@ class OverallActivity : ListActivity(), IStockTrackerActivity {
         dialogButton.setOnClickListener { v ->
             refreshItem!!.setActionView(R.layout.progressbar)
             refreshItem!!.expandActionView()
-            val account = portfolio!!.accounts[checked.selectedItemPosition]
+            val account = portfolio!!.accounts!![checked.selectedItemPosition]
             val liquidityView = alert.findViewById<EditText>(R.id.liquidityMov)
             val yieldView = alert.findViewById<EditText>(R.id.yield)
             val buyView = alert.findViewById<EditText>(R.id.buy)
@@ -135,7 +135,7 @@ class OverallActivity : ListActivity(), IStockTrackerActivity {
 
             val params = object : HashMap<String, String>() {
                 init {
-                    put("accountId", account.id)
+                    put("accountId", account.id!!)
                     put("liquidity", liquidityView.text.toString())
                     put("yield", yieldView.text.toString())
                     put("buy", buyView.text.toString())
@@ -155,7 +155,7 @@ class OverallActivity : ListActivity(), IStockTrackerActivity {
 
     override fun reloadData(portfolio: Portfolio) {
         shareValues!!.clear()
-        shareValues!!.addAll(portfolio.shareValues)
+        shareValues!!.addAll(portfolio.shareValues!!)
         ada!!.notifyDataSetChanged()
         refreshItem!!.collapseActionView()
         refreshItem!!.actionView = null

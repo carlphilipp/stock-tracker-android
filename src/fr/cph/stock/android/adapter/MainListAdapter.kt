@@ -62,9 +62,9 @@ class MainListAdapter(private val activity: Activity, private var portfolio: Por
                     convertView = inflater.inflate(R.layout.main_list_item_cell1, parent, false)
                 }
                 textView = convertView!!.findViewById(R.id.portfolio_value_main)
-                textView.text = portfolio!!.totalValue
+                textView.text = portfolio!!.getTotalValue()
                 textView = convertView.findViewById(R.id.liquidity_value_main)
-                textView.text = portfolio!!.liquidity
+                textView.text = portfolio!!.getLiquidity()
             }
             1 -> {
                 if (convertView == null) {
@@ -72,11 +72,11 @@ class MainListAdapter(private val activity: Activity, private var portfolio: Por
                     convertView = inflater.inflate(R.layout.main_list_item_cell2, parent, false)
                 }
                 textView = convertView!!.findViewById(R.id.current_performance_value)
-                textView.text = portfolio!!.totalGain
+                textView.text = portfolio!!.getTotalGain()
                 textView.setTextColor(if (portfolio!!.isUp) Constants.GREEN else Constants.RED)
 
                 textView = convertView.findViewById(R.id.today_performance_value)
-                textView.text = portfolio!!.totalVariation
+                textView.text = portfolio!!.getTotalVariation()
                 textView.setTextColor(if (portfolio!!.isTodayUp) Constants.GREEN else Constants.RED)
             }
             2 -> {
@@ -85,8 +85,8 @@ class MainListAdapter(private val activity: Activity, private var portfolio: Por
                     convertView = inflater.inflate(R.layout.main_list_item_cell3, parent, false)
                 }
                 textView = convertView!!.findViewById(R.id.performance_value)
-                textView.text = portfolio!!.shareValues[0].shareValue
-                textView.setTextColor(if (portfolio!!.shareValues[0].isUp) Constants.GREEN else Constants.RED)
+                textView.text = portfolio!!.shareValues!![0].getShareValue()
+                textView.setTextColor(if (portfolio!!.shareValues!![0].isUp) Constants.GREEN else Constants.RED)
                 textView = convertView.findViewById(R.id.last_updated_value)
                 textView.text = portfolio!!.lastUpdate
             }

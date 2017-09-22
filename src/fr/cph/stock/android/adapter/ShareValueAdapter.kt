@@ -68,13 +68,13 @@ class ShareValueAdapter(private val sharesValues: List<ShareValue>, private val 
         }
 
         viewHolder.dateView!!.text = shareValue.date
-        viewHolder.shareValueView!!.text = shareValue.shareValue
+        viewHolder.shareValueView!!.text = shareValue.getShareValue()
         viewHolder.shareValueView!!.setTextColor(Color.rgb(0, 160, 0))
         viewHolder.commentaryView!!.text = shareValue.commentary
         viewHolder.accountView!!.text = shareValue.account
-        viewHolder.portfolioValueView!!.text = shareValue.portfolioValue
-        viewHolder.shareQuantityView!!.text = shareValue.shareQuantity
-        viewHolder.monthlyYieldView!!.text = shareValue.monthlyYield
+        viewHolder.portfolioValueView!!.text = shareValue.getPortfolioValue()
+        viewHolder.shareQuantityView!!.text = shareValue.getShareQuantity()
+        viewHolder.monthlyYieldView!!.text = shareValue.getMonthlyYield()
 
         return convertView
     }
