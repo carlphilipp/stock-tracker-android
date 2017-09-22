@@ -6,6 +6,8 @@ import android.os.Parcelable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import fr.cph.stock.android.util.UserContext;
+
 import static fr.cph.stock.android.util.UserContext.FORMAT_CURRENCY_ONE;
 import static fr.cph.stock.android.util.UserContext.FORMAT_LOCAL_ONE;
 
@@ -21,7 +23,7 @@ public class Performance implements Parcelable {
 	}
 
 	public String getGain() {
-		return FORMAT_CURRENCY_ONE.format(gain);
+		return UserContext.INSTANCE.getFORMAT_CURRENCY_ONE().format(gain);
 	}
 
 	public void setGain(Double gain) {
@@ -29,7 +31,7 @@ public class Performance implements Parcelable {
 	}
 
 	public String getPerformance() {
-		return FORMAT_LOCAL_ONE.format(performance) + "%";
+		return UserContext.INSTANCE.getFORMAT_LOCAL_ONE().format(performance) + "%";
 	}
 
 	public void setPerformance(Double performance) {
@@ -37,7 +39,7 @@ public class Performance implements Parcelable {
 	}
 
 	public String getYield() {
-		return FORMAT_LOCAL_ONE.format(yield);
+		return UserContext.INSTANCE.getFORMAT_LOCAL_ONE().format(yield);
 	}
 
 	public void setYield(Double yield) {
@@ -45,7 +47,7 @@ public class Performance implements Parcelable {
 	}
 
 	public String getTaxes() {
-		return FORMAT_CURRENCY_ONE.format(taxes);
+		return UserContext.INSTANCE.getFORMAT_CURRENCY_ONE().format(taxes);
 	}
 
 	public void setTaxes(double taxes) {

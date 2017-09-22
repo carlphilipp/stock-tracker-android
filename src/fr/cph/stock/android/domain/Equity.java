@@ -49,7 +49,7 @@ public class Equity implements Parcelable {
 	}
 
 	public String getQuantity() {
-		return UserContext.FORMAT_LOCAL_ONE.format(quantity);
+		return UserContext.INSTANCE.getFORMAT_LOCAL_ONE().format(quantity);
 	}
 
 	public void setQuantity(Double quantity) {
@@ -57,7 +57,7 @@ public class Equity implements Parcelable {
 	}
 
 	public String getYieldYear() {
-		return UserContext.FORMAT_LOCAL_ONE.format(yieldYear) + "%";
+		return UserContext.INSTANCE.getFORMAT_LOCAL_ONE().format(yieldYear) + "%";
 	}
 
 	public void setYieldYear(Double yieldYear) {
@@ -65,7 +65,7 @@ public class Equity implements Parcelable {
 	}
 
 	public String getYieldUnitCostPrice() {
-		return UserContext.FORMAT_LOCAL_ONE.format(yieldUnitCostPrice) + "%";
+		return UserContext.INSTANCE.getFORMAT_LOCAL_ONE().format(yieldUnitCostPrice) + "%";
 	}
 
 	public void setYieldUnitCostPrice(Double yieldUnitCostPrice) {
@@ -73,7 +73,7 @@ public class Equity implements Parcelable {
 	}
 
 	public String getQuote() {
-		return UserContext.FORMAT_LOCAL_TWO.format(quote);
+		return UserContext.INSTANCE.getFORMAT_LOCAL_TWO().format(quote);
 	}
 
 	public void setQuote(Double quote) {
@@ -82,8 +82,8 @@ public class Equity implements Parcelable {
 
 	public String getPlusMinusUnitCostPriceValue() {
 		return plusMinusValue > 0
-				? "+" + UserContext.FORMAT_LOCAL_ZERO.format(plusMinusUnitCostPriceValue)
-				: UserContext.FORMAT_LOCAL_ZERO.format(plusMinusUnitCostPriceValue);
+				? "+" + UserContext.INSTANCE.getFORMAT_LOCAL_ZERO().format(plusMinusUnitCostPriceValue)
+				: UserContext.INSTANCE.getFORMAT_LOCAL_ZERO().format(plusMinusUnitCostPriceValue);
 	}
 
 	public void setPlusMinusUnitCostPriceValue(final Double plusMinusUnitCostPriceValue) {
@@ -99,7 +99,7 @@ public class Equity implements Parcelable {
 	}
 
 	public String getUnitCostPrice() {
-		return UserContext.FORMAT_LOCAL_TWO.format(unitCostPrice);
+		return UserContext.INSTANCE.getFORMAT_LOCAL_TWO().format(unitCostPrice);
 	}
 
 	public void setUnitCostPrice(Double unitCostPrice) {
@@ -107,7 +107,7 @@ public class Equity implements Parcelable {
 	}
 
 	public String getValue() {
-		return UserContext.FORMAT_LOCAL_ZERO.format(value);
+		return UserContext.INSTANCE.getFORMAT_LOCAL_ZERO().format(value);
 	}
 
 	public void setValue(final Double value) {
@@ -116,8 +116,8 @@ public class Equity implements Parcelable {
 
 	public String getPlusMinusValue() {
 		return plusMinusValue > 0
-				? "+" + UserContext.FORMAT_LOCAL_ONE.format(plusMinusValue) + "%"
-				: UserContext.FORMAT_LOCAL_ONE.format(plusMinusValue) + "%";
+				? "+" + UserContext.INSTANCE.getFORMAT_LOCAL_ONE().format(plusMinusValue) + "%"
+				: UserContext.INSTANCE.getFORMAT_LOCAL_ONE().format(plusMinusValue) + "%";
 	}
 
 	public void setPlusMinusValue(Double plusMinusValue) {

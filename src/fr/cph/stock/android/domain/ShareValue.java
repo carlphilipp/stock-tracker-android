@@ -66,7 +66,7 @@ public class ShareValue implements Parcelable {
 	}
 
 	public String getShareValue() {
-		return FORMAT_LOCAL_ONE.format(shareValue);
+		return UserContext.INSTANCE.getFORMAT_LOCAL_ONE().format(shareValue);
 	}
 
 	public void setShareValue(final Double shareValue) {
@@ -78,7 +78,7 @@ public class ShareValue implements Parcelable {
 	}
 
 	public String getPortfolioValue() {
-		return UserContext.FORMAT_CURRENCY_ONE.format(portfolioValue);
+		return UserContext.INSTANCE.getFORMAT_CURRENCY_ONE().format(portfolioValue);
 	}
 
 	public void setPortfolioValue(Double portfolioValue) {
@@ -86,7 +86,7 @@ public class ShareValue implements Parcelable {
 	}
 
 	public String getShareQuantity() {
-		return UserContext.FORMAT_LOCAL_ONE.format(shareQuantity);
+		return UserContext.INSTANCE.getFORMAT_LOCAL_ONE().format(shareQuantity);
 	}
 
 	public void setShareQuantity(Double shareQuantity) {
@@ -94,7 +94,7 @@ public class ShareValue implements Parcelable {
 	}
 
 	public String getMonthlyYield() {
-		return UserContext.FORMAT_CURRENCY_ONE.format(monthlyYield);
+		return UserContext.INSTANCE.getFORMAT_CURRENCY_ONE().format(monthlyYield);
 	}
 
 	public void setMonthlyYield(Double monthlyYield) {

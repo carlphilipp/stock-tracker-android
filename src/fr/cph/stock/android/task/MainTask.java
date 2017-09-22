@@ -74,7 +74,7 @@ public class MainTask extends AsyncTask<Void, Void, Boolean> {
 			Class<?> clazz = object.getClass();
 			Class<?>[] param;
 			if (success) {
-				UserContext.setup(responseDTO.getPortfolio().getLocale());
+				UserContext.INSTANCE.setup(responseDTO.getPortfolio().getLocale());
 				switch (urlType) {
 					case LOGOUT:
 						Log.d(TAG, "logout: " + clazz.getName());

@@ -86,7 +86,7 @@ public class Portfolio implements Parcelable {
 	}
 
 	public String getTotalValue() {
-		return UserContext.FORMAT_CURRENCY_ZERO.format(totalValue);
+		return UserContext.INSTANCE.getFORMAT_CURRENCY_ZERO().format(totalValue);
 	}
 
 	public void setTotalValue(Double totalValue) {
@@ -94,7 +94,7 @@ public class Portfolio implements Parcelable {
 	}
 
 	public String getTotalGain() {
-		return UserContext.FORMAT_CURRENCY_ZERO.format(totalGain);
+		return UserContext.INSTANCE.getFORMAT_CURRENCY_ZERO().format(totalGain);
 	}
 
 	public void setTotalGain(Double totalGain) {
@@ -103,8 +103,8 @@ public class Portfolio implements Parcelable {
 
 	public String getTotalPlusMinusValue() {
 		return totalPlusMinusValue > 0
-				? "+" + FORMAT_LOCAL_ONE.format(totalPlusMinusValue) + "%"
-				: FORMAT_LOCAL_ONE.format(totalPlusMinusValue) + "%";
+				? "+" + UserContext.INSTANCE.getFORMAT_LOCAL_ONE().format(totalPlusMinusValue) + "%"
+				: UserContext.INSTANCE.getFORMAT_LOCAL_ONE().format(totalPlusMinusValue) + "%";
 	}
 
 	public void setTotalPlusMinusValue(final Double totalPlusMinusValue) {
@@ -112,7 +112,7 @@ public class Portfolio implements Parcelable {
 	}
 
 	public String getLiquidity() {
-		return UserContext.FORMAT_CURRENCY_ZERO.format(liquidity);
+		return UserContext.INSTANCE.getFORMAT_CURRENCY_ZERO().format(liquidity);
 	}
 
 	public void setLiquidity(final Double liquidity) {
@@ -136,7 +136,7 @@ public class Portfolio implements Parcelable {
 	}
 
 	public String getYieldYear() {
-		return FORMAT_CURRENCY_ZERO.format(yieldYear);
+		return UserContext.INSTANCE.getFORMAT_CURRENCY_ZERO().format(yieldYear);
 	}
 
 	public void setYieldYear(Double yieldYear) {
@@ -265,7 +265,7 @@ public class Portfolio implements Parcelable {
 
 	public String getTotalVariation() {
 		final String plus = isTodayUp() ? "+" : "";
-		return plus + UserContext.FORMAT_LOCAL_TWO.format(totalVariation) + "%";
+		return plus + UserContext.INSTANCE.getFORMAT_LOCAL_TWO().format(totalVariation) + "%";
 	}
 
 	public void setTotalVariation(final Double totalVariation) {

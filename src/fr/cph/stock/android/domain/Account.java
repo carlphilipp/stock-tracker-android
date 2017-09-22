@@ -65,7 +65,7 @@ public class Account implements Parcelable {
 	}
 
 	public String getLiquidity() {
-		return UserContext.FORMAT_LOCAL_ONE.format(liquidity);
+		return UserContext.INSTANCE.getFORMAT_LOCAL_ONE().format(liquidity);
 	}
 
 	public void setLiquidity(Double liquidity) {
