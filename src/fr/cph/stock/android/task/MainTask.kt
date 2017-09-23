@@ -39,7 +39,7 @@ class MainTask//FIXME logout does not seem to be working
     override fun doInBackground(vararg params: Void): Boolean? {
         var toReturn = true
         try {
-            responseDTO = Client.getInstance().getResponse(urlType, this.params)
+            responseDTO = Client.getResponse(urlType, this.params)
         } catch (e: AppException) {
             Log.e(TAG, e.message, e)
             this.error = e.message
