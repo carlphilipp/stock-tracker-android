@@ -78,7 +78,7 @@ class ChartActivity : Activity(), IStockTrackerActivity {
         webView = findViewById(R.id.webView)
         val data = data
         webView.webChromeClient = DebugWebChromeClient()
-        val webSettings = webView!!.settings
+        val webSettings = webView.settings
         webSettings.javaScriptEnabled = true
         // myWebView.setBackgroundColor(0x00000000);
         // myWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);

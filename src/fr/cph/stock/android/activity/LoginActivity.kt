@@ -21,12 +21,9 @@ package fr.cph.stock.android.activity
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Intent
-import android.content.SharedPreferences
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -36,54 +33,44 @@ import android.view.inputmethod.EditorInfo
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.TextView
-
-import org.json.JSONObject
-
-import java.util.HashMap
-
 import fr.cph.stock.android.Constants
 import fr.cph.stock.android.R
 import fr.cph.stock.android.domain.Portfolio
 import fr.cph.stock.android.domain.UrlType
 import fr.cph.stock.android.task.MainTask
 import fr.cph.stock.android.web.Md5
+import org.json.JSONObject
+import java.util.*
 
 /**
  * Activity which displays a login screen to the user, offering registration as well.
  */
 class LoginActivity : Activity() {
 
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-    // private UserLoginTask mAuthTask = null;
-
     // Values for email and password at the time of the login attempt.
-    private var mLogin: String? = null
-    private var mPassword: String? = null
+    private lateinit var login: String
+    private lateinit var password: String
 
     // UI references.
-    private var mLoginView: EditText? = null
-    private var mPasswordView: EditText? = null
+    private var loginView: EditText? = null
+    private var passwordView: EditText? = null
     private var checkBox: CheckBox? = null
-    private var mLoginFormView: View? = null
-    private var mLoginStatusView: View? = null
-    private var mLoginStatusMessageView: TextView? = null
+    private var loginFormView: View? = null
+    private var loginStatusView: View? = null
+    private var loginStatusMessageView: TextView? = null
     private var errorView: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.v(TAG, "LoginActivity onCreate")
         super.onCreate(savedInstanceState)
-        // Remove title bar
-        //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        Log.v(TAG, "LoginActivity onCreate")
         setContentView(R.layout.login_activity)
 
         // Set up the login form.
-        mLoginView = findViewById(R.id.email)
+        loginView = findViewById(R.id.email)
         errorView = findViewById(R.id.login_error)
 
-        mPasswordView = findViewById(R.id.password)
-        mPasswordView!!.setOnEditorActionListener { textView, id, keyEvent ->
+        passwordView = findViewById(R.id.password)
+        passwordView!!.setOnEditorActionListener { _, id, _ ->
             if (id == R.id.login || id == EditorInfo.IME_NULL) {
                 attemptLogin()
             }
@@ -91,11 +78,11 @@ class LoginActivity : Activity() {
         }
 
         checkBox = findViewById(R.id.checkbox)
-        mLoginFormView = findViewById(R.id.login_form)
-        mLoginStatusView = findViewById(R.id.login_status)
-        mLoginStatusMessageView = findViewById(R.id.login_status_message)
+        loginFormView = findViewById(R.id.login_form)
+        loginStatusView = findViewById(R.id.login_status)
+        loginStatusMessageView = findViewById(R.id.login_status_message)
 
-        findViewById<View>(R.id.sign_in_button).setOnClickListener { view -> attemptLogin() }
+        findViewById<View>(R.id.sign_in_button).setOnClickListener { _ -> attemptLogin() }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -110,33 +97,30 @@ class LoginActivity : Activity() {
      * (invalid email, missing fields, etc.), the errors are presented and no actual login attempt is
      * made.
      */
-    fun attemptLogin() {
-        // if (mAuthTask != null) {
-        // return;
-        // }
+    private fun attemptLogin() {
 
         // Reset errors.
-        mLoginView!!.error = null
-        mPasswordView!!.error = null
+        loginView!!.error = null
+        passwordView!!.error = null
 
         // Store values at the time of the login attempt.
-        mLogin = mLoginView!!.text.toString()
-        mPassword = mPasswordView!!.text.toString()
+        login = loginView!!.text.toString()
+        password = passwordView!!.text.toString()
 
         var cancel = false
         var focusView: View? = null
 
         // Check for a valid password.
-        if (TextUtils.isEmpty(mPassword)) {
-            mPasswordView!!.error = getString(R.string.error_field_required)
-            focusView = mPasswordView
+        if (TextUtils.isEmpty(password)) {
+            passwordView!!.error = getString(R.string.error_field_required)
+            focusView = passwordView
             cancel = true
         }
 
         // Check for a valid email address.
-        if (TextUtils.isEmpty(mLogin)) {
-            mLoginView!!.error = getString(R.string.error_field_required)
-            focusView = mLoginView
+        if (TextUtils.isEmpty(login)) {
+            loginView!!.error = getString(R.string.error_field_required)
+            focusView = loginView
             cancel = true
         }
 
@@ -147,12 +131,12 @@ class LoginActivity : Activity() {
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            mLoginStatusMessageView!!.setText(R.string.login_progress_signing_in)
+            loginStatusMessageView!!.setText(R.string.login_progress_signing_in)
             showProgress(true, null)
-            val md5 = Md5(mPassword!!)
+            val md5 = Md5(password)
             val params = object : HashMap<String, String>() {
                 init {
-                    put("login", mLogin!!)
+                    put("login", login)
                     put("password", md5.hexInString)
                 }
             }
@@ -161,24 +145,20 @@ class LoginActivity : Activity() {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private fun showProgress(show: Boolean, errorMessage: String?) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
         val shortAnimTime = resources.getInteger(android.R.integer.config_shortAnimTime)
 
-        mLoginStatusView!!.visibility = View.VISIBLE
-        mLoginStatusView!!.animate().setDuration(shortAnimTime.toLong()).alpha((if (show) 1 else 0).toFloat()).setListener(object : AnimatorListenerAdapter() {
+        loginStatusView!!.visibility = View.VISIBLE
+        loginStatusView!!.animate().setDuration(shortAnimTime.toLong()).alpha((if (show) 1 else 0).toFloat()).setListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
-                mLoginStatusView!!.visibility = if (show) View.VISIBLE else View.GONE
+                loginStatusView!!.visibility = if (show) View.VISIBLE else View.GONE
             }
         })
 
-        mLoginFormView!!.visibility = View.VISIBLE
-        mLoginFormView!!.animate().setDuration(shortAnimTime.toLong()).alpha((if (show) 0 else 1).toFloat()).setListener(object : AnimatorListenerAdapter() {
+        loginFormView!!.visibility = View.VISIBLE
+        loginFormView!!.animate().setDuration(shortAnimTime.toLong()).alpha((if (show) 0 else 1).toFloat()).setListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
-                mLoginFormView!!.visibility = if (show) View.GONE else View.VISIBLE
+                loginFormView!!.visibility = if (show) View.GONE else View.VISIBLE
             }
         })
         if (!show) {
@@ -203,8 +183,8 @@ class LoginActivity : Activity() {
 
     private fun saveCredentials() {
         val settings = getSharedPreferences(Constants.PREFS_NAME, 0)
-        settings.edit().putString(Constants.LOGIN, mLogin).apply()
-        val md5 = Md5(mPassword!!)
+        settings.edit().putString(Constants.LOGIN, login).apply()
+        val md5 = Md5(password)
         settings.edit().putString(Constants.PASSWORD, md5.hexInString).apply()
     }
 
@@ -213,7 +193,6 @@ class LoginActivity : Activity() {
     }
 
     companion object {
-
         private val TAG = "LoginActivity"
     }
 }

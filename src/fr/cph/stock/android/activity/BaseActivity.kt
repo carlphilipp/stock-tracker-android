@@ -42,19 +42,19 @@ import java.util.*
  * @author Carl-Philipp Harmant
  */
 class BaseActivity : Activity() {
-    private var mLoginStatusView: View? = null
+    private lateinit var loginStatusView: View
     private lateinit var login: String
     private lateinit var password: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.v(TAG, "BaseActivity onCreate")
         super.onCreate(savedInstanceState)
+        Log.v(TAG, "BaseActivity onCreate")
         setContentView(R.layout.loading)
-        mLoginStatusView = findViewById(R.id.login_status)
+        loginStatusView = findViewById(R.id.login_status)
         val settings = getSharedPreferences(Constants.PREFS_NAME, 0)
 
         if (settings.contains(Constants.LOGIN) && settings.contains(Constants.PASSWORD)) {
-            showProgress(true, null)
+            showProgress(true)
             login = settings.getString(Constants.LOGIN, null)
             password = settings.getString(Constants.PASSWORD, null)
             val params = object : HashMap<String, String>() {
@@ -66,7 +66,7 @@ class BaseActivity : Activity() {
             val main = MainTask(this, UrlType.AUTH, params)
             main.execute(null as Void?)
         } else {
-            showProgress(false, null)
+            showProgress(false)
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
@@ -79,16 +79,12 @@ class BaseActivity : Activity() {
      * @param show         show the bar or not
      * @param errorMessage the error message
      */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private fun showProgress(show: Boolean, errorMessage: String?) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
+    private fun showProgress(show: Boolean) {
         val shortAnimTime = resources.getInteger(android.R.integer.config_shortAnimTime)
-        mLoginStatusView!!.visibility = View.VISIBLE
-        mLoginStatusView!!.animate().setDuration(shortAnimTime.toLong()).alpha((if (show) 1 else 0).toFloat()).setListener(object : AnimatorListenerAdapter() {
+        loginStatusView.visibility = View.VISIBLE
+        loginStatusView.animate().setDuration(shortAnimTime.toLong()).alpha((if (show) 1 else 0).toFloat()).setListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
-                mLoginStatusView!!.visibility = if (show) View.VISIBLE else View.GONE
+                loginStatusView.visibility = if (show) View.VISIBLE else View.GONE
             }
         })
     }
@@ -101,7 +97,7 @@ class BaseActivity : Activity() {
     fun loadHome(portfolio: Portfolio) {
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra(Constants.PORTFOLIO, portfolio)
-        showProgress(false, null)
+        showProgress(false)
         finish()
         startActivity(intent)
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
