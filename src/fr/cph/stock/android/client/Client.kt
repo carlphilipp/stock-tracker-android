@@ -25,26 +25,20 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import fr.cph.stock.android.domain.ResponseDTO
 import fr.cph.stock.android.domain.UrlType
 import fr.cph.stock.android.exception.AppException
-import org.apache.commons.io.IOUtils
 import java.io.IOException
-import java.io.InputStream
 import java.net.CookieHandler
 import java.net.CookieManager
 import java.net.CookiePolicy
 import java.net.URL
-import java.nio.charset.Charset
-import java.util.function.BiConsumer
-import javax.net.ssl.HttpsURLConnection
 
 object Client {
 
     private val TAG = "Client"
-    private val mapper: ObjectMapper
+    private val mapper: ObjectMapper = ObjectMapper()
 
     init {
         val cookieManager = CookieManager(null, CookiePolicy.ACCEPT_ALL)
         CookieHandler.setDefault(cookieManager)
-        mapper = ObjectMapper()
     }
 
     @Throws(AppException::class)
@@ -53,41 +47,13 @@ object Client {
             val builder = Uri.Builder().scheme("https")
                     .authority("www.stocktracker.fr")
                     .appendPath(urlType.url)
-            params.forEach(BiConsumer<String, String> { key, value -> builder.appendQueryParameter(key, value) })
+            params.forEach({ key, value -> builder.appendQueryParameter(key, value) })
             Log.d(TAG, "Request: " + builder.toString())
-            val url = URL(builder.toString())
-            val data = getContent(url)
-            Log.d(TAG, "Response: " + data!!)
+            val data = URL(builder.toString()).readText()
+            Log.d(TAG, "Response: " + data)
             return mapper.readValue(data, ResponseDTO::class.java)
         } catch (e: IOException) {
             throw AppException(e.message!!, e)
         }
-
-    }
-
-    @Throws(IOException::class)
-    private fun getContent(url: URL): String? {
-        var stream: InputStream? = null
-        var connection: HttpsURLConnection? = null
-        var result: String? = null
-        try {
-            connection = url.openConnection() as HttpsURLConnection
-            connection.readTimeout = 3000
-            connection.connectTimeout = 3000
-            connection.requestMethod = "GET"
-            connection.doInput = true
-            connection.connect()
-            // Retrieve the response body as an InputStream.
-            stream = connection.inputStream
-            if (stream != null) {
-                result = IOUtils.toString(stream, Charset.forName("UTF8"))
-            }
-        } finally {
-            IOUtils.closeQuietly(stream)
-            if (connection != null) {
-                connection.disconnect()
-            }
-        }
-        return result
     }
 }

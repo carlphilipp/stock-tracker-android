@@ -19,21 +19,17 @@
 
 package fr.cph.stock.android.domain
 
-enum class ChartType private constructor(val value: String) {
+enum class ChartType constructor(val value: String) {
     SHARE_VALUE("SHARE_VALUE"), SECTOR("SECTOR"), CAPITALIZATION("CAPITALIZATION");
 
-
     companion object {
-
         fun getEnum(value: String?): ChartType {
             if (value == null) {
                 throw IllegalArgumentException()
             }
-            for (c in values()) {
-                if (value.equals(c.value, ignoreCase = true)) {
-                    return c
-                }
-            }
+            values()
+                    .filter { value.equals(it.value, ignoreCase = true) }
+                    .forEach { return it }
             throw IllegalArgumentException()
         }
     }

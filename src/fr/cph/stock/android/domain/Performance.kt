@@ -2,24 +2,18 @@ package fr.cph.stock.android.domain
 
 import android.os.Parcel
 import android.os.Parcelable
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonInclude
-
 import fr.cph.stock.android.util.UserContext
-
-import fr.cph.stock.android.util.UserContext.FORMAT_CURRENCY_ONE
-import fr.cph.stock.android.util.UserContext.FORMAT_LOCAL_ONE
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-class Performance : Parcelable {
+class Performance constructor() : Parcelable {
+
     private var gain: Double? = null
     private var performance: Double? = null
     private var yield2: Double? = null
     private var taxes: Double? = null
-
-    constructor() {}
 
     fun getGain(): String {
         return UserContext.FORMAT_CURRENCY_ONE.format(gain)
@@ -53,7 +47,7 @@ class Performance : Parcelable {
         this.taxes = taxes
     }
 
-    protected constructor(`in`: Parcel) {
+    constructor(`in`: Parcel) : this() {
         if (`in`.readByte().toInt() == 0) {
             gain = null
         } else {
@@ -99,7 +93,6 @@ class Performance : Parcelable {
     }
 
     companion object {
-
         @JvmField
         val CREATOR: Parcelable.Creator<Performance> = object : Parcelable.Creator<Performance> {
             override fun createFromParcel(`in`: Parcel): Performance {

@@ -46,11 +46,11 @@ import fr.cph.stock.android.task.MainTask
 
 class EquityActivity : ListActivity(), IStockTrackerActivity {
 
-    private var mAdapter: EquityAdapter? = null
-    private var equities: MutableList<Equity>? = null
-    private var lastUpdatedView: TextView? = null
-    private var errorView: TextView? = null
-    private var menuItem: MenuItem? = null
+    private lateinit var mAdapter: EquityAdapter
+    private lateinit var equities: MutableList<Equity>
+    private lateinit var lastUpdatedView: TextView
+    private lateinit var errorView: TextView
+    private lateinit var menuItem: MenuItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.v(TAG, "EquityActivity onCreate")
@@ -65,7 +65,7 @@ class EquityActivity : ListActivity(), IStockTrackerActivity {
         listAdapter = mAdapter
 
         lastUpdatedView = findViewById(R.id.lastUpdated)
-        lastUpdatedView!!.text = portfolio.lastUpdate
+        lastUpdatedView.text = portfolio.lastUpdate
         // Set context
     }
 
@@ -86,8 +86,8 @@ class EquityActivity : ListActivity(), IStockTrackerActivity {
             }
             R.id.refresh -> {
                 menuItem = item
-                menuItem!!.setActionView(R.layout.progressbar)
-                menuItem!!.expandActionView()
+                menuItem.setActionView(R.layout.progressbar)
+                menuItem.expandActionView()
                 mainTask = MainTask(this, UrlType.RELOAD, emptyMap())
                 mainTask.execute(null as Void?)
                 return true
@@ -102,12 +102,12 @@ class EquityActivity : ListActivity(), IStockTrackerActivity {
 
     override fun reloadData(portfolio: Portfolio) {
         // StockTrackerApp app = (StockTrackerApp) getApplication();
-        equities!!.clear()
-        equities!!.addAll(portfolio.equities)
-        mAdapter!!.notifyDataSetChanged()
-        lastUpdatedView!!.text = portfolio.lastUpdate
-        menuItem!!.collapseActionView()
-        menuItem!!.actionView = null
+        equities.clear()
+        equities.addAll(portfolio.equities)
+        mAdapter.notifyDataSetChanged()
+        lastUpdatedView.text = portfolio.lastUpdate
+        menuItem.collapseActionView()
+        menuItem.actionView = null
         val resultIntent = Intent()
         resultIntent.putExtra(Constants.PORTFOLIO, portfolio)
         setResult(Activity.RESULT_OK, resultIntent)
@@ -120,14 +120,13 @@ class EquityActivity : ListActivity(), IStockTrackerActivity {
         if (sessionError) {
             (application as StockTrackerApp).loadErrorActivity(this, json)
         } else {
-            errorView!!.text = json.optString("error")
-            val params = RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,
-                    LayoutParams.MATCH_PARENT)
-            params.addRule(RelativeLayout.BELOW, errorView!!.id)
+            errorView.text = json.optString("error")
+            val params = RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+            params.addRule(RelativeLayout.BELOW, errorView.id)
             val listView = findViewById<ListView>(android.R.id.list)
             listView.layoutParams = params
-            menuItem!!.collapseActionView()
-            menuItem!!.actionView = null
+            menuItem.collapseActionView()
+            menuItem.actionView = null
         }
     }
 
@@ -136,7 +135,6 @@ class EquityActivity : ListActivity(), IStockTrackerActivity {
     }
 
     companion object {
-
         private val TAG = "EquityActivity"
     }
 }

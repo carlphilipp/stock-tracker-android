@@ -29,11 +29,6 @@ import android.view.MenuItem
 import android.widget.ListView
 import android.widget.RelativeLayout
 import android.widget.TextView
-
-import org.json.JSONObject
-
-import java.util.Collections
-
 import fr.cph.stock.android.Constants
 import fr.cph.stock.android.R
 import fr.cph.stock.android.StockTrackerApp
@@ -42,15 +37,15 @@ import fr.cph.stock.android.domain.Portfolio
 import fr.cph.stock.android.domain.UrlType
 import fr.cph.stock.android.listener.ErrorMainOnClickListener
 import fr.cph.stock.android.task.MainTask
+import org.json.JSONObject
 
 class MainActivity : Activity(), IStockTrackerActivity {
 
-    private var menuItem: MenuItem? = null
-
-    private var ada: MainListAdapter? = null
-    private var portfolio: Portfolio? = null
-    private var errorView: TextView? = null
-    private var listView: ListView? = null
+    private lateinit var menuItem: MenuItem
+    private lateinit var ada: MainListAdapter
+    private lateinit var portfolio: Portfolio
+    private lateinit var errorView: TextView
+    private lateinit var listView: ListView
 
     override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
@@ -63,24 +58,23 @@ class MainActivity : Activity(), IStockTrackerActivity {
 
         ada = MainListAdapter(this, portfolio)
         listView = findViewById(R.id.mainList)
-        listView!!.adapter = ada
-        listView!!.setOnItemClickListener { arg0, arg1, position, arg3 ->
-            val intent: Intent
+        listView.adapter = ada
+        listView.setOnItemClickListener { _, _, position, _ ->
             when (position) {
                 0 -> {
-                    intent = Intent(baseContext, AccountActivity::class.java)
+                    val intent = Intent(baseContext, AccountActivity::class.java)
                     intent.putExtra(Constants.PORTFOLIO, portfolio)
                     startActivityForResult(intent, MainActivity.ACCOUNT_REQUEST)
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
                 }
                 1 -> {
-                    intent = Intent(baseContext, EquityActivity::class.java)
+                    val intent = Intent(baseContext, EquityActivity::class.java)
                     intent.putExtra(Constants.PORTFOLIO, portfolio)
                     startActivityForResult(intent, MainActivity.EQUITY_REQUEST)
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
                 }
                 2 -> {
-                    intent = Intent(baseContext, OverallActivity::class.java)
+                    val intent = Intent(baseContext, OverallActivity::class.java)
                     intent.putExtra(Constants.PORTFOLIO, portfolio)
                     startActivityForResult(intent, MainActivity.OVERALL_REQUEST)
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
@@ -88,13 +82,10 @@ class MainActivity : Activity(), IStockTrackerActivity {
             }
         }
 
-        val actionBar = actionBar
-        if (actionBar != null) {
-            actionBar.displayOptions = ActionBar.DISPLAY_SHOW_HOME or ActionBar.DISPLAY_SHOW_TITLE or ActionBar.DISPLAY_SHOW_CUSTOM
-        }
+        actionBar.displayOptions = ActionBar.DISPLAY_SHOW_HOME or ActionBar.DISPLAY_SHOW_TITLE or ActionBar.DISPLAY_SHOW_CUSTOM
 
         errorView = findViewById(R.id.errorMessage)
-        errorView!!.setOnClickListener(ErrorMainOnClickListener(listView!!, errorView!!))
+        errorView.setOnClickListener(ErrorMainOnClickListener(listView, errorView))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
@@ -103,7 +94,7 @@ class MainActivity : Activity(), IStockTrackerActivity {
             100 -> finish()
             Activity.RESULT_OK -> {
                 portfolio = intent!!.getParcelableExtra(Constants.PORTFOLIO)
-                ada!!.update(portfolio!!)
+                ada.update(portfolio)
             }
         }
     }
@@ -111,7 +102,7 @@ class MainActivity : Activity(), IStockTrackerActivity {
     public override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         // Restore the previously serialized current dropdown position.
         if (savedInstanceState.containsKey(STATE_SELECTED_NAVIGATION_ITEM)) {
-            actionBar!!.setSelectedNavigationItem(savedInstanceState.getInt(STATE_SELECTED_NAVIGATION_ITEM))
+            actionBar.setSelectedNavigationItem(savedInstanceState.getInt(STATE_SELECTED_NAVIGATION_ITEM))
         }
     }
 
@@ -132,8 +123,8 @@ class MainActivity : Activity(), IStockTrackerActivity {
             }
             R.id.refresh -> {
                 menuItem = item
-                menuItem!!.setActionView(R.layout.progressbar)
-                menuItem!!.expandActionView()
+                menuItem.setActionView(R.layout.progressbar)
+                menuItem.expandActionView()
                 mainTask = MainTask(this, UrlType.RELOAD, emptyMap())
                 mainTask.execute(null as Void?)
                 return true
@@ -144,9 +135,9 @@ class MainActivity : Activity(), IStockTrackerActivity {
 
     override fun reloadData(portfolio: Portfolio) {
         this.portfolio = portfolio
-        menuItem!!.collapseActionView()
-        menuItem!!.actionView = null
-        ada!!.update(this.portfolio!!)
+        menuItem.collapseActionView()
+        menuItem.actionView = null
+        ada.update(this.portfolio)
         val app = application as StockTrackerApp
         app.toast()
     }
@@ -157,11 +148,11 @@ class MainActivity : Activity(), IStockTrackerActivity {
             (application as StockTrackerApp).loadErrorActivity(this, json)
         } else {
             val params = RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
-            params.addRule(RelativeLayout.BELOW, errorView!!.id)
-            listView!!.layoutParams = params
-            errorView!!.text = json.optString("error")
-            menuItem!!.collapseActionView()
-            menuItem!!.actionView = null
+            params.addRule(RelativeLayout.BELOW, errorView.id)
+            listView.layoutParams = params
+            errorView.text = json.optString("error")
+            menuItem.collapseActionView()
+            menuItem.actionView = null
         }
     }
 
@@ -170,14 +161,10 @@ class MainActivity : Activity(), IStockTrackerActivity {
     }
 
     companion object {
-
-        private val TAG = "MainActivity"
-
         val ACCOUNT_REQUEST = 1
         val EQUITY_REQUEST = 2
         val OVERALL_REQUEST = 3
         val CHART_REQUEST = 4
-
         private val STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item"
     }
 }

@@ -36,7 +36,7 @@ import fr.cph.stock.android.listener.ErrorButtonOnClickListener
 
 class ErrorActivity : Activity() {
 
-    private var error: TextView? = null
+    private lateinit var error: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +47,7 @@ class ErrorActivity : Activity() {
         try {
             val json = JSONObject(msg)
             error = findViewById(R.id.error_message)
-            error!!.text = json.optString("error")
+            error.text = json.optString("error")
         } catch (e: JSONException) {
             Log.e(TAG, e.message, e)
         }
@@ -57,7 +57,7 @@ class ErrorActivity : Activity() {
     }
 
     fun displayError(json: JSONObject) {
-        error!!.text = json.optString("error")
+        error.text = json.optString("error")
     }
 
     fun loadHome(portfolio: Portfolio) {

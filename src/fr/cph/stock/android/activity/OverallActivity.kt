@@ -28,37 +28,25 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ListView
-import android.widget.RelativeLayout
-import android.widget.Spinner
-import android.widget.TextView
-
-import org.json.JSONObject
-
-import java.util.ArrayList
-import java.util.Collections
-import java.util.HashMap
-
+import android.widget.*
 import fr.cph.stock.android.Constants
 import fr.cph.stock.android.R
 import fr.cph.stock.android.StockTrackerApp
 import fr.cph.stock.android.adapter.ShareValueAdapter
-import fr.cph.stock.android.domain.Account
 import fr.cph.stock.android.domain.Portfolio
 import fr.cph.stock.android.domain.ShareValue
 import fr.cph.stock.android.domain.UrlType
 import fr.cph.stock.android.task.MainTask
+import org.json.JSONObject
+import java.util.*
 
 class OverallActivity : ListActivity(), IStockTrackerActivity {
 
-    private var refreshItem: MenuItem? = null
-    private var shareValues: MutableList<ShareValue>? = null
-    private var ada: ShareValueAdapter? = null
-    private var errorView: TextView? = null
-    private var portfolio: Portfolio? = null
+    private lateinit var refreshItem: MenuItem
+    private lateinit var shareValues: MutableList<ShareValue>
+    private lateinit var ada: ShareValueAdapter
+    private lateinit var errorView: TextView
+    private lateinit var portfolio: Portfolio
 
     override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
@@ -68,8 +56,8 @@ class OverallActivity : ListActivity(), IStockTrackerActivity {
         else
             intent.getParcelableExtra(Constants.PORTFOLIO)
         errorView = findViewById(R.id.errorMessage)
-        shareValues = portfolio!!.shareValues!!.toMutableList()
-        ada = ShareValueAdapter(shareValues!!, applicationContext)
+        shareValues = portfolio.shareValues!!.toMutableList()
+        ada = ShareValueAdapter(shareValues, applicationContext)
         listAdapter = ada
     }
 
@@ -114,18 +102,18 @@ class OverallActivity : ListActivity(), IStockTrackerActivity {
 
         val checked = alert.findViewById<Spinner>(R.id.accountList)
         val list = ArrayList<String>()
-        for (acc in portfolio!!.accounts!!) {
-            list.add(acc.name!!)
+        for (acc in portfolio.accounts!!) {
+            list.add(acc.name)
         }
         val dataAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, list)
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         checked.adapter = dataAdapter
 
         var dialogButton = alert.findViewById<Button>(R.id.dialogButtonOK)
-        dialogButton.setOnClickListener { v ->
-            refreshItem!!.setActionView(R.layout.progressbar)
-            refreshItem!!.expandActionView()
-            val account = portfolio!!.accounts!![checked.selectedItemPosition]
+        dialogButton.setOnClickListener { _ ->
+            refreshItem.setActionView(R.layout.progressbar)
+            refreshItem.expandActionView()
+            val account = portfolio.accounts!![checked.selectedItemPosition]
             val liquidityView = alert.findViewById<EditText>(R.id.liquidityMov)
             val yieldView = alert.findViewById<EditText>(R.id.yield)
             val buyView = alert.findViewById<EditText>(R.id.buy)
@@ -135,7 +123,7 @@ class OverallActivity : ListActivity(), IStockTrackerActivity {
 
             val params = object : HashMap<String, String>() {
                 init {
-                    put("accountId", account.id!!)
+                    put("accountId", account.id)
                     put("liquidity", liquidityView.text.toString())
                     put("yield", yieldView.text.toString())
                     put("buy", buyView.text.toString())
@@ -149,16 +137,16 @@ class OverallActivity : ListActivity(), IStockTrackerActivity {
             alert.dismiss()
         }
         dialogButton = alert.findViewById(R.id.dialogButtonCancel)
-        dialogButton.setOnClickListener { v -> alert.dismiss() }
+        dialogButton.setOnClickListener { _ -> alert.dismiss() }
         alert.show()
     }
 
     override fun reloadData(portfolio: Portfolio) {
-        shareValues!!.clear()
-        shareValues!!.addAll(portfolio.shareValues!!)
-        ada!!.notifyDataSetChanged()
-        refreshItem!!.collapseActionView()
-        refreshItem!!.actionView = null
+        shareValues.clear()
+        shareValues.addAll(portfolio.shareValues!!)
+        ada.notifyDataSetChanged()
+        refreshItem.collapseActionView()
+        refreshItem.actionView = null
         val resultIntent = Intent()
         resultIntent.putExtra(Constants.PORTFOLIO, portfolio)
         setResult(Activity.RESULT_OK, resultIntent)
@@ -172,13 +160,13 @@ class OverallActivity : ListActivity(), IStockTrackerActivity {
         if (sessionError) {
             (application as StockTrackerApp).loadErrorActivity(this, json)
         } else {
-            errorView!!.text = json.optString("error")
+            errorView.text = json.optString("error")
             val params = RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
-            params.addRule(RelativeLayout.BELOW, errorView!!.id)
+            params.addRule(RelativeLayout.BELOW, errorView.id)
             val listView = findViewById<ListView>(android.R.id.list)
             listView.layoutParams = params
-            refreshItem!!.collapseActionView()
-            refreshItem!!.actionView = null
+            refreshItem.collapseActionView()
+            refreshItem.actionView = null
         }
     }
 
@@ -187,7 +175,6 @@ class OverallActivity : ListActivity(), IStockTrackerActivity {
     }
 
     companion object {
-
         private val TAG = "OverallActivity"
     }
 }

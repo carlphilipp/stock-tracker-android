@@ -29,17 +29,15 @@ import fr.cph.stock.android.util.UserContext
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-class Account : Parcelable {
+class Account constructor() : Parcelable {
 
-    var id: String? = null
-    var name: String? = null
-    var currency: String? = null
+    lateinit var id: String
+    lateinit var name: String
+    lateinit var currency: String
     private var liquidity: Double? = null
 
-    constructor() {}
-
-    constructor(`in`: Parcel) {
-        readFromParcel(`in`)
+    constructor(source: Parcel) : this() {
+        readFromParcel(source)
     }
 
     fun getLiquidity(): String {

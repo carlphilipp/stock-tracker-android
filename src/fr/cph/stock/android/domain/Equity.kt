@@ -29,9 +29,9 @@ import fr.cph.stock.android.util.UserContext
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-class Equity : Parcelable {
+class Equity constructor() : Parcelable {
 
-    var name: String? = null
+    lateinit var name: String
     private var unitCostPrice: Double? = null
     private var value: Double? = null
     private var plusMinusValue: Double? = null
@@ -44,10 +44,8 @@ class Equity : Parcelable {
     private var plusMinusUnitCostPriceValue: Double? = null
     private var variation: String? = null
 
-    constructor() {}
-
-    constructor(`in`: Parcel) {
-        readFromParcel(`in`)
+    constructor(source: Parcel) : this() {
+        readFromParcel(source)
     }
 
     fun getQuantity(): String {
@@ -166,7 +164,6 @@ class Equity : Parcelable {
     }
 
     companion object {
-
         @JvmField
         val CREATOR: Parcelable.Creator<Equity> = object : Parcelable.Creator<Equity> {
             override fun createFromParcel(`in`: Parcel): Equity {
@@ -178,5 +175,4 @@ class Equity : Parcelable {
             }
         }
     }
-
 }

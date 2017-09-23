@@ -19,9 +19,8 @@
 
 package fr.cph.stock.android.activity
 
-import org.json.JSONObject
-
 import fr.cph.stock.android.domain.Portfolio
+import org.json.JSONObject
 
 interface IStockTrackerActivity {
 
@@ -30,5 +29,4 @@ interface IStockTrackerActivity {
     fun displayError(json: JSONObject)
 
     fun logOut()
-
 }

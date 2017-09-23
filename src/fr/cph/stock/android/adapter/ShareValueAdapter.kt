@@ -88,5 +88,4 @@ class ShareValueAdapter(private val sharesValues: List<ShareValue>, private val 
         internal var shareQuantityView: TextView? = null
         internal var monthlyYieldView: TextView? = null
     }
-
 }

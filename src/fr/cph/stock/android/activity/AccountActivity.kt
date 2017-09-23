@@ -24,26 +24,21 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.RelativeLayout
 import android.widget.TextView
-
-import org.json.JSONObject
-
-import java.util.ArrayList
-import java.util.Collections
-
 import fr.cph.stock.android.Constants
 import fr.cph.stock.android.R
 import fr.cph.stock.android.StockTrackerApp
-import fr.cph.stock.android.domain.Account
 import fr.cph.stock.android.domain.Portfolio
 import fr.cph.stock.android.domain.UrlType
 import fr.cph.stock.android.task.MainTask
 import fr.cph.stock.android.util.Util
+import org.json.JSONObject
 
 /**
  * This class represents the account activity
@@ -51,25 +46,22 @@ import fr.cph.stock.android.util.Util
  * @author Carl-Philipp Harmant
  */
 class AccountActivity : Activity(), IStockTrackerActivity {
-    private var portfolio: Portfolio? = null
 
-    /**
-     * Graphical component
-     */
-    private var menuItem: MenuItem? = null
-    private var errorView: TextView? = null
-    private var totalValueView: TextView? = null
-    private var totalGainView: TextView? = null
-    private var totalPlusMinusValueView: TextView? = null
-    private var lastUpdateView: TextView? = null
-    private var liquidityView: TextView? = null
-    private var yieldYearView: TextView? = null
-    private var shareValueView: TextView? = null
-    private var gainView: TextView? = null
-    private var perfView: TextView? = null
-    private var yieldView: TextView? = null
-    private var taxesView: TextView? = null
-    private var textViews: MutableList<TextView>? = null
+    private lateinit var portfolio: Portfolio
+    private lateinit var menuItem: MenuItem
+    private lateinit var errorView: TextView
+    private lateinit var totalValueView: TextView
+    private lateinit var totalGainView: TextView
+    private lateinit var totalPlusMinusValueView: TextView
+    private lateinit var lastUpdateView: TextView
+    private lateinit var liquidityView: TextView
+    private lateinit var yieldYearView: TextView
+    private lateinit var shareValueView: TextView
+    private lateinit var gainView: TextView
+    private lateinit var perfView: TextView
+    private lateinit var yieldView: TextView
+    private lateinit var taxesView: TextView
+    private val textViews: MutableList<TextView> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.v(TAG, "Account Activity onCreate")
@@ -77,7 +69,6 @@ class AccountActivity : Activity(), IStockTrackerActivity {
         setContentView(R.layout.account_activity)
 
         portfolio = intent.getParcelableExtra(Constants.PORTFOLIO)
-
         errorView = findViewById(R.id.errorMessage)
         totalValueView = findViewById(R.id.totalValue)
         totalGainView = findViewById(R.id.totalGain)
@@ -93,13 +84,12 @@ class AccountActivity : Activity(), IStockTrackerActivity {
 
         val accountsLayout = findViewById<RelativeLayout>(R.id.accountsLayout)
         var recent = TextView(applicationContext)
-        textViews = ArrayList()
         var id = 1
         var nameID = 100
         var viewId1 = 500
         var currencyId = 1000
-        for (i in 0..portfolio!!.accounts!!.size - 1) {
-            val account = portfolio!!.accounts!![i]
+        for (i in 0 until portfolio.accounts!!.size) {
+            val account = portfolio.accounts!![i]
             val currentAccountNameTextView = TextView(applicationContext)
             currentAccountNameTextView.text = account.name
             currentAccountNameTextView.setTextColor(Color.GRAY)
@@ -111,11 +101,11 @@ class AccountActivity : Activity(), IStockTrackerActivity {
             params.addRule(RelativeLayout.ALIGN_PARENT_LEFT)
             currentAccountNameTextView.layoutParams = params
             accountsLayout.addView(currentAccountNameTextView, params)
-            textViews!!.add(currentAccountNameTextView)
+            textViews.add(currentAccountNameTextView)
 
             val viewPoint1 = View(applicationContext)
             viewPoint1.id = viewId1
-            viewPoint1.setBackgroundColor(resources.getColor(R.color.grey_light))
+            viewPoint1.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.grey_light))
             params = RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, 2)
             params.addRule(RelativeLayout.RIGHT_OF, nameID)
             params.addRule(RelativeLayout.LEFT_OF, currencyId)
@@ -137,10 +127,10 @@ class AccountActivity : Activity(), IStockTrackerActivity {
             }
             currentCurrencyTextView.layoutParams = params
             accountsLayout.addView(currentCurrencyTextView, params)
-            textViews!!.add(currentCurrencyTextView)
+            textViews.add(currentCurrencyTextView)
 
             val viewPoint2 = View(applicationContext)
-            viewPoint2.setBackgroundColor(resources.getColor(R.color.grey_light))
+            viewPoint2.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.grey_light))
             params = RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, 2)
             params.addRule(RelativeLayout.RIGHT_OF, currencyId)
             params.addRule(RelativeLayout.LEFT_OF, id)
@@ -163,7 +153,7 @@ class AccountActivity : Activity(), IStockTrackerActivity {
             currentTextView.layoutParams = params
             recent = currentTextView
             accountsLayout.addView(currentTextView, params)
-            textViews!!.add(currentTextView)
+            textViews.add(currentTextView)
 
             id++
             nameID++
@@ -190,8 +180,8 @@ class AccountActivity : Activity(), IStockTrackerActivity {
             }
             R.id.refresh -> {
                 menuItem = item
-                menuItem!!.setActionView(R.layout.progressbar)
-                menuItem!!.expandActionView()
+                menuItem.setActionView(R.layout.progressbar)
+                menuItem.expandActionView()
                 mainTask = MainTask(this, UrlType.RELOAD, emptyMap())
                 mainTask.execute(null as Void?)
                 return true
@@ -205,8 +195,8 @@ class AccountActivity : Activity(), IStockTrackerActivity {
     }
 
     override fun reloadData(portfolio: Portfolio) {
-        menuItem!!.collapseActionView()
-        menuItem!!.actionView = null
+        menuItem.collapseActionView()
+        menuItem.actionView = null
         this.portfolio = portfolio
         val resultIntent = Intent()
         resultIntent.putExtra(Constants.PORTFOLIO, portfolio)
@@ -221,13 +211,13 @@ class AccountActivity : Activity(), IStockTrackerActivity {
         if (sessionError) {
             (application as StockTrackerApp).loadErrorActivity(this, json)
         } else {
-            errorView!!.text = json.optString("error")
+            errorView.text = json.optString("error")
             val params = RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
-            params.addRule(RelativeLayout.BELOW, errorView!!.id)
+            params.addRule(RelativeLayout.BELOW, errorView.id)
             params.addRule(RelativeLayout.CENTER_HORIZONTAL)
-            totalValueView!!.layoutParams = params
-            menuItem!!.collapseActionView()
-            menuItem!!.actionView = null
+            totalValueView.layoutParams = params
+            menuItem.collapseActionView()
+            menuItem.actionView = null
         }
     }
 
@@ -236,48 +226,46 @@ class AccountActivity : Activity(), IStockTrackerActivity {
     }
 
     private fun buildUi(withAccounts: Boolean) {
-        totalValueView!!.text = portfolio!!.getTotalValue()
-        totalGainView!!.text = portfolio!!.getTotalGain()
-        if (portfolio!!.isUp) {
-            totalGainView!!.setTextColor(Color.rgb(0, 160, 0))
+        totalValueView.text = portfolio.getTotalValue()
+        totalGainView.text = portfolio.getTotalGain()
+        if (portfolio.isUp) {
+            totalGainView.setTextColor(Color.rgb(0, 160, 0))
         } else {
-            totalGainView!!.setTextColor(Color.rgb(160, 0, 0))
+            totalGainView.setTextColor(Color.rgb(160, 0, 0))
         }
-        totalPlusMinusValueView!!.text = " (" + portfolio!!.getTotalPlusMinusValue() + ")"
-        if (portfolio!!.isUp) {
-            totalPlusMinusValueView!!.setTextColor(Color.rgb(0, 160, 0))
+        totalPlusMinusValueView.text = " (" + portfolio.getTotalPlusMinusValue() + ")"
+        if (portfolio.isUp) {
+            totalPlusMinusValueView.setTextColor(Color.rgb(0, 160, 0))
         } else {
-            totalPlusMinusValueView!!.setTextColor(Color.rgb(160, 0, 0))
+            totalPlusMinusValueView.setTextColor(Color.rgb(160, 0, 0))
         }
-        lastUpdateView!!.text = portfolio!!.lastUpdate
-        liquidityView!!.text = portfolio!!.getLiquidity()
-        yieldYearView!!.text = portfolio!!.getYieldYear()
-        shareValueView!!.text = portfolio!!.shareValues!![0].getShareValue()
-        gainView!!.text = portfolio!!.performance!!.getGain()
-        perfView!!.text = portfolio!!.performance!!.getPerformance()
-        yieldView!!.text = portfolio!!.performance!!.getYield()
-        taxesView!!.text = portfolio!!.performance!!.getTaxes()
+        lastUpdateView.text = portfolio.lastUpdate
+        liquidityView.text = portfolio.getLiquidity()
+        yieldYearView.text = portfolio.getYieldYear()
+        shareValueView.text = portfolio.shareValues!![0].getShareValue()
+        gainView.text = portfolio.performance!!.getGain()
+        perfView.text = portfolio.performance!!.getPerformance()
+        yieldView.text = portfolio.performance!!.getYield()
+        taxesView.text = portfolio.performance!!.getTaxes()
         if (withAccounts) {
             var j = 0
-            val size = portfolio!!.accounts!!.size
-            for (i in 0..size - 1) {
-                val account = portfolio!!.accounts!![i]
+            val size = portfolio.accounts!!.size
+            for (i in 0 until size) {
+                val account = portfolio.accounts!![i]
 
-                val currentAccountNameTextView = textViews!![j++]
+                val currentAccountNameTextView = textViews[j++]
                 currentAccountNameTextView.text = account.name
 
-                val currentTextView = textViews!![j++]
+                val currentTextView = textViews[j++]
                 currentTextView.text = account.getLiquidity()
 
-                val currentCurrencyTextView = textViews!![j++]
+                val currentCurrencyTextView = textViews[j++]
                 currentCurrencyTextView.text = account.currency
             }
         }
     }
 
     companion object {
-
         private val TAG = "AccountActivity"
     }
-
 }

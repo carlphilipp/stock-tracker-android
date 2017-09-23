@@ -24,21 +24,17 @@ import android.animation.AnimatorListenerAdapter
 import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-
-import org.json.JSONObject
-
-import java.util.HashMap
-
 import fr.cph.stock.android.Constants
 import fr.cph.stock.android.R
 import fr.cph.stock.android.domain.Portfolio
 import fr.cph.stock.android.domain.UrlType
 import fr.cph.stock.android.task.MainTask
+import org.json.JSONObject
+import java.util.*
 
 /**
  * This class represents the base activity of the app
@@ -126,7 +122,6 @@ class BaseActivity : Activity() {
     }
 
     companion object {
-
         private val TAG = "Base"
     }
 }
