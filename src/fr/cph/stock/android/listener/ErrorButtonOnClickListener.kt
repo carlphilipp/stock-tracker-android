@@ -20,10 +20,8 @@
 package fr.cph.stock.android.listener
 
 import android.view.View
-
-import java.util.HashMap
-
-import fr.cph.stock.android.Constants
+import fr.cph.stock.android.Constants.LOGIN
+import fr.cph.stock.android.Constants.PASSWORD
 import fr.cph.stock.android.activity.ErrorActivity
 import fr.cph.stock.android.domain.UrlType
 import fr.cph.stock.android.task.MainTask
@@ -31,14 +29,6 @@ import fr.cph.stock.android.task.MainTask
 class ErrorButtonOnClickListener(private val errorActivity: ErrorActivity, private val login: String, private val password: String) : View.OnClickListener {
 
     override fun onClick(v: View) {
-        val params = object : HashMap<String, String>() {
-            init {
-                put(Constants.URL_LOGIN, login)
-                put(Constants.URL_PASSWORD, password)
-            }
-        }
-        val mainTask = MainTask(errorActivity, UrlType.AUTH, params)
-        mainTask.execute(null as Void?)
+        MainTask(errorActivity, UrlType.AUTH, hashMapOf(LOGIN to login, PASSWORD to password)).execute(null as Void?)
     }
-
 }

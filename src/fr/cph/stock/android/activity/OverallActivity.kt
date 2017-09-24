@@ -56,7 +56,7 @@ class OverallActivity : ListActivity(), IStockTrackerActivity {
         else
             intent.getParcelableExtra(Constants.PORTFOLIO)
         errorView = findViewById(R.id.errorMessage)
-        shareValues = portfolio.shareValues!!.toMutableList()
+        shareValues = portfolio.shareValues.toMutableList()
         ada = ShareValueAdapter(shareValues, applicationContext)
         listAdapter = ada
     }
@@ -102,7 +102,7 @@ class OverallActivity : ListActivity(), IStockTrackerActivity {
 
         val checked = alert.findViewById<Spinner>(R.id.accountList)
         val list = ArrayList<String>()
-        for (acc in portfolio.accounts!!) {
+        for (acc in portfolio.accounts) {
             list.add(acc.name)
         }
         val dataAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, list)
@@ -113,7 +113,7 @@ class OverallActivity : ListActivity(), IStockTrackerActivity {
         dialogButton.setOnClickListener { _ ->
             refreshItem.setActionView(R.layout.progressbar)
             refreshItem.expandActionView()
-            val account = portfolio.accounts!![checked.selectedItemPosition]
+            val account = portfolio.accounts[checked.selectedItemPosition]
             val liquidityView = alert.findViewById<EditText>(R.id.liquidityMov)
             val yieldView = alert.findViewById<EditText>(R.id.yield)
             val buyView = alert.findViewById<EditText>(R.id.buy)
@@ -121,17 +121,15 @@ class OverallActivity : ListActivity(), IStockTrackerActivity {
             val taxeView = alert.findViewById<EditText>(R.id.taxe)
             val commentaryView = alert.findViewById<EditText>(R.id.commentaryEditText)
 
-            val params = object : HashMap<String, String>() {
-                init {
-                    put("accountId", account.id)
-                    put("liquidity", liquidityView.text.toString())
-                    put("yield", yieldView.text.toString())
-                    put("buy", buyView.text.toString())
-                    put("sell", sellView.text.toString())
-                    put("taxe", taxeView.text.toString())
-                    put("commentary", commentaryView.text.toString().replace(" ".toRegex(), "%20"))
-                }
-            }
+            val params = hashMapOf(
+                    "accountId" to account.id,
+                    "liquidity" to liquidityView.text.toString(),
+                    "yield" to yieldView.text.toString(),
+                    "buy" to buyView.text.toString(),
+                    "sell" to sellView.text.toString(),
+                    "taxe" to taxeView.text.toString(),
+                    "commentary" to commentaryView.text.toString().replace(" ".toRegex(), "%20")
+            )
             val mainTask = MainTask(this@OverallActivity, UrlType.UPDATEHISTORY, params)
             mainTask.execute(null as Void?)
             alert.dismiss()
@@ -143,7 +141,7 @@ class OverallActivity : ListActivity(), IStockTrackerActivity {
 
     override fun reloadData(portfolio: Portfolio) {
         shareValues.clear()
-        shareValues.addAll(portfolio.shareValues!!)
+        shareValues.addAll(portfolio.shareValues)
         ada.notifyDataSetChanged()
         refreshItem.collapseActionView()
         refreshItem.actionView = null

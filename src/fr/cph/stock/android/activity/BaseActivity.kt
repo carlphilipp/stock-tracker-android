@@ -21,20 +21,20 @@ package fr.cph.stock.android.activity
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import fr.cph.stock.android.Constants
+import fr.cph.stock.android.Constants.LOGIN
+import fr.cph.stock.android.Constants.PASSWORD
+import fr.cph.stock.android.Constants.PORTFOLIO
+import fr.cph.stock.android.Constants.PREFS_NAME
 import fr.cph.stock.android.R
 import fr.cph.stock.android.domain.Portfolio
 import fr.cph.stock.android.domain.UrlType
 import fr.cph.stock.android.task.MainTask
 import org.json.JSONObject
-import java.util.*
 
 /**
  * This class represents the base activity of the app
@@ -48,23 +48,16 @@ class BaseActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.v(TAG, "BaseActivity onCreate")
         setContentView(R.layout.loading)
         loginStatusView = findViewById(R.id.login_status)
-        val settings = getSharedPreferences(Constants.PREFS_NAME, 0)
+        val settings = getSharedPreferences(PREFS_NAME, 0)
 
-        if (settings.contains(Constants.LOGIN) && settings.contains(Constants.PASSWORD)) {
+        if (settings.contains(LOGIN) && settings.contains(PASSWORD)) {
             showProgress(true)
-            login = settings.getString(Constants.LOGIN, null)
-            password = settings.getString(Constants.PASSWORD, null)
-            val params = object : HashMap<String, String>() {
-                init {
-                    put("login", login)
-                    put("password", password)
-                }
-            }
-            val main = MainTask(this, UrlType.AUTH, params)
-            main.execute(null as Void?)
+            login = settings.getString(LOGIN, null)
+            password = settings.getString(PASSWORD, null)
+            val params = hashMapOf(LOGIN to login, PASSWORD to password)
+            MainTask(this, UrlType.AUTH, params).execute(null as Void?)
         } else {
             showProgress(false)
             val intent = Intent(this, LoginActivity::class.java)
@@ -96,7 +89,7 @@ class BaseActivity : Activity() {
      */
     fun loadHome(portfolio: Portfolio) {
         val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra(Constants.PORTFOLIO, portfolio)
+        intent.putExtra(PORTFOLIO, portfolio)
         showProgress(false)
         finish()
         startActivity(intent)
@@ -111,8 +104,8 @@ class BaseActivity : Activity() {
     fun displayError(jsonObject: JSONObject) {
         val intent = Intent(this, ErrorActivity::class.java)
         intent.putExtra("data", jsonObject.toString())
-        intent.putExtra(Constants.LOGIN, login)
-        intent.putExtra(Constants.PASSWORD, password)
+        intent.putExtra(LOGIN, login)
+        intent.putExtra(PASSWORD, password)
         startActivity(intent)
         finish()
     }

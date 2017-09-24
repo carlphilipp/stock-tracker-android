@@ -34,8 +34,8 @@ class ChartListener(private val activity: Activity, private val portfolio: Portf
 
     override fun onClick(v: View) {
         val intent = Intent(activity.applicationContext, ChartActivity::class.java)
-        intent.putExtra(Constants.PORTFOLIO, portfolio)
-        intent.putExtra("chartType", chartType.value)
+                .putExtra(Constants.PORTFOLIO, portfolio)
+                .putExtra("chartType", chartType.value)
         activity.startActivityForResult(intent, MainActivity.CHART_REQUEST)
         activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }

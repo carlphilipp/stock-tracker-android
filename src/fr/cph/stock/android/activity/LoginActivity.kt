@@ -40,7 +40,6 @@ import fr.cph.stock.android.domain.UrlType
 import fr.cph.stock.android.task.MainTask
 import fr.cph.stock.android.web.Md5
 import org.json.JSONObject
-import java.util.*
 
 /**
  * Activity which displays a login screen to the user.
@@ -105,14 +104,8 @@ class LoginActivity : Activity() {
         } else {
             loginStatusMessageView.setText(R.string.login_progress_signing_in)
             showProgress(true, null)
-            val params = object : HashMap<String, String>() {
-                init {
-                    put(LOGIN, login)
-                    put(PASSWORD, Md5(password).hexInString)
-                }
-            }
-            val mainTask = MainTask(this, UrlType.AUTH, params)
-            mainTask.execute(null as Void?)
+            val params = hashMapOf(LOGIN to login, PASSWORD to Md5(password).hexInString)
+            MainTask(this, UrlType.AUTH, params).execute()
         }
     }
 

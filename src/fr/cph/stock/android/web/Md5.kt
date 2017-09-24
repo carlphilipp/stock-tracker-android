@@ -19,21 +19,13 @@
 
 package fr.cph.stock.android.web
 
-import android.util.Log
 import java.security.MessageDigest
 
 class Md5(private val password: String) {
-
-    // convert the byte to hex format method 2
     val hexInString: String
         get() {
-            var md: MessageDigest? = null
-            try {
-                md = MessageDigest.getInstance("MD5")
-                md!!.update(password.toByteArray())
-            } catch (e: Throwable) {
-                Log.i(TAG, e.message)
-            }
+            val md = MessageDigest.getInstance("MD5")
+            md.update(password.toByteArray())
 
             val hexString = StringBuilder()
             val byteData: ByteArray = md!!.digest()
@@ -47,9 +39,4 @@ class Md5(private val password: String) {
             }
             return hexString.toString()
         }
-
-    companion object {
-
-        private val TAG = "Md5"
-    }
 }

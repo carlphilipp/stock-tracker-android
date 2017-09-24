@@ -22,15 +22,16 @@ package fr.cph.stock.android.domain
 import android.os.Parcel
 import android.os.Parcelable
 import fr.cph.stock.android.util.UserContext
+import kotlin.properties.Delegates
 
 class ShareValue constructor() : Parcelable {
 
-    var date: String? = null
-    var account: String? = null
-    private var portfolioValue: Double? = null
-    private var shareQuantity: Double? = null
-    private var shareValue: Double? = null
-    private var monthlyYield: Double? = null
+    lateinit var date: String
+    lateinit var account: String
+    private var portfolioValue: Double by Delegates.notNull()
+    private var shareQuantity: Double by Delegates.notNull()
+    private var shareValue: Double by Delegates.notNull()
+    private var monthlyYield: Double by Delegates.notNull()
     private var up: Boolean = false
     var commentary: String? = null
 
@@ -43,7 +44,7 @@ class ShareValue constructor() : Parcelable {
     }
 
     val isUp: Boolean
-        get() = shareValue!! > 100
+        get() = shareValue > 100
 
     fun getPortfolioValue(): String {
         return UserContext.FORMAT_CURRENCY_ONE.format(portfolioValue)
@@ -64,10 +65,10 @@ class ShareValue constructor() : Parcelable {
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeString(date)
         dest.writeString(account)
-        dest.writeDouble(portfolioValue!!)
-        dest.writeDouble(shareQuantity!!)
-        dest.writeDouble(shareValue!!)
-        dest.writeDouble(monthlyYield!!)
+        dest.writeDouble(portfolioValue)
+        dest.writeDouble(shareQuantity)
+        dest.writeDouble(shareValue)
+        dest.writeDouble(monthlyYield)
         dest.writeString(commentary)
         dest.writeByte((if (up) 1 else 0).toByte()) // myBoolean = in.readByte() == 1;
     }
@@ -95,5 +96,4 @@ class ShareValue constructor() : Parcelable {
             }
         }
     }
-
 }

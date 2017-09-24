@@ -26,21 +26,22 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonInclude
 
 import fr.cph.stock.android.util.UserContext
+import kotlin.properties.Delegates
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 class Equity constructor() : Parcelable {
 
     lateinit var name: String
-    private var unitCostPrice: Double? = null
-    private var value: Double? = null
-    private var plusMinusValue: Double? = null
+    private var unitCostPrice: Double by Delegates.notNull()
+    private var value: Double by Delegates.notNull()
+    private var plusMinusValue: Double by Delegates.notNull()
     private var up: Boolean = false
     var isUpVariation: Boolean = false
-    private var quantity: Double? = null
-    private var yieldUnitCostPrice: Double? = null
-    private var quote: Double? = null
-    private var plusMinusUnitCostPriceValue: Double? = null
+    private var quantity: Double by Delegates.notNull()
+    private var yieldUnitCostPrice: Double by Delegates.notNull()
+    private var quote: Double by Delegates.notNull()
+    private var plusMinusUnitCostPriceValue: Double by Delegates.notNull()
     private var variation: String? = null
 
     constructor(source: Parcel) : this() {
@@ -60,7 +61,7 @@ class Equity constructor() : Parcelable {
     }
 
     fun getPlusMinusUnitCostPriceValue(): String {
-        return if (plusMinusValue!! > 0)
+        return if (plusMinusValue > 0)
             "+" + UserContext.FORMAT_LOCAL_ZERO.format(plusMinusUnitCostPriceValue)
         else
             UserContext.FORMAT_LOCAL_ZERO.format(plusMinusUnitCostPriceValue)
@@ -75,14 +76,14 @@ class Equity constructor() : Parcelable {
     }
 
     fun getPlusMinusValue(): String {
-        return if (plusMinusValue!! > 0)
-            "+" + UserContext.FORMAT_LOCAL_ONE.format(plusMinusValue!!) + "%"
+        return if (plusMinusValue > 0)
+            "+" + UserContext.FORMAT_LOCAL_ONE.format(plusMinusValue) + "%"
         else
-            UserContext.FORMAT_LOCAL_ONE.format(plusMinusValue!!) + "%"
+            UserContext.FORMAT_LOCAL_ONE.format(plusMinusValue) + "%"
     }
 
     val isUp: Boolean
-        get() = plusMinusValue!! > 0
+        get() = plusMinusValue > 0
 
     override fun describeContents(): Int {
         return 0
@@ -94,14 +95,14 @@ class Equity constructor() : Parcelable {
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeString(name)
-        dest.writeDouble(unitCostPrice!!)
-        dest.writeDouble(value!!)
-        dest.writeDouble(plusMinusValue!!)
-        dest.writeDouble(quantity!!)
-        dest.writeDouble(yieldUnitCostPrice!!)
-        dest.writeDouble(quote!!)
-        dest.writeDouble(plusMinusUnitCostPriceValue!!)
-        dest.writeByte((if (up) 1 else 0).toByte()) // myBoolean = in.readByte() == 1;
+        dest.writeDouble(unitCostPrice)
+        dest.writeDouble(value)
+        dest.writeDouble(plusMinusValue)
+        dest.writeDouble(quantity)
+        dest.writeDouble(yieldUnitCostPrice)
+        dest.writeDouble(quote)
+        dest.writeDouble(plusMinusUnitCostPriceValue)
+        dest.writeByte((if (up) 1 else 0).toByte())
         dest.writeString(variation)
         dest.writeByte((if (isUpVariation) 1 else 0).toByte())
     }

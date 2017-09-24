@@ -26,55 +26,56 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import fr.cph.stock.android.util.UserContext
 import java.util.*
+import kotlin.properties.Delegates
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 class Portfolio constructor() : Parcelable {
 
-    var locale: Locale? = null
-    private var totalValue: Double? = null
-    private var totalGain: Double? = null
-    private var totalPlusMinusValue: Double? = null
+    lateinit var locale: Locale
+    private var totalValue: Double by Delegates.notNull()
+    private var totalGain: Double by Delegates.notNull()
+    private var totalPlusMinusValue: Double by Delegates.notNull()
     private var up: Boolean = false
-    private var liquidity: Double? = null
-    private var yieldYear: Double? = null
-    var yieldYearPerc: String? = null
-    var lastUpdate: String? = null
+    private var liquidity: Double by Delegates.notNull()
+    private var yieldYear: Double by Delegates.notNull()
+    lateinit var yieldYearPerc: String
+    lateinit var lastUpdate: String
 
-    var performance: Performance? = null
+    lateinit var performance: Performance
 
     @JsonProperty("chartShareValueColors")
-    var chartColors: String? = null
+    lateinit var chartColors: String
     @JsonProperty("chartShareValueData")
-    var chartData: String? = null
+    lateinit var chartData: String
     @JsonProperty("chartShareValueDate")
-    var chartDate: String? = null
+    lateinit var chartDate: String
     @JsonProperty("chartShareValueDraw")
-    var chartDraw: String? = null
+    lateinit var chartDraw: String
 
-    var chartSectorData: String? = null
-    var chartSectorTitle: String? = null
-    var chartSectorDraw: String? = null
-    var chartSectorCompanies: String? = null
+    lateinit var chartSectorData: String
+    lateinit var chartSectorTitle: String
+    lateinit var chartSectorDraw: String
+    lateinit var chartSectorCompanies: String
 
-    var chartCapData: String? = null
-    var chartCapTitle: String? = null
-    var chartCapDraw: String? = null
+    lateinit var chartCapData: String
+    lateinit var chartCapTitle: String
+    lateinit var chartCapDraw: String
     @JsonProperty("chartCapCompanies")
-    var chartCapCompanies: String? = null
+    lateinit var chartCapCompanies: String
 
-    private var totalVariation: Double? = null
+    private var totalVariation: Double by Delegates.notNull()
 
-    var equities: List<Equity> = ArrayList()
-    var shareValues: List<ShareValue>? = null
-    var accounts: List<Account>? = null
+    var equities: List<Equity> = mutableListOf()
+    var shareValues: List<ShareValue> = mutableListOf()
+    var accounts: List<Account> = mutableListOf()
 
     constructor(source: Parcel) : this() {
         readFromParcel(source)
     }
 
     val isUp: Boolean
-        get() = totalGain!! > 0
+        get() = totalGain > 0
 
     fun getTotalValue(): String {
         return UserContext.FORMAT_CURRENCY_ZERO.format(totalValue)
@@ -85,10 +86,10 @@ class Portfolio constructor() : Parcelable {
     }
 
     fun getTotalPlusMinusValue(): String {
-        return if (totalPlusMinusValue!! > 0)
-            "+" + UserContext.FORMAT_LOCAL_ONE.format(totalPlusMinusValue!!) + "%"
+        return if (totalPlusMinusValue > 0)
+            "+" + UserContext.FORMAT_LOCAL_ONE.format(totalPlusMinusValue) + "%"
         else
-            UserContext.FORMAT_LOCAL_ONE.format(totalPlusMinusValue!!) + "%"
+            UserContext.FORMAT_LOCAL_ONE.format(totalPlusMinusValue) + "%"
     }
 
     fun getLiquidity(): String {
@@ -105,19 +106,19 @@ class Portfolio constructor() : Parcelable {
     }
 
     val isTodayUp: Boolean
-        get() = totalVariation!! >= 0
+        get() = totalVariation >= 0
 
     override fun describeContents(): Int {
         return 0
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeDouble(totalValue!!)
-        dest.writeDouble(totalGain!!)
-        dest.writeDouble(totalPlusMinusValue!!)
-        dest.writeDouble(liquidity!!)
+        dest.writeDouble(totalValue)
+        dest.writeDouble(totalGain)
+        dest.writeDouble(totalPlusMinusValue)
+        dest.writeDouble(liquidity)
         dest.writeByte((if (up) 1 else 0).toByte()) // myBoolean = in.readByte() == 1;
-        dest.writeDouble(yieldYear!!)
+        dest.writeDouble(yieldYear)
         dest.writeString(yieldYearPerc)
         dest.writeString(lastUpdate)
 
@@ -142,7 +143,7 @@ class Portfolio constructor() : Parcelable {
         dest.writeTypedList(shareValues)
         dest.writeTypedList(accounts)
 
-        dest.writeDouble(totalVariation!!)
+        dest.writeDouble(totalVariation)
     }
 
     private fun readFromParcel(source: Parcel) {
@@ -167,17 +168,13 @@ class Portfolio constructor() : Parcelable {
         chartCapTitle = source.readString()
         chartCapDraw = source.readString()
         chartCapCompanies = source.readString()
-        equities = ArrayList()
         source.readTypedList(equities, Equity.CREATOR)
-        shareValues = ArrayList()
         source.readTypedList(shareValues, ShareValue.CREATOR)
-        accounts = ArrayList()
         source.readTypedList(accounts, Account.CREATOR)
         totalVariation = source.readDouble()
     }
 
     companion object {
-
         @JvmField
         val CREATOR: Parcelable.Creator<Portfolio> = object : Parcelable.Creator<Portfolio> {
             override fun createFromParcel(source: Parcel): Portfolio {

@@ -26,6 +26,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonInclude
 
 import fr.cph.stock.android.util.UserContext
+import kotlin.properties.Delegates
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -34,7 +35,7 @@ class Account constructor() : Parcelable {
     lateinit var id: String
     lateinit var name: String
     lateinit var currency: String
-    private var liquidity: Double? = null
+    private var liquidity: Double by Delegates.notNull()
 
     constructor(source: Parcel) : this() {
         readFromParcel(source)
@@ -52,7 +53,7 @@ class Account constructor() : Parcelable {
         dest.writeString(id)
         dest.writeString(name)
         dest.writeString(currency)
-        dest.writeDouble(liquidity!!)
+        dest.writeDouble(liquidity)
     }
 
     private fun readFromParcel(source: Parcel) {

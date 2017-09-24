@@ -20,7 +20,9 @@
 package fr.cph.stock.android.domain
 
 enum class ChartType constructor(val value: String) {
-    SHARE_VALUE("SHARE_VALUE"), SECTOR("SECTOR"), CAPITALIZATION("CAPITALIZATION");
+    SHARE_VALUE("SHARE_VALUE"),
+    SECTOR("SECTOR"),
+    CAPITALIZATION("CAPITALIZATION");
 
     companion object {
         fun getEnum(value: String?): ChartType {

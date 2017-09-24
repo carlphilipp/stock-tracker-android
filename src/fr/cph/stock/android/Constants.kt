@@ -11,7 +11,4 @@ object Constants {
     val LOGIN = "login"
     val PASSWORD = "password"
     val PORTFOLIO = "portfolio"
-
-    val URL_LOGIN = "?login="
-    val URL_PASSWORD = "&password="
 }

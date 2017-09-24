@@ -19,6 +19,9 @@
 
 package fr.cph.stock.android.domain
 
-enum class UrlType private constructor(var url: String?) {
-    AUTH("authmobile"), LOGOUT("logoutmobile"), UPDATEHISTORY("updatesharevaluemobile"), RELOAD("reloadportfoliomobile")
+enum class UrlType constructor(var url: String?) {
+    AUTH("authmobile"),
+    LOGOUT("logoutmobile"),
+    UPDATEHISTORY("updatesharevaluemobile"),
+    RELOAD("reloadportfoliomobile")
 }
