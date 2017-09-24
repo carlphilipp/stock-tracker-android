@@ -4,6 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.annotation.JsonProperty
 import fr.cph.stock.android.util.UserContext
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -12,6 +13,7 @@ class Performance constructor() : Parcelable {
 
     private var gain: Double? = null
     private var performance: Double? = null
+    @JsonProperty("yield")
     private var yield2: Double? = null
     private var taxes: Double? = null
 
@@ -19,51 +21,35 @@ class Performance constructor() : Parcelable {
         return UserContext.FORMAT_CURRENCY_ONE.format(gain)
     }
 
-    fun setGain(gain: Double?) {
-        this.gain = gain
-    }
-
     fun getPerformance(): String {
         return UserContext.FORMAT_LOCAL_ONE.format(performance) + "%"
-    }
-
-    fun setPerformance(performance: Double?) {
-        this.performance = performance
     }
 
     fun getYield(): String {
         return UserContext.FORMAT_LOCAL_ONE.format(yield2)
     }
 
-    fun setYield(yield2: Double?) {
-        this.yield2 = yield2
-    }
-
     fun getTaxes(): String {
         return UserContext.FORMAT_CURRENCY_ONE.format(taxes)
     }
 
-    fun setTaxes(taxes: Double) {
-        this.taxes = taxes
-    }
-
-    constructor(`in`: Parcel) : this() {
-        if (`in`.readByte().toInt() == 0) {
+    constructor(source: Parcel) : this() {
+        if (source.readByte().toInt() == 0) {
             gain = null
         } else {
-            gain = `in`.readDouble()
+            gain = source.readDouble()
         }
-        if (`in`.readByte().toInt() == 0) {
+        if (source.readByte().toInt() == 0) {
             performance = null
         } else {
-            performance = `in`.readDouble()
+            performance = source.readDouble()
         }
-        if (`in`.readByte().toInt() == 0) {
+        if (source.readByte().toInt() == 0) {
             yield2 = null
         } else {
-            yield2 = `in`.readDouble()
+            yield2 = source.readDouble()
         }
-        taxes = `in`.readDouble()
+        taxes = source.readDouble()
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
@@ -95,8 +81,8 @@ class Performance constructor() : Parcelable {
     companion object {
         @JvmField
         val CREATOR: Parcelable.Creator<Performance> = object : Parcelable.Creator<Performance> {
-            override fun createFromParcel(`in`: Parcel): Performance {
-                return Performance(`in`)
+            override fun createFromParcel(source: Parcel): Performance {
+                return Performance(source)
             }
 
             override fun newArray(size: Int): Array<Performance?> {

@@ -21,22 +21,15 @@ package fr.cph.stock.android.domain
 
 import android.os.Parcel
 import android.os.Parcelable
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
-
-import java.util.ArrayList
-import java.util.Locale
-
 import fr.cph.stock.android.util.UserContext
-
-import fr.cph.stock.android.util.UserContext.FORMAT_CURRENCY_ZERO
-import fr.cph.stock.android.util.UserContext.FORMAT_LOCAL_ONE
+import java.util.*
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-class Portfolio : Parcelable {
+class Portfolio constructor() : Parcelable {
 
     var locale: Locale? = null
     private var totalValue: Double? = null
@@ -76,10 +69,8 @@ class Portfolio : Parcelable {
     var shareValues: List<ShareValue>? = null
     var accounts: List<Account>? = null
 
-    constructor() {}
-
-    constructor(`in`: Parcel) {
-        readFromParcel(`in`)
+    constructor(source: Parcel) : this() {
+        readFromParcel(source)
     }
 
     val isUp: Boolean
@@ -89,16 +80,8 @@ class Portfolio : Parcelable {
         return UserContext.FORMAT_CURRENCY_ZERO.format(totalValue)
     }
 
-    fun setTotalValue(totalValue: Double?) {
-        this.totalValue = totalValue
-    }
-
     fun getTotalGain(): String {
         return UserContext.FORMAT_CURRENCY_ZERO.format(totalGain)
-    }
-
-    fun setTotalGain(totalGain: Double?) {
-        this.totalGain = totalGain
     }
 
     fun getTotalPlusMinusValue(): String {
@@ -108,33 +91,17 @@ class Portfolio : Parcelable {
             UserContext.FORMAT_LOCAL_ONE.format(totalPlusMinusValue!!) + "%"
     }
 
-    fun setTotalPlusMinusValue(totalPlusMinusValue: Double?) {
-        this.totalPlusMinusValue = totalPlusMinusValue
-    }
-
     fun getLiquidity(): String {
         return UserContext.FORMAT_CURRENCY_ZERO.format(liquidity)
-    }
-
-    fun setLiquidity(liquidity: Double?) {
-        this.liquidity = liquidity
     }
 
     fun getYieldYear(): String {
         return UserContext.FORMAT_CURRENCY_ZERO.format(yieldYear)
     }
 
-    fun setYieldYear(yieldYear: Double?) {
-        this.yieldYear = yieldYear
-    }
-
     fun getTotalVariation(): String {
         val plus = if (isTodayUp) "+" else ""
         return plus + UserContext.FORMAT_LOCAL_TWO.format(totalVariation) + "%"
-    }
-
-    fun setTotalVariation(totalVariation: Double?) {
-        this.totalVariation = totalVariation
     }
 
     val isTodayUp: Boolean
@@ -178,43 +145,43 @@ class Portfolio : Parcelable {
         dest.writeDouble(totalVariation!!)
     }
 
-    private fun readFromParcel(`in`: Parcel) {
-        totalValue = `in`.readDouble()
-        totalGain = `in`.readDouble()
-        totalPlusMinusValue = `in`.readDouble()
-        liquidity = `in`.readDouble()
-        up = `in`.readByte().toInt() == 1
-        yieldYear = `in`.readDouble()
-        yieldYearPerc = `in`.readString()
-        lastUpdate = `in`.readString()
-        performance = `in`.readParcelable(Performance::class.java.classLoader)
-        chartColors = `in`.readString()
-        chartData = `in`.readString()
-        chartDate = `in`.readString()
-        chartDraw = `in`.readString()
-        chartSectorData = `in`.readString()
-        chartSectorTitle = `in`.readString()
-        chartSectorDraw = `in`.readString()
-        chartSectorCompanies = `in`.readString()
-        chartCapData = `in`.readString()
-        chartCapTitle = `in`.readString()
-        chartCapDraw = `in`.readString()
-        chartCapCompanies = `in`.readString()
+    private fun readFromParcel(source: Parcel) {
+        totalValue = source.readDouble()
+        totalGain = source.readDouble()
+        totalPlusMinusValue = source.readDouble()
+        liquidity = source.readDouble()
+        up = source.readByte().toInt() == 1
+        yieldYear = source.readDouble()
+        yieldYearPerc = source.readString()
+        lastUpdate = source.readString()
+        performance = source.readParcelable(Performance::class.java.classLoader)
+        chartColors = source.readString()
+        chartData = source.readString()
+        chartDate = source.readString()
+        chartDraw = source.readString()
+        chartSectorData = source.readString()
+        chartSectorTitle = source.readString()
+        chartSectorDraw = source.readString()
+        chartSectorCompanies = source.readString()
+        chartCapData = source.readString()
+        chartCapTitle = source.readString()
+        chartCapDraw = source.readString()
+        chartCapCompanies = source.readString()
         equities = ArrayList()
-        `in`.readTypedList(equities, Equity.CREATOR)
+        source.readTypedList(equities, Equity.CREATOR)
         shareValues = ArrayList()
-        `in`.readTypedList(shareValues, ShareValue.CREATOR)
+        source.readTypedList(shareValues, ShareValue.CREATOR)
         accounts = ArrayList()
-        `in`.readTypedList(accounts, Account.CREATOR)
-        totalVariation = `in`.readDouble()
+        source.readTypedList(accounts, Account.CREATOR)
+        totalVariation = source.readDouble()
     }
 
     companion object {
 
         @JvmField
         val CREATOR: Parcelable.Creator<Portfolio> = object : Parcelable.Creator<Portfolio> {
-            override fun createFromParcel(`in`: Parcel): Portfolio {
-                return Portfolio(`in`)
+            override fun createFromParcel(source: Parcel): Portfolio {
+                return Portfolio(source)
             }
 
             override fun newArray(size: Int): Array<Portfolio?> {

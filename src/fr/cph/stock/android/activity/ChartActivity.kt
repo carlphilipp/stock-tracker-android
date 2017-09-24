@@ -62,8 +62,6 @@ class ChartActivity : Activity(), IStockTrackerActivity {
     private lateinit var chartType: ChartType
     private lateinit var portfolio: Portfolio
     private lateinit var webView: WebView
-    // FIXME action bar not needed ?
-    private lateinit var actionBar2: ActionBar
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,7 +72,6 @@ class ChartActivity : Activity(), IStockTrackerActivity {
         chartType = ChartType.getEnum(intent.getStringExtra("chartType"))
 
         errorView = findViewById(R.id.errorMessage)
-        actionBar2 = getActionBar()
         webView = findViewById(R.id.webView)
         val data = data
         webView.webChromeClient = DebugWebChromeClient()
@@ -106,7 +103,7 @@ class ChartActivity : Activity(), IStockTrackerActivity {
                         data = data.replace("#WIDTH#".toRegex(), ((metrics.widthPixels / metrics.density).toInt() - 30).toString() + "")
                         data = data.replace("#HEIGHT#".toRegex(), ((metrics.widthPixels / metrics.density).toInt() - 30).toString() + "")
                         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-                        actionBar!!.title = "Capitalization Chart"
+                        actionBar.title = "Capitalization Chart"
                         webView.isHorizontalScrollBarEnabled = false
                     }
                     ChartType.SECTOR -> {
@@ -120,7 +117,7 @@ class ChartActivity : Activity(), IStockTrackerActivity {
                         data = data.replace("#WIDTH#".toRegex(), ((metrics.widthPixels / metrics.density).toInt() - 30).toString() + "")
                         data = data.replace("#HEIGHT#".toRegex(), ((metrics.widthPixels / metrics.density).toInt() - 30).toString() + "")
                         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-                        actionBar!!.title = "Sector Chart"
+                        actionBar.title = "Sector Chart"
                         webView.isHorizontalScrollBarEnabled = false
                     }
                     ChartType.SHARE_VALUE -> {
@@ -134,7 +131,7 @@ class ChartActivity : Activity(), IStockTrackerActivity {
                         data = data.replace("#WIDTH#".toRegex(), ((metrics.widthPixels / metrics.density).toInt() - 30).toString() + "")
                         data = data.replace("#HEIGHT#".toRegex(), (metrics.heightPixels.toDouble() / metrics.density.toDouble() / 1.35).toInt().toString() + "")
                         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                        actionBar!!.title = "Share Value Chart"
+                        actionBar.title = "Share Value Chart"
                     }
                 }
             } catch (e: IOException) {

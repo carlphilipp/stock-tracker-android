@@ -38,7 +38,6 @@ class Equity constructor() : Parcelable {
     private var up: Boolean = false
     var isUpVariation: Boolean = false
     private var quantity: Double? = null
-    private var yieldYear: Double? = null
     private var yieldUnitCostPrice: Double? = null
     private var quote: Double? = null
     private var plusMinusUnitCostPriceValue: Double? = null
@@ -52,32 +51,12 @@ class Equity constructor() : Parcelable {
         return UserContext.FORMAT_LOCAL_ONE.format(quantity)
     }
 
-    fun setQuantity(quantity: Double?) {
-        this.quantity = quantity
-    }
-
-    fun getYieldYear(): String {
-        return UserContext.FORMAT_LOCAL_ONE.format(yieldYear) + "%"
-    }
-
-    fun setYieldYear(yieldYear: Double?) {
-        this.yieldYear = yieldYear
-    }
-
     fun getYieldUnitCostPrice(): String {
         return UserContext.FORMAT_LOCAL_ONE.format(yieldUnitCostPrice) + "%"
     }
 
-    fun setYieldUnitCostPrice(yieldUnitCostPrice: Double?) {
-        this.yieldUnitCostPrice = yieldUnitCostPrice
-    }
-
     fun getQuote(): String {
         return UserContext.FORMAT_LOCAL_TWO.format(quote)
-    }
-
-    fun setQuote(quote: Double?) {
-        this.quote = quote
     }
 
     fun getPlusMinusUnitCostPriceValue(): String {
@@ -87,24 +66,12 @@ class Equity constructor() : Parcelable {
             UserContext.FORMAT_LOCAL_ZERO.format(plusMinusUnitCostPriceValue)
     }
 
-    fun setPlusMinusUnitCostPriceValue(plusMinusUnitCostPriceValue: Double?) {
-        this.plusMinusUnitCostPriceValue = plusMinusUnitCostPriceValue
-    }
-
     fun getUnitCostPrice(): String {
         return UserContext.FORMAT_LOCAL_TWO.format(unitCostPrice)
     }
 
-    fun setUnitCostPrice(unitCostPrice: Double?) {
-        this.unitCostPrice = unitCostPrice
-    }
-
     fun getValue(): String {
         return UserContext.FORMAT_LOCAL_ZERO.format(value)
-    }
-
-    fun setValue(value: Double?) {
-        this.value = value
     }
 
     fun getPlusMinusValue(): String {
@@ -112,10 +79,6 @@ class Equity constructor() : Parcelable {
             "+" + UserContext.FORMAT_LOCAL_ONE.format(plusMinusValue!!) + "%"
         else
             UserContext.FORMAT_LOCAL_ONE.format(plusMinusValue!!) + "%"
-    }
-
-    fun setPlusMinusValue(plusMinusValue: Double?) {
-        this.plusMinusValue = plusMinusValue
     }
 
     val isUp: Boolean
@@ -129,17 +92,12 @@ class Equity constructor() : Parcelable {
         return if (variation == null) "?" else variation!!
     }
 
-    fun setVariation(variation: String?) {
-        this.variation = variation
-    }
-
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeString(name)
         dest.writeDouble(unitCostPrice!!)
         dest.writeDouble(value!!)
         dest.writeDouble(plusMinusValue!!)
         dest.writeDouble(quantity!!)
-        dest.writeDouble(yieldYear!!)
         dest.writeDouble(yieldUnitCostPrice!!)
         dest.writeDouble(quote!!)
         dest.writeDouble(plusMinusUnitCostPriceValue!!)
@@ -148,26 +106,25 @@ class Equity constructor() : Parcelable {
         dest.writeByte((if (isUpVariation) 1 else 0).toByte())
     }
 
-    private fun readFromParcel(`in`: Parcel) {
-        name = `in`.readString()
-        unitCostPrice = `in`.readDouble()
-        value = `in`.readDouble()
-        plusMinusValue = `in`.readDouble()
-        quantity = `in`.readDouble()
-        yieldYear = `in`.readDouble()
-        yieldUnitCostPrice = `in`.readDouble()
-        quote = `in`.readDouble()
-        plusMinusUnitCostPriceValue = `in`.readDouble()
-        up = `in`.readByte().toInt() == 1
-        variation = `in`.readString()
-        isUpVariation = `in`.readByte().toInt() == 1
+    private fun readFromParcel(source: Parcel) {
+        name = source.readString()
+        unitCostPrice = source.readDouble()
+        value = source.readDouble()
+        plusMinusValue = source.readDouble()
+        quantity = source.readDouble()
+        yieldUnitCostPrice = source.readDouble()
+        quote = source.readDouble()
+        plusMinusUnitCostPriceValue = source.readDouble()
+        up = source.readByte().toInt() == 1
+        variation = source.readString()
+        isUpVariation = source.readByte().toInt() == 1
     }
 
     companion object {
         @JvmField
         val CREATOR: Parcelable.Creator<Equity> = object : Parcelable.Creator<Equity> {
-            override fun createFromParcel(`in`: Parcel): Equity {
-                return Equity(`in`)
+            override fun createFromParcel(source: Parcel): Equity {
+                return Equity(source)
             }
 
             override fun newArray(size: Int): Array<Equity?> {

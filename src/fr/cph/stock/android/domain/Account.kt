@@ -44,10 +44,6 @@ class Account constructor() : Parcelable {
         return UserContext.FORMAT_LOCAL_ONE.format(liquidity)
     }
 
-    fun setLiquidity(liquidity: Double?) {
-        this.liquidity = liquidity
-    }
-
     override fun describeContents(): Int {
         return 0
     }
@@ -59,11 +55,11 @@ class Account constructor() : Parcelable {
         dest.writeDouble(liquidity!!)
     }
 
-    private fun readFromParcel(`in`: Parcel) {
-        id = `in`.readString()
-        name = `in`.readString()
-        currency = `in`.readString()
-        liquidity = `in`.readDouble()
+    private fun readFromParcel(source: Parcel) {
+        id = source.readString()
+        name = source.readString()
+        currency = source.readString()
+        liquidity = source.readDouble()
     }
 
     override fun toString(): String {
