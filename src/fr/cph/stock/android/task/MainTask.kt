@@ -21,8 +21,9 @@ package fr.cph.stock.android.task
 
 import android.os.AsyncTask
 import android.util.Log
+import fr.cph.stock.android.Constants.ERROR
+import fr.cph.stock.android.activity.StockTrackerActivity
 import fr.cph.stock.android.client.Client
-import fr.cph.stock.android.domain.Portfolio
 import fr.cph.stock.android.domain.ResponseDTO
 import fr.cph.stock.android.domain.UrlType
 import fr.cph.stock.android.exception.AppException
@@ -30,7 +31,7 @@ import fr.cph.stock.android.util.UserContext
 import org.json.JSONObject
 
 //FIXME logout does not seem to be working
-class MainTask(private val obj: Any, private val urlType: UrlType, private val params: Map<String, String>) : AsyncTask<Void, Void, ResponseDTO>() {
+class MainTask(private val activity: StockTrackerActivity, private val urlType: UrlType, private val params: Map<String, String>) : AsyncTask<Void, Void, ResponseDTO>() {
 
     override fun doInBackground(vararg params: Void): ResponseDTO {
         return try {
@@ -45,21 +46,17 @@ class MainTask(private val obj: Any, private val urlType: UrlType, private val p
 
     override fun onPostExecute(responseDTO: ResponseDTO) {
         try {
-            val clazz = obj.javaClass
             if (responseDTO.error == null) {
                 UserContext.setup(responseDTO.portfolio.locale)
                 when (urlType) {
-                    UrlType.LOGOUT -> clazz.getMethod("logOut").invoke(obj)
-                    UrlType.UPDATEHISTORY -> clazz.getMethod("reloadData", Portfolio::class.java).invoke(obj, responseDTO.portfolio)
-                    UrlType.AUTH -> clazz.getMethod("loadHome", Portfolio::class.java).invoke(obj, responseDTO.portfolio)
-                    UrlType.RELOAD -> clazz.getMethod("reloadData", Portfolio::class.java).invoke(obj, responseDTO.portfolio)
+                    UrlType.LOGOUT -> activity.logOut()
+                    else -> activity.update(responseDTO.portfolio)
                 }
             } else {
-                val jsonError = JSONObject().accumulate("error", responseDTO.error)
-                clazz.getMethod("displayError", JSONObject::class.java).invoke(obj, jsonError)
+                activity.displayError(JSONObject().accumulate(ERROR, responseDTO.error))
             }
-        } catch (e: Exception) {
-            Log.e(TAG, "", e)
+        } catch (exception: Exception) {
+            Log.e(TAG, exception.message, exception)
         }
         super.onPostExecute(responseDTO)
     }

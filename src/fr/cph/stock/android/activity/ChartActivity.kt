@@ -20,7 +20,6 @@
 package fr.cph.stock.android.activity
 
 import android.annotation.SuppressLint
-import android.app.ActionBar
 import android.app.ActionBar.LayoutParams
 import android.app.Activity
 import android.content.Intent
@@ -52,7 +51,7 @@ import java.io.StringWriter
  *
  * @author Carl-Philipp Harmant
  */
-class ChartActivity : Activity(), IStockTrackerActivity {
+class ChartActivity : Activity(), StockTrackerActivity {
 
     /**
      * Graphics components
@@ -148,31 +147,19 @@ class ChartActivity : Activity(), IStockTrackerActivity {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val mainTask: MainTask
-        when (item.itemId) {
-            R.id.action_logout -> {
-                mainTask = MainTask(this, UrlType.LOGOUT, emptyMap())
-                mainTask.execute(null as Void?)
-                return true
-            }
-            R.id.refresh -> {
-                menuItem = item
-                menuItem.setActionView(R.layout.progressbar)
-                menuItem.expandActionView()
-                mainTask = MainTask(this, UrlType.RELOAD, emptyMap())
-                mainTask.execute(null as Void?)
-                return true
-            }
-            android.R.id.home -> {
-                finish()
-                return true
-            }
-            else -> return super.onOptionsItemSelected(item)
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_logout -> consume { MainTask(this, UrlType.LOGOUT, emptyMap()).execute() }
+        R.id.refresh -> consume {
+            menuItem = item
+            menuItem.setActionView(R.layout.progressbar)
+            menuItem.expandActionView()
+            MainTask(this, UrlType.RELOAD, emptyMap()).execute()
         }
+        android.R.id.home -> consume { finish() }
+        else -> super.onOptionsItemSelected(item)
     }
 
-    override fun reloadData(portfolio: Portfolio) {
+    override fun update(portfolio: Portfolio) {
         menuItem.collapseActionView()
         menuItem.actionView = null
         val resultIntent = Intent()

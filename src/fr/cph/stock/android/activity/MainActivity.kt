@@ -39,7 +39,7 @@ import fr.cph.stock.android.listener.ErrorMainOnClickListener
 import fr.cph.stock.android.task.MainTask
 import org.json.JSONObject
 
-class MainActivity : Activity(), IStockTrackerActivity {
+class MainActivity : Activity(), StockTrackerActivity {
 
     private lateinit var menuItem: MenuItem
     private lateinit var ada: MainListAdapter
@@ -112,28 +112,18 @@ class MainActivity : Activity(), IStockTrackerActivity {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle item selection
-        val mainTask: MainTask
-        when (item.itemId) {
-            R.id.action_logout -> {
-                mainTask = MainTask(this, UrlType.LOGOUT, emptyMap())
-                mainTask.execute(null as Void?)
-                return true
-            }
-            R.id.refresh -> {
-                menuItem = item
-                menuItem.setActionView(R.layout.progressbar)
-                menuItem.expandActionView()
-                mainTask = MainTask(this, UrlType.RELOAD, emptyMap())
-                mainTask.execute(null as Void?)
-                return true
-            }
-            else -> return super.onOptionsItemSelected(item)
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_logout -> consume { MainTask(this, UrlType.LOGOUT, emptyMap()).execute() }
+        R.id.refresh -> consume {
+            menuItem = item
+            menuItem.setActionView(R.layout.progressbar)
+            menuItem.expandActionView()
+            MainTask(this, UrlType.RELOAD, emptyMap()).execute()
         }
+        else -> super.onOptionsItemSelected(item)
     }
 
-    override fun reloadData(portfolio: Portfolio) {
+    override fun update(portfolio: Portfolio) {
         this.portfolio = portfolio
         menuItem.collapseActionView()
         menuItem.actionView = null

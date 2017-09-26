@@ -25,16 +25,14 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
-
-import org.json.JSONException
-import org.json.JSONObject
-
 import fr.cph.stock.android.Constants
 import fr.cph.stock.android.R
 import fr.cph.stock.android.domain.Portfolio
 import fr.cph.stock.android.listener.ErrorButtonOnClickListener
+import org.json.JSONException
+import org.json.JSONObject
 
-class ErrorActivity : Activity() {
+class ErrorActivity : Activity(), StockTrackerActivity {
 
     private lateinit var error: TextView
 
@@ -56,16 +54,20 @@ class ErrorActivity : Activity() {
         button.setOnClickListener(ErrorButtonOnClickListener(this, login, password))
     }
 
-    fun displayError(json: JSONObject) {
+    override fun displayError(json: JSONObject) {
         error.text = json.optString("error")
     }
 
-    fun loadHome(portfolio: Portfolio) {
+    override fun update(portfolio: Portfolio) {
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra(Constants.PORTFOLIO, portfolio)
         finish()
         startActivity(intent)
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+    }
+
+    override fun logOut() {
+        // no-op
     }
 
     companion object {

@@ -40,7 +40,7 @@ import fr.cph.stock.android.task.MainTask
 import org.json.JSONObject
 import java.util.*
 
-class OverallActivity : ListActivity(), IStockTrackerActivity {
+class OverallActivity : ListActivity(), StockTrackerActivity {
 
     private lateinit var refreshItem: MenuItem
     private lateinit var shareValues: MutableList<ShareValue>
@@ -68,31 +68,16 @@ class OverallActivity : ListActivity(), IStockTrackerActivity {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val mainTask: MainTask
-        when (item.itemId) {
-            R.id.action_logout -> {
-                mainTask = MainTask(this, UrlType.LOGOUT, emptyMap())
-                mainTask.execute(null as Void?)
-                return true
-            }
-            R.id.refresh -> {
-                item.setActionView(R.layout.progressbar)
-                item.expandActionView()
-                mainTask = MainTask(this, UrlType.RELOAD, emptyMap())
-                mainTask.execute(null as Void?)
-                return true
-            }
-            R.id.action_update -> {
-                showPanelUpdateHistory()
-                return true
-            }
-            android.R.id.home -> {
-                finish()
-                return true
-            }
-            else -> return super.onOptionsItemSelected(item)
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_logout -> consume { MainTask(this, UrlType.LOGOUT, emptyMap()).execute(null as Void?) }
+        R.id.refresh -> consume {
+            item.setActionView(R.layout.progressbar)
+            item.expandActionView()
+            MainTask(this, UrlType.RELOAD, emptyMap()).execute(null as Void?)
         }
+        R.id.action_update -> consume { showPanelUpdateHistory() }
+        android.R.id.home -> consume { finish() }
+        else -> super.onOptionsItemSelected(item)
     }
 
     private fun showPanelUpdateHistory() {
@@ -139,7 +124,7 @@ class OverallActivity : ListActivity(), IStockTrackerActivity {
         alert.show()
     }
 
-    override fun reloadData(portfolio: Portfolio) {
+    override fun update(portfolio: Portfolio) {
         shareValues.clear()
         shareValues.addAll(portfolio.shareValues)
         ada.notifyDataSetChanged()

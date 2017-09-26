@@ -44,7 +44,7 @@ import org.json.JSONObject
 /**
  * Activity which displays a login screen to the user.
  */
-class LoginActivity : Activity() {
+class LoginActivity : Activity(), StockTrackerActivity {
 
     private lateinit var login: String
     private lateinit var password: String
@@ -109,7 +109,7 @@ class LoginActivity : Activity() {
         }
     }
 
-    fun loadHome(portfolio: Portfolio) {
+    override fun update(portfolio: Portfolio) {
         finish()
         if (checkBox.isChecked) {
             saveCredentials()
@@ -119,7 +119,7 @@ class LoginActivity : Activity() {
         startActivity(intent)
     }
 
-    fun displayError(json: JSONObject) {
+    override fun displayError(json: JSONObject) {
         showProgress(false, json.optString("error"))
     }
 
@@ -149,6 +149,10 @@ class LoginActivity : Activity() {
         val settings = getSharedPreferences(PREFS_NAME, 0)
         settings.edit().putString(LOGIN, login).apply()
         settings.edit().putString(PASSWORD, Md5(password).hexInString).apply()
+    }
+
+    override fun logOut() {
+        // no-op
     }
 
     companion object {

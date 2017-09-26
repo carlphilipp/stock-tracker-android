@@ -11,4 +11,5 @@ object Constants {
     val LOGIN = "login"
     val PASSWORD = "password"
     val PORTFOLIO = "portfolio"
+    val ERROR = "error"
 }

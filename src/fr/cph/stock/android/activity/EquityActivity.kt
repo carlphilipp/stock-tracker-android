@@ -30,11 +30,6 @@ import android.view.MenuItem
 import android.widget.ListView
 import android.widget.RelativeLayout
 import android.widget.TextView
-
-import org.json.JSONObject
-
-import java.util.Collections
-
 import fr.cph.stock.android.Constants
 import fr.cph.stock.android.R
 import fr.cph.stock.android.StockTrackerApp
@@ -43,8 +38,9 @@ import fr.cph.stock.android.domain.Equity
 import fr.cph.stock.android.domain.Portfolio
 import fr.cph.stock.android.domain.UrlType
 import fr.cph.stock.android.task.MainTask
+import org.json.JSONObject
 
-class EquityActivity : ListActivity(), IStockTrackerActivity {
+class EquityActivity : ListActivity(), StockTrackerActivity {
 
     private lateinit var mAdapter: EquityAdapter
     private lateinit var equities: MutableList<Equity>
@@ -66,7 +62,6 @@ class EquityActivity : ListActivity(), IStockTrackerActivity {
 
         lastUpdatedView = findViewById(R.id.lastUpdated)
         lastUpdatedView.text = portfolio.lastUpdate
-        // Set context
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -75,32 +70,19 @@ class EquityActivity : ListActivity(), IStockTrackerActivity {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle item selection
-        val mainTask: MainTask
-        when (item.itemId) {
-            R.id.action_logout -> {
-                mainTask = MainTask(this, UrlType.LOGOUT, emptyMap())
-                mainTask.execute(null as Void?)
-                return true
-            }
-            R.id.refresh -> {
-                menuItem = item
-                menuItem.setActionView(R.layout.progressbar)
-                menuItem.expandActionView()
-                mainTask = MainTask(this, UrlType.RELOAD, emptyMap())
-                mainTask.execute(null as Void?)
-                return true
-            }
-            android.R.id.home -> {
-                finish()
-                return true
-            }
-            else -> return super.onOptionsItemSelected(item)
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_logout -> consume { MainTask(this, UrlType.LOGOUT, emptyMap()).execute() }
+        R.id.refresh -> consume {
+            menuItem = item
+            menuItem.setActionView(R.layout.progressbar)
+            menuItem.expandActionView()
+            MainTask(this, UrlType.RELOAD, emptyMap()).execute()
         }
+        android.R.id.home -> consume { finish() }
+        else -> super.onOptionsItemSelected(item)
     }
 
-    override fun reloadData(portfolio: Portfolio) {
+    override fun update(portfolio: Portfolio) {
         // StockTrackerApp app = (StockTrackerApp) getApplication();
         equities.clear()
         equities.addAll(portfolio.equities)

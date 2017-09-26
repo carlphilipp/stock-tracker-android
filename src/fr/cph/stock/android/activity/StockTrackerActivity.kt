@@ -22,11 +22,16 @@ package fr.cph.stock.android.activity
 import fr.cph.stock.android.domain.Portfolio
 import org.json.JSONObject
 
-interface IStockTrackerActivity {
+interface StockTrackerActivity {
 
-    fun reloadData(portfolio: Portfolio)
+    fun update(portfolio: Portfolio)
 
     fun displayError(json: JSONObject)
 
     fun logOut()
+
+    fun consume(f: () -> Unit): Boolean {
+        f()
+        return true
+    }
 }

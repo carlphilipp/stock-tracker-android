@@ -24,7 +24,6 @@ import android.animation.AnimatorListenerAdapter
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import fr.cph.stock.android.Constants.LOGIN
 import fr.cph.stock.android.Constants.PASSWORD
@@ -41,7 +40,8 @@ import org.json.JSONObject
  *
  * @author Carl-Philipp Harmant
  */
-class BaseActivity : Activity() {
+class BaseActivity : Activity(), StockTrackerActivity {
+
     private lateinit var loginStatusView: View
     private lateinit var login: String
     private lateinit var password: String
@@ -87,7 +87,7 @@ class BaseActivity : Activity() {
      *
      * @param portfolio the portfolio
      */
-    fun loadHome(portfolio: Portfolio) {
+    override fun update(portfolio: Portfolio) {
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra(PORTFOLIO, portfolio)
         showProgress(false)
@@ -99,15 +99,19 @@ class BaseActivity : Activity() {
     /**
      * Display error
      *
-     * @param jsonObject the json object
+     * @param json the json object
      */
-    fun displayError(jsonObject: JSONObject) {
+    override fun displayError(json: JSONObject) {
         val intent = Intent(this, ErrorActivity::class.java)
-        intent.putExtra("data", jsonObject.toString())
+        intent.putExtra("data", json.toString())
         intent.putExtra(LOGIN, login)
         intent.putExtra(PASSWORD, password)
         startActivity(intent)
         finish()
+    }
+
+    override fun logOut() {
+        // no-op
     }
 
     companion object {
