@@ -21,69 +21,50 @@ package fr.cph.stock.android.task
 
 import android.os.AsyncTask
 import android.util.Log
-
-import org.json.JSONObject
-
 import fr.cph.stock.android.client.Client
 import fr.cph.stock.android.domain.Portfolio
 import fr.cph.stock.android.domain.ResponseDTO
 import fr.cph.stock.android.domain.UrlType
 import fr.cph.stock.android.exception.AppException
 import fr.cph.stock.android.util.UserContext
+import org.json.JSONObject
 
-class MainTask//FIXME logout does not seem to be working
-(private val `object`: Any, private val urlType: UrlType, private val params: Map<String, String>) : AsyncTask<Void, Void, Boolean>() {
-    private var responseDTO: ResponseDTO? = null
-    private var error: String? = null
+//FIXME logout does not seem to be working
+class MainTask(private val obj: Any, private val urlType: UrlType, private val params: Map<String, String>) : AsyncTask<Void, Void, ResponseDTO>() {
 
-    override fun doInBackground(vararg params: Void): Boolean? {
-        var toReturn = true
-        try {
-            responseDTO = Client.getResponse(urlType, this.params)
+    override fun doInBackground(vararg params: Void): ResponseDTO {
+        return try {
+            Client.getResponse(urlType, this.params)
         } catch (e: AppException) {
             Log.e(TAG, e.message, e)
-            this.error = e.message
-            toReturn = false
+            val responseDTOError = ResponseDTO()
+            responseDTOError.error = e.message
+            responseDTOError
         }
-
-        if (responseDTO != null) {
-            val errorMessage = responseDTO!!.error
-            if (errorMessage != null && errorMessage != "") {
-                this.error = errorMessage
-                toReturn = false
-            }
-        }
-        return toReturn
     }
 
-    override fun onPostExecute(success: Boolean?) {
+    override fun onPostExecute(responseDTO: ResponseDTO) {
         try {
-            val clazz = `object`.javaClass
-            if (success!!) {
-                UserContext.setup(responseDTO!!.portfolio!!.locale!!)
+            val clazz = obj.javaClass
+            if (responseDTO.error == null) {
+                UserContext.setup(responseDTO.portfolio.locale)
                 when (urlType) {
-                    UrlType.LOGOUT -> {
-                        Log.d(TAG, "logout: " + clazz.name)
-                        clazz.getMethod("logOut").invoke(`object`)
-                    }
-                    UrlType.UPDATEHISTORY -> clazz.getMethod("reloadData", Portfolio::class.java).invoke(`object`, responseDTO!!.portfolio)
-                    UrlType.AUTH -> clazz.getMethod("loadHome", Portfolio::class.java).invoke(`object`, responseDTO!!.portfolio)
-                    UrlType.RELOAD -> clazz.getMethod("reloadData", Portfolio::class.java).invoke(`object`, responseDTO!!.portfolio)
+                    UrlType.LOGOUT -> clazz.getMethod("logOut").invoke(obj)
+                    UrlType.UPDATEHISTORY -> clazz.getMethod("reloadData", Portfolio::class.java).invoke(obj, responseDTO.portfolio)
+                    UrlType.AUTH -> clazz.getMethod("loadHome", Portfolio::class.java).invoke(obj, responseDTO.portfolio)
+                    UrlType.RELOAD -> clazz.getMethod("reloadData", Portfolio::class.java).invoke(obj, responseDTO.portfolio)
                 }
             } else {
-                val jsonError = JSONObject()
-                jsonError.accumulate("error", error)
-                clazz.getMethod("displayError", JSONObject::class.java).invoke(`object`, jsonError)
+                val jsonError = JSONObject().accumulate("error", responseDTO.error)
+                clazz.getMethod("displayError", JSONObject::class.java).invoke(obj, jsonError)
             }
         } catch (e: Exception) {
             Log.e(TAG, "", e)
         }
-
-        super.onPostExecute(success)
+        super.onPostExecute(responseDTO)
     }
 
     companion object {
-
         private val TAG = "MainTask"
     }
 }
