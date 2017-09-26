@@ -24,13 +24,13 @@ import android.app.Activity
 import android.app.ListActivity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ListView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import fr.cph.stock.android.Constants
+import fr.cph.stock.android.Constants.ERROR
 import fr.cph.stock.android.R
 import fr.cph.stock.android.StockTrackerApp
 import fr.cph.stock.android.adapter.EquityAdapter
@@ -49,7 +49,6 @@ class EquityActivity : ListActivity(), StockTrackerActivity {
     private lateinit var menuItem: MenuItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.v(TAG, "EquityActivity onCreate")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.equity_list_activity)
         errorView = findViewById(R.id.errorMessage)
@@ -83,7 +82,6 @@ class EquityActivity : ListActivity(), StockTrackerActivity {
     }
 
     override fun update(portfolio: Portfolio) {
-        // StockTrackerApp app = (StockTrackerApp) getApplication();
         equities.clear()
         equities.addAll(portfolio.equities)
         mAdapter.notifyDataSetChanged()
@@ -102,7 +100,7 @@ class EquityActivity : ListActivity(), StockTrackerActivity {
         if (sessionError) {
             (application as StockTrackerApp).loadErrorActivity(this, json)
         } else {
-            errorView.text = json.optString("error")
+            errorView.text = json.optString(ERROR)
             val params = RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
             params.addRule(RelativeLayout.BELOW, errorView.id)
             val listView = findViewById<ListView>(android.R.id.list)
@@ -114,9 +112,5 @@ class EquityActivity : ListActivity(), StockTrackerActivity {
 
     override fun logOut() {
         (application as StockTrackerApp).logOut(this)
-    }
-
-    companion object {
-        private val TAG = "EquityActivity"
     }
 }

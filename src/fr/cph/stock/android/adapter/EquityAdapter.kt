@@ -25,8 +25,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
-
-import fr.cph.stock.android.Constants
+import fr.cph.stock.android.Constants.GREEN
+import fr.cph.stock.android.Constants.RED
 import fr.cph.stock.android.R
 import fr.cph.stock.android.domain.Equity
 
@@ -69,30 +69,30 @@ class EquityAdapter(private val equities: List<Equity>, private val context: Con
             viewHolder = convertView.tag as ViewHolder
         }
 
-        viewHolder.name!!.text = equity.name
-        viewHolder.unitCostPrice!!.text = equity.getUnitCostPrice()
-        viewHolder.value!!.text = equity.getValue()
-        viewHolder.plusMinusValue!!.text = equity.getPlusMinusValue()
-        viewHolder.plusMinusValue!!.setTextColor(if (equity.isUp) Constants.GREEN else Constants.RED)
-        viewHolder.quantity!!.text = equity.getQuantity()
-        viewHolder.yieldYear!!.text = equity.getYieldUnitCostPrice()
-        viewHolder.quote!!.text = equity.getQuote()
-        viewHolder.gain!!.text = equity.getPlusMinusUnitCostPriceValue()
-        viewHolder.today!!.text = equity.getVariation()
-        viewHolder.today!!.setTextColor(if (equity.isUpVariation) Constants.GREEN else Constants.RED)
+        viewHolder.name.text = equity.name
+        viewHolder.unitCostPrice.text = equity.getUnitCostPrice()
+        viewHolder.value.text = equity.getValue()
+        viewHolder.plusMinusValue.text = equity.getPlusMinusValue()
+        viewHolder.plusMinusValue.setTextColor(if (equity.isUp) GREEN else RED)
+        viewHolder.quantity.text = equity.getQuantity()
+        viewHolder.yieldYear.text = equity.getYieldUnitCostPrice()
+        viewHolder.quote.text = equity.getQuote()
+        viewHolder.gain.text = equity.getPlusMinusUnitCostPriceValue()
+        viewHolder.today.text = equity.getVariation()
+        viewHolder.today.setTextColor(if (equity.isUpVariation) GREEN else RED)
 
         return convertView
     }
 
     private inner class ViewHolder {
-        internal var name: TextView? = null
-        internal var unitCostPrice: TextView? = null
-        internal var value: TextView? = null
-        internal var plusMinusValue: TextView? = null
-        internal var quantity: TextView? = null
-        internal var yieldYear: TextView? = null
-        internal var quote: TextView? = null
-        internal var gain: TextView? = null
-        internal var today: TextView? = null
+        lateinit var name: TextView
+        lateinit var unitCostPrice: TextView
+        lateinit var value: TextView
+        lateinit var plusMinusValue: TextView
+        lateinit var quantity: TextView
+        lateinit var yieldYear: TextView
+        lateinit var quote: TextView
+        lateinit var gain: TextView
+        lateinit var today: TextView
     }
 }

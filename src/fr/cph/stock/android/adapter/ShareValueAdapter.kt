@@ -20,13 +20,12 @@
 package fr.cph.stock.android.adapter
 
 import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
-
+import fr.cph.stock.android.Constants.GREEN
 import fr.cph.stock.android.R
 import fr.cph.stock.android.domain.ShareValue
 
@@ -67,25 +66,25 @@ class ShareValueAdapter(private val sharesValues: List<ShareValue>, private val 
             viewHolder = convertView.tag as ViewHolder
         }
 
-        viewHolder.dateView!!.text = shareValue.date
-        viewHolder.shareValueView!!.text = shareValue.getShareValue()
-        viewHolder.shareValueView!!.setTextColor(Color.rgb(0, 160, 0))
-        viewHolder.commentaryView!!.text = shareValue.commentary
-        viewHolder.accountView!!.text = shareValue.account
-        viewHolder.portfolioValueView!!.text = shareValue.getPortfolioValue()
-        viewHolder.shareQuantityView!!.text = shareValue.getShareQuantity()
-        viewHolder.monthlyYieldView!!.text = shareValue.getMonthlyYield()
+        viewHolder.dateView.text = shareValue.date
+        viewHolder.shareValueView.text = shareValue.getShareValue()
+        viewHolder.shareValueView.setTextColor(GREEN)
+        viewHolder.commentaryView.text = shareValue.commentary
+        viewHolder.accountView.text = shareValue.account
+        viewHolder.portfolioValueView.text = shareValue.getPortfolioValue()
+        viewHolder.shareQuantityView.text = shareValue.getShareQuantity()
+        viewHolder.monthlyYieldView.text = shareValue.getMonthlyYield()
 
         return convertView
     }
 
     private inner class ViewHolder {
-        internal var dateView: TextView? = null
-        internal var shareValueView: TextView? = null
-        internal var commentaryView: TextView? = null
-        internal var accountView: TextView? = null
-        internal var portfolioValueView: TextView? = null
-        internal var shareQuantityView: TextView? = null
-        internal var monthlyYieldView: TextView? = null
+        lateinit var dateView: TextView
+        lateinit var shareValueView: TextView
+        lateinit var commentaryView: TextView
+        lateinit var accountView: TextView
+        lateinit var portfolioValueView: TextView
+        lateinit var shareQuantityView: TextView
+        lateinit var monthlyYieldView: TextView
     }
 }
