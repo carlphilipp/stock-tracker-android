@@ -154,8 +154,4 @@ class LoginActivity : Activity(), StockTrackerActivity {
     override fun logOut() {
         // no-op
     }
-
-    companion object {
-        private val TAG = "LoginActivity"
-    }
 }

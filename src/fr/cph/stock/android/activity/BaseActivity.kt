@@ -70,7 +70,6 @@ class BaseActivity : Activity(), StockTrackerActivity {
      * Show progress bar
      *
      * @param show         show the bar or not
-     * @param errorMessage the error message
      */
     private fun showProgress(show: Boolean) {
         val shortAnimTime = resources.getInteger(android.R.integer.config_shortAnimTime)

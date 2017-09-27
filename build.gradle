@@ -1,5 +1,6 @@
 buildscript {
     ext.kotlin_version = '1.1.50'
+    ext.gradle_version = '3.0.0-beta6'
     repositories {
         jcenter()
         mavenCentral()
@@ -7,9 +8,9 @@ buildscript {
     }
     dependencies {
         classpath(
-                [group: 'com.android.tools.build', name: 'gradle', version: '3.0.0-beta6'],
+                [group: 'com.android.tools.build', name: 'gradle', version: gradle_version],
+                [group: 'org.jetbrains.kotlin', name: 'kotlin-gradle-plugin', version: kotlin_version]
         )
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
@@ -23,20 +24,19 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 dependencies {
-
-    compile(
-            [group: 'com.android.support', name: 'support-v4', version: '25.0.0'],
+    implementation(
+            [group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jre8', version: kotlin_version],
+            [group: 'com.android.support', name: 'support-v4', version: '26.0.0'],
             [group: 'commons-io', name: 'commons-io', version: '2.5'],
             [group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.1'],
             [group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.9.1'],
             [group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.1'],
     )
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '26.0.1'
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         applicationId 'fr.cph.stock.android'

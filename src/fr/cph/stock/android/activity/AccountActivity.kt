@@ -32,6 +32,8 @@ import android.view.View
 import android.widget.RelativeLayout
 import android.widget.TextView
 import fr.cph.stock.android.Constants
+import fr.cph.stock.android.Constants.GREEN
+import fr.cph.stock.android.Constants.RED
 import fr.cph.stock.android.R
 import fr.cph.stock.android.StockTrackerApp
 import fr.cph.stock.android.domain.Portfolio
@@ -88,8 +90,8 @@ class AccountActivity : Activity(), StockTrackerActivity {
         var nameID = 100
         var viewId1 = 500
         var currencyId = 1000
-        for (i in 0 until portfolio.accounts!!.size) {
-            val account = portfolio.accounts!![i]
+        for (i in 0 until portfolio.accounts.size) {
+            val account = portfolio.accounts[i]
             val currentAccountNameTextView = TextView(applicationContext)
             currentAccountNameTextView.text = account.name
             currentAccountNameTextView.setTextColor(Color.GRAY)
@@ -216,30 +218,23 @@ class AccountActivity : Activity(), StockTrackerActivity {
     private fun buildUi(withAccounts: Boolean) {
         totalValueView.text = portfolio.getTotalValue()
         totalGainView.text = portfolio.getTotalGain()
-        if (portfolio.isUp) {
-            totalGainView.setTextColor(Color.rgb(0, 160, 0))
-        } else {
-            totalGainView.setTextColor(Color.rgb(160, 0, 0))
-        }
-        totalPlusMinusValueView.text = " (" + portfolio.getTotalPlusMinusValue() + ")"
-        if (portfolio.isUp) {
-            totalPlusMinusValueView.setTextColor(Color.rgb(0, 160, 0))
-        } else {
-            totalPlusMinusValueView.setTextColor(Color.rgb(160, 0, 0))
-        }
+        totalGainView.setTextColor(if (portfolio.isUp) GREEN else RED)
+        val totalPlusMinusValue = " (" + portfolio.getTotalPlusMinusValue() + ")"
+        totalPlusMinusValueView.text = totalPlusMinusValue
+        totalPlusMinusValueView.setTextColor(if (portfolio.isUp) GREEN else RED)
         lastUpdateView.text = portfolio.lastUpdate
         liquidityView.text = portfolio.getLiquidity()
         yieldYearView.text = portfolio.getYieldYear()
-        shareValueView.text = portfolio.shareValues!![0].getShareValue()
-        gainView.text = portfolio.performance!!.getGain()
-        perfView.text = portfolio.performance!!.getPerformance()
-        yieldView.text = portfolio.performance!!.getYield()
-        taxesView.text = portfolio.performance!!.getTaxes()
+        shareValueView.text = portfolio.shareValues[0].getShareValue()
+        gainView.text = portfolio.performance.getGain()
+        perfView.text = portfolio.performance.getPerformance()
+        yieldView.text = portfolio.performance.getYield()
+        taxesView.text = portfolio.performance.getTaxes()
         if (withAccounts) {
             var j = 0
-            val size = portfolio.accounts!!.size
+            val size = portfolio.accounts.size
             for (i in 0 until size) {
-                val account = portfolio.accounts!![i]
+                val account = portfolio.accounts[i]
 
                 val currentAccountNameTextView = textViews[j++]
                 currentAccountNameTextView.text = account.name

@@ -43,7 +43,7 @@ object Client {
 
     @Throws(AppException::class)
     fun getResponse(urlType: UrlType, params: Map<String, String>): ResponseDTO {
-        try {
+        return try {
             val builder = Uri.Builder().scheme("https")
                     .authority("www.stocktracker.fr")
                     .appendPath(urlType.url)
@@ -51,7 +51,7 @@ object Client {
             Log.d(TAG, "Request: " + builder.toString())
             val data = URL(builder.toString()).readText()
             Log.d(TAG, "Response: " + data)
-            return mapper.readValue(data, ResponseDTO::class.java)
+            mapper.readValue(data, ResponseDTO::class.java)
         } catch (e: IOException) {
             throw AppException(e.message!!, e)
         }

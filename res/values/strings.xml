@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--  
+
+<!--
   Copyright 2017 Carl-Philipp Harmant
  
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,8 +15,8 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  -->
-<resources>
 
+<resources>
     <string name="app_name">Stock Tracker</string>
     <string name="account_activity_name">Account</string>
     <string name="equity_activity_name">Equity</string>
@@ -50,10 +51,22 @@
     <string name="gain">Gain</string>
     <string name="refresh">Refresh</string>
     <string name="load">Load</string>
-	<string name="capChartDesc">Cap Chart</string>
-	<string name="capChartStr">Capitalization</string>
-	<string name="sectorChartDesc">Sector Chart</string>
-	<string name="sectorChartText">Sector</string>
-	<string name="shareValueChartDesc">Share Value Chart</string>
-	<string name="shareValueChartText">Share Value</string>
+    <string name="capChartDesc">Cap Chart</string>
+    <string name="capChartStr">Capitalization</string>
+    <string name="sectorChartDesc">Sector Chart</string>
+    <string name="sectorChartText">Sector</string>
+    <string name="shareValueChartDesc">Share Value Chart</string>
+    <string name="shareValueChartText">Share Value</string>
+    <!-- History -->
+    <string name="history_account">Account:</string>
+    <string name="history_movement">Movement:</string>
+    <string name="history_yield">Yield:</string>
+    <string name="history_buy">Buy:</string>
+    <string name="history_sell">Sell:</string>
+    <string name="history_taxes">Taxes:</string>
+    <string name="history_comment">Commentary:</string>
+    <string name="history_default_value">0.0:</string>
+    <string name="history_update">Mobile Update</string>
+    <string name="history_ok"> OK </string>
+    <string name="history_cancel"> Cancel </string>
 </resources>

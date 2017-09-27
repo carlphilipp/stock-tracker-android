@@ -86,10 +86,7 @@ class OverallActivity : ListActivity(), StockTrackerActivity {
         alert.setContentView(R.layout.history_dialog)
 
         val checked = alert.findViewById<Spinner>(R.id.accountList)
-        val list = ArrayList<String>()
-        for (acc in portfolio.accounts) {
-            list.add(acc.name)
-        }
+        val list = portfolio.accounts.map { it.name }
         val dataAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, list)
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         checked.adapter = dataAdapter

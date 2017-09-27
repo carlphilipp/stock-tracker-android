@@ -27,14 +27,14 @@ import android.widget.BaseAdapter
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-
-import fr.cph.stock.android.Constants
+import fr.cph.stock.android.Constants.GREEN
+import fr.cph.stock.android.Constants.RED
 import fr.cph.stock.android.R
 import fr.cph.stock.android.domain.ChartType
 import fr.cph.stock.android.domain.Portfolio
 import fr.cph.stock.android.listener.ChartListener
 
-class MainListAdapter(private val activity: Activity, private var portfolio: Portfolio?) : BaseAdapter() {
+class MainListAdapter(private val activity: Activity, private var portfolio: Portfolio) : BaseAdapter() {
 
     override fun isEnabled(position: Int): Boolean {
         return position != 3
@@ -62,9 +62,9 @@ class MainListAdapter(private val activity: Activity, private var portfolio: Por
                     convertView = inflater.inflate(R.layout.main_list_item_cell1, parent, false)
                 }
                 textView = convertView!!.findViewById(R.id.portfolio_value_main)
-                textView.text = portfolio!!.getTotalValue()
+                textView.text = portfolio.getTotalValue()
                 textView = convertView.findViewById(R.id.liquidity_value_main)
-                textView.text = portfolio!!.getLiquidity()
+                textView.text = portfolio.getLiquidity()
             }
             1 -> {
                 if (convertView == null) {
@@ -72,12 +72,12 @@ class MainListAdapter(private val activity: Activity, private var portfolio: Por
                     convertView = inflater.inflate(R.layout.main_list_item_cell2, parent, false)
                 }
                 textView = convertView!!.findViewById(R.id.current_performance_value)
-                textView.text = portfolio!!.getTotalGain()
-                textView.setTextColor(if (portfolio!!.isUp) Constants.GREEN else Constants.RED)
+                textView.text = portfolio.getTotalGain()
+                textView.setTextColor(if (portfolio.isUp) GREEN else RED)
 
                 textView = convertView.findViewById(R.id.today_performance_value)
-                textView.text = portfolio!!.getTotalVariation()
-                textView.setTextColor(if (portfolio!!.isTodayUp) Constants.GREEN else Constants.RED)
+                textView.text = portfolio.getTotalVariation()
+                textView.setTextColor(if (portfolio.isTodayUp) GREEN else RED)
             }
             2 -> {
                 if (convertView == null) {
@@ -85,10 +85,10 @@ class MainListAdapter(private val activity: Activity, private var portfolio: Por
                     convertView = inflater.inflate(R.layout.main_list_item_cell3, parent, false)
                 }
                 textView = convertView!!.findViewById(R.id.performance_value)
-                textView.text = portfolio!!.shareValues!![0].getShareValue()
-                textView.setTextColor(if (portfolio!!.shareValues!![0].isUp) Constants.GREEN else Constants.RED)
+                textView.text = portfolio.shareValues[0].getShareValue()
+                textView.setTextColor(if (portfolio.shareValues[0].isUp) GREEN else RED)
                 textView = convertView.findViewById(R.id.last_updated_value)
-                textView.text = portfolio!!.lastUpdate
+                textView.text = portfolio.lastUpdate
             }
             3 -> {
                 if (convertView == null) {
@@ -96,15 +96,15 @@ class MainListAdapter(private val activity: Activity, private var portfolio: Por
                     convertView = inflater.inflate(R.layout.main_list_item_cell4, parent, false)
                 }
                 val shareValueView = convertView!!.findViewById<ImageButton>(R.id.shareValueChart)
-                val chartShareValueListener = ChartListener(activity, portfolio!!, ChartType.SHARE_VALUE)
+                val chartShareValueListener = ChartListener(activity, portfolio, ChartType.SHARE_VALUE)
                 shareValueView.setOnClickListener(chartShareValueListener)
 
                 val sectorChartView = convertView.findViewById<ImageView>(R.id.sectorChart)
-                val chartSectorListener = ChartListener(activity, portfolio!!, ChartType.SECTOR)
+                val chartSectorListener = ChartListener(activity, portfolio, ChartType.SECTOR)
                 sectorChartView.setOnClickListener(chartSectorListener)
 
                 val capChartView = convertView.findViewById<ImageView>(R.id.capChart)
-                val chartCapListener = ChartListener(activity, portfolio!!, ChartType.CAPITALIZATION)
+                val chartCapListener = ChartListener(activity, portfolio, ChartType.CAPITALIZATION)
                 capChartView.setOnClickListener(chartCapListener)
             }
         }

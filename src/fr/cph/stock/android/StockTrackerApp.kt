@@ -22,13 +22,11 @@ package fr.cph.stock.android
 import android.app.Activity
 import android.app.Application
 import android.content.Intent
-import android.content.SharedPreferences
 import android.widget.Toast
-
-import org.json.JSONObject
-
+import fr.cph.stock.android.Constants.ERROR
 import fr.cph.stock.android.activity.ErrorActivity
 import fr.cph.stock.android.activity.LoginActivity
+import org.json.JSONObject
 
 /**
  * This class extends Application. It defines some functions that will be available anywhere within the app
@@ -66,7 +64,7 @@ class StockTrackerApp : Application() {
      * @return true or false
      */
     fun isSessionError(jsonObject: JSONObject): Boolean {
-        val error = jsonObject.optString("error")
+        val error = jsonObject.optString(ERROR)
         return error == "No active session" || error == "User session not found"
     }
 
