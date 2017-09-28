@@ -38,7 +38,6 @@ import fr.cph.stock.android.domain.ShareValue
 import fr.cph.stock.android.domain.UrlType
 import fr.cph.stock.android.task.MainTask
 import org.json.JSONObject
-import java.util.*
 
 class OverallActivity : ListActivity(), StockTrackerActivity {
 
@@ -100,7 +99,7 @@ class OverallActivity : ListActivity(), StockTrackerActivity {
             val yieldView = alert.findViewById<EditText>(R.id.yield)
             val buyView = alert.findViewById<EditText>(R.id.buy)
             val sellView = alert.findViewById<EditText>(R.id.sell)
-            val taxeView = alert.findViewById<EditText>(R.id.taxe)
+            val taxView = alert.findViewById<EditText>(R.id.taxe)
             val commentaryView = alert.findViewById<EditText>(R.id.commentaryEditText)
 
             val params = hashMapOf(
@@ -109,7 +108,7 @@ class OverallActivity : ListActivity(), StockTrackerActivity {
                     "yield" to yieldView.text.toString(),
                     "buy" to buyView.text.toString(),
                     "sell" to sellView.text.toString(),
-                    "taxe" to taxeView.text.toString(),
+                    "taxe" to taxView.text.toString(),
                     "commentary" to commentaryView.text.toString().replace(" ".toRegex(), "%20")
             )
             val mainTask = MainTask(this@OverallActivity, UrlType.UPDATEHISTORY, params)
