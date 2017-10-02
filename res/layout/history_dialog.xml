@@ -152,16 +152,16 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/dialogButtonOK"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/history_ok" />
-
-        <Button
             android:id="@+id/dialogButtonCancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/history_cancel" />
+
+        <Button
+            android:id="@+id/dialogButtonOK"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/history_ok" />
     </LinearLayout>
 
 </LinearLayout>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--  
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright 2017 Carl-Philipp Harmant
  
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,7 +27,7 @@
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:textColor="@color/black"
         android:textIsSelectable="false"
         android:textSize="20sp"
@@ -38,7 +37,7 @@
         android:id="@+id/plusMinusValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:textIsSelectable="true"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -49,17 +48,18 @@
         android:layout_height="fill_parent"
         android:layout_below="@+id/plusMinusValue"
         android:baselineAligned="false"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <!-- Unit Cost Price -->
 
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"
+            android:layout_gravity="start"
             android:layout_weight="0.50"
             android:orientation="horizontal"
-            android:paddingRight="10dp" >
+            android:paddingStart="0dp"
+            android:paddingEnd="10dp">
 
             <TextView
                 android:id="@+id/unitCostPrice"
@@ -74,15 +74,15 @@
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="14sp"
-                android:layout_toLeftOf="@+id/unitCostPriceValue"
-                android:layout_toRightOf="@+id/unitCostPrice"
+                android:layout_toEndOf="@+id/unitCostPrice"
+                android:layout_toStartOf="@+id/unitCostPriceValue"
                 android:background="@color/grey_light" />
 
             <TextView
                 android:id="@+id/unitCostPriceValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:textColor="@color/grey"
                 android:textIsSelectable="false" />
         </RelativeLayout>
@@ -97,10 +97,11 @@
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:layout_gravity="end"
             android:layout_weight="0.50"
             android:orientation="horizontal"
-            android:paddingLeft="10dp" >
+            android:paddingEnd="0dp"
+            android:paddingStart="10dp">
 
             <TextView
                 android:id="@+id/quoteStr"
@@ -114,15 +115,15 @@
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="14sp"
-                android:layout_toLeftOf="@+id/quoteValue"
-                android:layout_toRightOf="@+id/quoteStr"
+                android:layout_toEndOf="@+id/quoteStr"
+                android:layout_toStartOf="@+id/quoteValue"
                 android:background="@color/grey_light" />
 
             <TextView
                 android:id="@+id/quoteValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:textColor="@color/grey"
                 android:textIsSelectable="false" />
         </RelativeLayout>
@@ -135,15 +136,16 @@
         android:layout_height="fill_parent"
         android:layout_below="@+id/line1"
         android:baselineAligned="false"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"
+            android:layout_gravity="start"
             android:layout_weight="0.50"
             android:orientation="horizontal"
-            android:paddingRight="10dp" >
+            android:paddingStart="0dp"
+            android:paddingEnd="10dp">
 
             <TextView
                 android:id="@+id/quantityStr"
@@ -157,15 +159,15 @@
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="14sp"
-                android:layout_toLeftOf="@+id/quantityValue"
-                android:layout_toRightOf="@+id/quantityStr"
+                android:layout_toEndOf="@+id/quantityStr"
+                android:layout_toStartOf="@+id/quantityValue"
                 android:background="@color/grey_light" />
 
             <TextView
                 android:id="@+id/quantityValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:textColor="@color/grey"
                 android:textIsSelectable="false" />
         </RelativeLayout>
@@ -179,10 +181,11 @@
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:layout_gravity="end"
             android:layout_weight="0.50"
             android:orientation="horizontal"
-            android:paddingLeft="10dp" >
+            android:paddingEnd="0dp"
+            android:paddingStart="10dp">
 
             <!-- Value -->
 
@@ -198,15 +201,15 @@
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="14sp"
-                android:layout_toLeftOf="@+id/value"
-                android:layout_toRightOf="@+id/valueStr"
+                android:layout_toEndOf="@+id/valueStr"
+                android:layout_toStartOf="@+id/value"
                 android:background="@color/grey_light" />
 
             <TextView
                 android:id="@+id/value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:textColor="@color/grey"
                 android:textIsSelectable="false"
                 android:textStyle="bold" />
@@ -221,15 +224,16 @@
         android:layout_height="fill_parent"
         android:layout_below="@+id/line2"
         android:baselineAligned="false"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"
+            android:layout_gravity="start"
             android:layout_weight="0.50"
             android:orientation="horizontal"
-            android:paddingRight="10dp" >
+            android:paddingStart="0dp"
+            android:paddingEnd="10dp">
 
             <TextView
                 android:id="@+id/yieldYearStr"
@@ -243,15 +247,15 @@
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="14sp"
-                android:layout_toLeftOf="@+id/yieldYear"
-                android:layout_toRightOf="@+id/yieldYearStr"
+                android:layout_toEndOf="@+id/yieldYearStr"
+                android:layout_toStartOf="@+id/yieldYear"
                 android:background="@color/grey_light" />
 
             <TextView
                 android:id="@+id/yieldYear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:textColor="@color/grey"
                 android:textIsSelectable="false" />
         </RelativeLayout>
@@ -265,10 +269,11 @@
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:layout_gravity="end"
             android:layout_weight="0.50"
             android:orientation="horizontal"
-            android:paddingLeft="10dp" >
+            android:paddingEnd="0dp"
+            android:paddingStart="10dp">
 
             <!-- Gain -->
 
@@ -284,47 +289,38 @@
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="14sp"
-                android:layout_toLeftOf="@+id/gain"
-                android:layout_toRightOf="@+id/gainStr"
+                android:layout_toEndOf="@+id/gainStr"
+                android:layout_toStartOf="@+id/gain"
                 android:background="@color/grey_light" />
 
             <TextView
                 android:id="@+id/gain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:textColor="@color/grey"
                 android:textIsSelectable="false"
                 android:textStyle="bold" />
         </RelativeLayout>
     </LinearLayout>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-        <LinearLayout
+
+    <LinearLayout
         android:id="@+id/line4"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_below="@+id/line3"
         android:baselineAligned="false"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"
+            android:layout_gravity="start"
             android:layout_weight="0.50"
             android:orientation="horizontal"
-            android:paddingRight="10dp" >
- 
+            android:paddingStart="0dp"
+            android:paddingEnd="10dp">
+
             <TextView
                 android:id="@+id/blank"
                 android:layout_width="wrap_content"
@@ -332,7 +328,7 @@
                 android:textColor="@color/grey"
                 android:textIsSelectable="false" />
 
-        </RelativeLayout> 
+        </RelativeLayout>
 
         <View
             android:layout_width="1dp"
@@ -343,10 +339,11 @@
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:layout_gravity="end"
             android:layout_weight="0.50"
             android:orientation="horizontal"
-            android:paddingLeft="10dp" >
+            android:paddingEnd="0dp"
+            android:paddingStart="10dp">
 
             <!-- Today -->
 
@@ -363,20 +360,17 @@
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="14sp"
-                android:layout_toLeftOf="@+id/today"
-                android:layout_toRightOf="@+id/todayStr"
+                android:layout_toEndOf="@+id/todayStr"
+                android:layout_toStartOf="@+id/today"
                 android:background="@color/grey_light" />
 
             <TextView
                 android:id="@+id/today"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:textIsSelectable="false"
                 android:textStyle="bold" />
         </RelativeLayout>
     </LinearLayout>
-
-    
-
 </RelativeLayout>

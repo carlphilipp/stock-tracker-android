@@ -41,7 +41,7 @@
             android:id="@+id/accountStr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:text="@string/account2"
             android:textColor="@color/grey"
             android:textIsSelectable="true" />
@@ -50,15 +50,15 @@
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:layout_marginTop="@dimen/line_vertical_margin"
-            android:layout_toLeftOf="@+id/account"
-            android:layout_toRightOf="@+id/accountStr"
+            android:layout_toStartOf="@+id/account"
+            android:layout_toEndOf="@+id/accountStr"
             android:background="@color/grey_light" />
 
         <TextView
             android:id="@+id/account"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:textColor="@color/grey"
             android:textIsSelectable="true" />
 
@@ -66,7 +66,7 @@
             android:id="@+id/portfolioValueStr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_below="@+id/accountStr"
             android:text="@string/portfolioValue"
             android:textColor="@color/grey"
@@ -77,15 +77,15 @@
             android:layout_height="1dp"
             android:layout_below="@+id/account"
             android:layout_marginTop="@dimen/line_vertical_margin"
-            android:layout_toLeftOf="@+id/portfolioValue"
-            android:layout_toRightOf="@+id/portfolioValueStr"
+            android:layout_toStartOf="@+id/portfolioValue"
+            android:layout_toEndOf="@+id/portfolioValueStr"
             android:background="@color/grey_light" />
 
         <TextView
             android:id="@+id/portfolioValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_below="@+id/accountStr"
             android:textColor="@color/grey"
             android:textIsSelectable="true" />
@@ -94,7 +94,7 @@
             android:id="@+id/shareQuantityStr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_below="@+id/portfolioValueStr"
             android:text="@string/shareQuantity"
             android:textColor="@color/grey"
@@ -105,15 +105,15 @@
             android:layout_height="1dp"
             android:layout_below="@+id/portfolioValueStr"
             android:layout_marginTop="@dimen/line_vertical_margin"
-            android:layout_toLeftOf="@+id/shareQuantity"
-            android:layout_toRightOf="@+id/shareQuantityStr"
+            android:layout_toStartOf="@+id/shareQuantity"
+            android:layout_toEndOf="@+id/shareQuantityStr"
             android:background="@color/grey_light" />
 
         <TextView
             android:id="@+id/shareQuantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_below="@+id/portfolioValueStr"
             android:textColor="@color/grey"
             android:textIsSelectable="true" />
@@ -122,7 +122,7 @@
             android:id="@+id/shareValueStr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_below="@+id/shareQuantityStr"
             android:text="@string/shareValue2"
             android:textColor="@color/grey"
@@ -133,15 +133,15 @@
             android:layout_height="1dp"
             android:layout_below="@+id/shareQuantity"
             android:layout_marginTop="@dimen/line_vertical_margin"
-            android:layout_toLeftOf="@+id/shareValue"
-            android:layout_toRightOf="@+id/shareValueStr"
+            android:layout_toStartOf="@+id/shareValue"
+            android:layout_toEndOf="@+id/shareValueStr"
             android:background="@color/grey_light" />
 
         <TextView
             android:id="@+id/shareValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_below="@+id/shareQuantityStr"
             android:textIsSelectable="true" />
 
@@ -149,7 +149,7 @@
             android:id="@+id/monthlyYieldStr2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_below="@+id/shareValueStr"
             android:text="@string/monthlyYield"
             android:textColor="@color/grey"
@@ -160,15 +160,15 @@
             android:layout_height="1dp"
             android:layout_below="@+id/shareValue"
             android:layout_marginTop="@dimen/line_vertical_margin"
-            android:layout_toLeftOf="@+id/monthlyYield2"
-            android:layout_toRightOf="@+id/monthlyYieldStr2"
+            android:layout_toStartOf="@+id/monthlyYield2"
+            android:layout_toEndOf="@+id/monthlyYieldStr2"
             android:background="@color/grey_light" />
 
         <TextView
             android:id="@+id/monthlyYield2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_below="@+id/shareValueStr"
             android:textColor="@color/grey"
             android:textIsSelectable="true" />

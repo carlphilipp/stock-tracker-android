@@ -26,7 +26,7 @@
         android:id="@+id/equity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:text="@string/equity"
         android:textColor="@color/black"
         android:textIsSelectable="false"
@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:text="@string/current_performance_main"
             android:textColor="@color/grey"
             android:textIsSelectable="false"
@@ -54,15 +54,15 @@
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:layout_marginTop="25sp"
-            android:layout_toLeftOf="@+id/current_performance_value"
-            android:layout_toRightOf="@+id/current_performance_main"
+            android:layout_toStartOf="@+id/current_performance_value"
+            android:layout_toEndOf="@+id/current_performance_main"
             android:background="@color/grey_light" />
 
         <TextView
             android:id="@+id/current_performance_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:textIsSelectable="false"
             android:textSize="22sp"
             android:textStyle="bold" />
@@ -79,7 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:text="@string/today_performance_main"
             android:textColor="@color/grey"
             android:textIsSelectable="false"
@@ -89,8 +89,8 @@
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:layout_marginTop="25sp"
-            android:layout_toLeftOf="@+id/today_performance_value"
-            android:layout_toRightOf="@+id/today_performance_main"
+            android:layout_toStartOf="@+id/today_performance_value"
+            android:layout_toEndOf="@+id/today_performance_main"
             android:background="@color/grey_light" />
         <!--     android:layout_below="@+id/current_performance_main"  -->
 
@@ -98,7 +98,7 @@
             android:id="@+id/today_performance_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:textIsSelectable="false"
             android:textSize="22sp"
             android:textStyle="bold" />

@@ -148,6 +148,5 @@ class MainActivity : Activity(), StockTrackerActivity {
         val EQUITY_REQUEST = 2
         val OVERALL_REQUEST = 3
         val CHART_REQUEST = 4
-        private val STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item"
     }
 }

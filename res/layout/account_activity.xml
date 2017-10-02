@@ -65,7 +65,7 @@
                 android:id="@+id/totalPlusMinusValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/totalGain"
+                android:layout_toEndOf="@+id/totalGain"
                 android:textColor="@color/green"
                 android:textIsSelectable="true"
                 android:textSize="20sp"
@@ -107,7 +107,7 @@
                 android:id="@+id/liquidityStr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:text="@string/liquidityStr"
                 android:textColor="@color/grey"
                 android:textIsSelectable="true" />
@@ -116,15 +116,15 @@
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="@dimen/line_vertical_margin"
-                android:layout_toLeftOf="@+id/liquidity"
-                android:layout_toRightOf="@+id/liquidityStr"
+                android:layout_toStartOf="@+id/liquidity"
+                android:layout_toEndOf="@+id/liquidityStr"
                 android:background="@color/grey_light" />
 
             <TextView
                 android:id="@+id/liquidity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                
                 android:textColor="@color/grey"
                 android:textIsSelectable="true" />
@@ -144,15 +144,15 @@
                 android:layout_height="1dp"
                 android:layout_below="@+id/liquidityStr"
                 android:layout_marginTop="@dimen/line_vertical_margin"
-                android:layout_toLeftOf="@+id/yieldYear"
-                android:layout_toRightOf="@+id/yieldYearStr"
+                android:layout_toStartOf="@+id/yieldYear"
+                android:layout_toEndOf="@+id/yieldYearStr"
                 android:background="@color/grey_light" />
 
             <TextView
                 android:id="@+id/yieldYear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_below="@+id/liquidityStr"
                 android:textColor="@color/grey"
                 android:textIsSelectable="true" />
@@ -171,15 +171,15 @@
                 android:layout_height="1dp"
                 android:layout_below="@+id/yieldYear"
                 android:layout_marginTop="@dimen/line_vertical_margin"
-                android:layout_toLeftOf="@+id/shareValue"
-                android:layout_toRightOf="@+id/shareValueStr"
+                android:layout_toStartOf="@+id/shareValue"
+                android:layout_toEndOf="@+id/shareValueStr"
                 android:background="@color/grey_light" />
 
             <TextView
                 android:id="@+id/shareValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_below="@+id/yieldYearStr"
                 android:textColor="@color/grey"
                 android:textIsSelectable="true" />
@@ -211,7 +211,7 @@
                 android:id="@+id/gainStr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:text="@string/gainStr"
                 android:textColor="@color/grey"
                 android:textIsSelectable="true" />
@@ -220,15 +220,15 @@
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="@dimen/line_vertical_margin"
-                android:layout_toLeftOf="@+id/gain2"
-                android:layout_toRightOf="@+id/gainStr"
+                android:layout_toStartOf="@+id/gain2"
+                android:layout_toEndOf="@+id/gainStr"
                 android:background="@color/grey_light" />
 
             <TextView
                 android:id="@+id/gain2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                
                 android:textColor="@color/grey"
                 android:textIsSelectable="true" />
@@ -238,7 +238,7 @@
                 android:id="@+id/perfStr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_below="@+id/gain2"
                 android:text="@string/perfStr"
                 android:textColor="@color/grey"
@@ -249,15 +249,15 @@
                 android:layout_height="1dp"
                 android:layout_below="@+id/gain2"
                 android:layout_marginTop="@dimen/line_vertical_margin"
-                android:layout_toLeftOf="@+id/perf"
-                android:layout_toRightOf="@+id/perfStr"
+                android:layout_toStartOf="@+id/perf"
+                android:layout_toEndOf="@+id/perfStr"
                 android:background="@color/grey_light" />
 
             <TextView
                 android:id="@+id/perf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_below="@+id/gain2"
                 android:textColor="@color/grey"
                 android:textIsSelectable="true" />
@@ -266,7 +266,7 @@
                 android:id="@+id/yieldPerfStr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_below="@+id/perf"
                 android:text="@string/yieldPerfStr"
                 android:textColor="@color/grey"
@@ -277,15 +277,15 @@
                 android:layout_height="1dp"
                 android:layout_below="@+id/perf"
                 android:layout_marginTop="@dimen/line_vertical_margin"
-                android:layout_toLeftOf="@+id/yieldPerf"
-                android:layout_toRightOf="@+id/yieldPerfStr"
+                android:layout_toStartOf="@+id/yieldPerf"
+                android:layout_toEndOf="@+id/yieldPerfStr"
                 android:background="@color/grey_light" />
 
             <TextView
                 android:id="@+id/yieldPerf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_below="@+id/perf"
                 android:textColor="@color/grey"
                 android:textIsSelectable="true" />
@@ -294,7 +294,7 @@
                 android:id="@+id/taxesStr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_below="@+id/yieldPerf"
                 android:text="@string/taxesStr"
                 android:textColor="@color/grey"
@@ -305,15 +305,15 @@
                 android:layout_height="1dp"
                 android:layout_below="@+id/yieldPerf"
                 android:layout_marginTop="@dimen/line_vertical_margin"
-                android:layout_toLeftOf="@+id/taxes"
-                android:layout_toRightOf="@+id/taxesStr"
+                android:layout_toStartOf="@+id/taxes"
+                android:layout_toEndOf="@+id/taxesStr"
                 android:background="@color/grey_light" />
 
             <TextView
                 android:id="@+id/taxes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_below="@+id/yieldPerf"
                 android:textColor="@color/grey"
                 android:textIsSelectable="true" />
