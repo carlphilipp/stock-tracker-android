@@ -45,28 +45,28 @@ class EquityAdapter(private val equities: List<Equity>, private val context: Con
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        var convertView = convertView
+        var view = convertView
         val equity = getItem(position) as Equity
         val viewHolder: ViewHolder
 
-        if (convertView == null) {
+        if (view == null) {
             viewHolder = ViewHolder()
             val inflater = LayoutInflater.from(context.applicationContext)
-            convertView = inflater.inflate(R.layout.list_item_equity, parent, false)
+            view = inflater.inflate(R.layout.list_item_equity, parent, false)
 
-            viewHolder.name = convertView!!.findViewById(R.id.name)
-            viewHolder.unitCostPrice = convertView.findViewById(R.id.unitCostPriceValue)
-            viewHolder.value = convertView.findViewById(R.id.value)
-            viewHolder.plusMinusValue = convertView.findViewById(R.id.plusMinusValue)
-            viewHolder.quantity = convertView.findViewById(R.id.quantityValue)
-            viewHolder.yieldYear = convertView.findViewById(R.id.yieldYear)
-            viewHolder.quote = convertView.findViewById(R.id.quoteValue)
-            viewHolder.gain = convertView.findViewById(R.id.gain)
-            viewHolder.today = convertView.findViewById(R.id.today)
+            viewHolder.name = view!!.findViewById(R.id.name)
+            viewHolder.unitCostPrice = view.findViewById(R.id.unitCostPriceValue)
+            viewHolder.value = view.findViewById(R.id.value)
+            viewHolder.plusMinusValue = view.findViewById(R.id.plusMinusValue)
+            viewHolder.quantity = view.findViewById(R.id.quantityValue)
+            viewHolder.yieldYear = view.findViewById(R.id.yieldYear)
+            viewHolder.quote = view.findViewById(R.id.quoteValue)
+            viewHolder.gain = view.findViewById(R.id.gain)
+            viewHolder.today = view.findViewById(R.id.today)
 
-            convertView.tag = viewHolder
+            view.tag = viewHolder
         } else {
-            viewHolder = convertView.tag as ViewHolder
+            viewHolder = view.tag as ViewHolder
         }
 
         viewHolder.name.text = equity.name
@@ -81,7 +81,7 @@ class EquityAdapter(private val equities: List<Equity>, private val context: Con
         viewHolder.today.text = equity.getVariation()
         viewHolder.today.setTextColor(if (equity.isUpVariation) GREEN else RED)
 
-        return convertView
+        return view
     }
 
     private inner class ViewHolder {

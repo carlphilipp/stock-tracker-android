@@ -43,8 +43,8 @@ class ShareValueAdapter(private val sharesValues: List<ShareValue>, private val 
         return position.toLong()
     }
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        var convertView = convertView
+    override fun getView(position: Int, view: View?, parent: ViewGroup): View {
+        var convertView = view
         val shareValue = getItem(position) as ShareValue
         val viewHolder: ViewHolder
 

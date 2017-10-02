@@ -52,8 +52,8 @@ class MainListAdapter(private val activity: Activity, private var portfolio: Por
         return position.toLong()
     }
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        var convertView = convertView
+    override fun getView(position: Int, view: View?, parent: ViewGroup): View {
+        var convertView = view
         var textView: TextView
         when (position) {
             0 -> {
